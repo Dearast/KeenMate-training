@@ -32,7 +32,7 @@ namespace PathCreator
 			}
 			else if(check == "1")
 			{
-
+				fileCreator();
 			}
 		}
 
