@@ -31,7 +31,7 @@ namespace Coloring
 			#region Console
 			Console.Clear();
 			WriteText("press key for call function", "blue");
-			WriteText("1 = change color by month and years", "green");
+			WriteText("1 = change color by month and years");
 			#endregion
 			#region Functions
 			string checkPress = Console.ReadLine();
@@ -42,30 +42,25 @@ namespace Coloring
 			#endregion
 		}
 
-		public static void WriteText(string text, string colorStr)
+		public static void WriteText(string text, string colorStr = "white")
 		{
-			if(colorStr != "")
+			switch (colorStr)
 			{
-				if(colorStr == "red")
-				{
+				case "red":
 					Console.ForegroundColor = ConsoleColor.Red;
-				}
-				else if(colorStr == "blue")
-				{
+					break;
+				case "blue":
 					Console.ForegroundColor = ConsoleColor.Blue;
-				}
-				else if(colorStr == "yellow")
-				{
+					break;
+				case "yellow":
 					Console.ForegroundColor = ConsoleColor.Yellow;
-				}
-				else if(colorStr == "green")
-				{
+					break;
+				case "green":
 					Console.ForegroundColor = ConsoleColor.Green;
-				}
-			}
-			else
-			{
-				Console.ForegroundColor = ConsoleColor.White;
+					break;
+				default:
+					Console.ForegroundColor = ConsoleColor.White;
+					break;
 			}
 			Console.WriteLine(text);
 		}
