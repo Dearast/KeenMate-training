@@ -505,9 +505,13 @@ namespace Functions
 			{
 				do
 				{
-					Console.WriteLine(DateTime.Now.Date + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second
+					Console.WriteLine(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second
 						+ "." + DateTime.Now.Millisecond);
-				} while (true);
+				} while (!Console.KeyAvailable);
+				{
+					Console.WriteLine("stopped");
+					Console.WriteLine(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second);
+				}
 			}
 			BackSelect();
 		}
