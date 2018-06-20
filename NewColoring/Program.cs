@@ -11,13 +11,13 @@ namespace NewColoring
 		static void Main(string[] args)
 		{
 			Console.Title = "Training by KeenMate";
-			WriteConsole("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
+			WriteText("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément" , ConsoleColor.Green);
 			changeColor();
 		}
 
 		public static void BackSelect()
 		{
-			WriteConsole("Write 0 for reset");
+			WriteText("Write 0 for reset");
 			string checkPress = Console.ReadLine();
 			if (checkPress == "0")
 			{
@@ -25,70 +25,72 @@ namespace NewColoring
 			}
 		}
 
-		public static void WriteConsole(string write)
-		{
-			Console.WriteLine(write);
-		}
-
 		public static void changeColor()
 		{
-			Console.WriteLine("Write year");
+			WriteText("Write year");
 			string check = Console.ReadLine();
 			int year = int.Parse(check);
-			int b = -5;
-			for (int i = 0; i < 10; i++)
+			ConsoleColor BackMonth;
+			ConsoleColor Month;
+			for (int i = -5; i < 5; i++)
 			{
-				int newYear = year + b;
-				Console.WriteLine("year - " + newYear);
-				b++;
+				int newYear = year + i;
+				WriteText("year - " + newYear);
 				for (int y = 0; y < 12; y++)
 				{
 					if (y < 4.5f && y > 1.5f)
 					{
-						Console.ForegroundColor = ConsoleColor.DarkGreen;
+						Month = ConsoleColor.DarkGreen;
 					}
 					else if (y > 4.5f && y < 7.5f)
 					{
-						Console.ForegroundColor = ConsoleColor.DarkRed;
+						Month = ConsoleColor.DarkRed;
 					}
 					else if (y > 7.5f && y < 10.5f)
 					{
-						Console.ForegroundColor = ConsoleColor.DarkMagenta;
+						Month = ConsoleColor.DarkMagenta;
 					}
 					else
 					{
-						Console.ForegroundColor = ConsoleColor.DarkBlue;
+						Month = ConsoleColor.DarkBlue;
 					}
 
 					if (newYear % 4 == 0)
 					{
-						if (y == 2)
-						{
-							Console.BackgroundColor = ConsoleColor.DarkBlue;
-						}
-						else
-						{
-							Console.BackgroundColor = ConsoleColor.DarkYellow;
-						}
+						BackMonth = y == 2 ? ConsoleColor.DarkBlue: ConsoleColor.DarkYellow;
+
+						//if (y == 2)
+						//{
+						//	Console.BackgroundColor = ConsoleColor.DarkBlue;
+						//}
+						//else
+						//{
+						//	Console.BackgroundColor = ConsoleColor.DarkYellow;
+						//}
 					}
 					else
 					{
-						Console.BackgroundColor = ConsoleColor.Black;
+						BackMonth = ConsoleColor.Black;
 					}
 
-					Console.WriteLine("month - " + (y + 1));
+					WriteText("month - " + (y + 1), Month,BackMonth);
 					for (int a = 0; a < 30; a++)
 					{
-						Console.WriteLine("day - " + (a + 1));
+						WriteText("day - " + (a + 1),Month,BackMonth);
 					}
 				}
 				if(i <= 8)
 				{
-					Console.WriteLine("-------------------------------------------------------------");
+					WriteText("-------------------------------------------------------------");
 				}
 			}
-			b = -5;
 			BackSelect();
+		}
+		public static void WriteText(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
+		{
+			Console.ForegroundColor = color;
+			Console.BackgroundColor = backColor;
+			Console.WriteLine(text);
 		}
 	}
 }
