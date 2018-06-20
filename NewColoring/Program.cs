@@ -10,7 +10,8 @@ namespace NewColoring
 	{
 		static void Main(string[] args)
 		{
-			Console.Title = "Training by KeenMate Done by Damien Clément";
+			Console.Title = "Training by KeenMate";
+			WriteConsole("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
 			changeColor();
 		}
 
