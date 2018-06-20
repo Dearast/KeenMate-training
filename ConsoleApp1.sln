@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipSport", "TipSport\TipSpo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewColoring", "NewColoring\NewColoring.csproj", "{5608976C-932C-4766-82E6-876F93F12186}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathCreator", "PathCreator\PathCreator.csproj", "{0B654FE5-5284-453D-8289-F27BAC81B185}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5608976C-932C-4766-82E6-876F93F12186}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5608976C-932C-4766-82E6-876F93F12186}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5608976C-932C-4766-82E6-876F93F12186}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B654FE5-5284-453D-8289-F27BAC81B185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B654FE5-5284-453D-8289-F27BAC81B185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B654FE5-5284-453D-8289-F27BAC81B185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B654FE5-5284-453D-8289-F27BAC81B185}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
