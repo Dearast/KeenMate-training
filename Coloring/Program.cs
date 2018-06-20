@@ -11,7 +11,6 @@ namespace Coloring
 		static void Main(string[] args)
 		{
 			Console.BackgroundColor = ConsoleColor.Black;
-			Console.ForegroundColor = ConsoleColor.Green;
 			Console.Title = "Training by KeenMate                                   Done by Damien Clément";
 			MainMenu();
 		}
@@ -30,7 +29,7 @@ namespace Coloring
 		{
 			#region Console
 			Console.Clear();
-			WriteText("press key for call function", "blue");
+			WriteText("press key for call function", ConsoleColor.Blue);
 			WriteText("1 = change color by month and years");
 			#endregion
 			#region Functions
@@ -42,26 +41,9 @@ namespace Coloring
 			#endregion
 		}
 
-		public static void WriteText(string text, string colorStr = "white")
+		public static void WriteText(string text, ConsoleColor color = ConsoleColor.White)
 		{
-			switch (colorStr)
-			{
-				case "red":
-					Console.ForegroundColor = ConsoleColor.Red;
-					break;
-				case "blue":
-					Console.ForegroundColor = ConsoleColor.Blue;
-					break;
-				case "yellow":
-					Console.ForegroundColor = ConsoleColor.Yellow;
-					break;
-				case "green":
-					Console.ForegroundColor = ConsoleColor.Green;
-					break;
-				default:
-					Console.ForegroundColor = ConsoleColor.White;
-					break;
-			}
+			Console.ForegroundColor = color;
 			Console.WriteLine(text);
 		}
 
