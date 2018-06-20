@@ -15,9 +15,11 @@ namespace PathCreator
 			selectFunction();
 		}
 
-		public static void Write(string write)
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
 		{
-			Console.WriteLine(write);
+			Console.ForegroundColor = color;
+			Console.BackgroundColor = backColor;
+			Console.WriteLine(text);
 		}
 
 		public static void selectFunction()
@@ -25,6 +27,8 @@ namespace PathCreator
 			Write("Select funciton");
 			Write("0 = Create folder");
 			Write("1 = Create file");
+			Write("2 = Find all files in direction");
+			Write("3 = Delete file");
 			string check = Console.ReadLine();
 			if(check == "0")
 			{
@@ -33,6 +37,14 @@ namespace PathCreator
 			else if(check == "1")
 			{
 				fileCreator();
+			}
+			else if(check == "2")
+			{
+				findAllFilesInDirection();
+			}
+			else if (check == "3")
+			{
+				deletingFile();
 			}
 		}
 
@@ -61,49 +73,46 @@ namespace PathCreator
 
 		public static void fileCreator()
 		{
-			Write("enter path");
+			Write("enter path for create files and type file");
 			string path = Console.ReadLine();
-			Write("how many folder you want create");
-			string countFolderStr = Console.ReadLine();
 			Write("how many file you want create");
-			string countFileStr = Console.ReadLine();
-
+			string countFolderStr = Console.ReadLine();
 			int countFolder = int.Parse(countFolderStr);
-			int countFile = int.Parse(countFileStr);
-
 			for (int i = 0; i < countFolder; i++)
 			{
-				if (!System.IO.Directory.Exists(@path + i))
-				{
-					System.IO.Directory.CreateDirectory(@path + i);
-					for (int a = 0; a < countFile; a++)
-					{
-						if(File.Exists(@path + i + @"\file" + a + ".txt"))
-						{
-							Console.WriteLine("file exist");
-						}
-						else
-						{
-							File.Create(@path + i + @"\file" + a + ".txt");
-						}
-					}
-				}
-				else
-				{
-					for (int a = 0; a < countFile; a++)
-					{
-						if (File.Exists(@path + i + @"\file" + a + ".txt"))
-						{
-							Console.WriteLine("file exist");
-						}
-						else
-						{
-							File.Create(@path + i + @"\file" + a + ".txt");
-						}
-					}
-				}
+				File.Create(path + i + @".txt");
 			}
-			Console.ReadLine();
+			Write("Press enter to back");
+			Console.ReadKey();
+			selectFunction();
+		}
+
+		public static void findAllFilesInDirection()
+		{
+			Write("enter path for find files");
+			string path = Console.ReadLine();
+			DirectoryInfo d = new DirectoryInfo(@path);
+			FileInfo[] Files = d.GetFiles("*.txt");
+			string str = "";
+			foreach (FileInfo file in Files)
+			{
+				str = str+ file.Name + "|" + file.CreationTime + "|" + file.Extension 
+				+ "|" + file.Attributes + "|" + file.Length + "|" + file.Directory + " ; ";
+				Write(str, ConsoleColor.Red);
+			}
+			Write("Press enter to back");
+			Console.ReadKey();
+			selectFunction();
+		}
+
+		public static void deletingFile()
+		{
+			Write("enter path to delete file");
+			string path = Console.ReadLine();
+			File.Delete(@path);
+			Write("Press enter to back");
+			Console.ReadKey();
+			selectFunction();
 		}
 	}
 }
