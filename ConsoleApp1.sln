@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coloring", "Coloring\Colori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipSport", "TipSport\TipSport.csproj", "{68EF95AC-B118-440B-8495-119100466AEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewColoring", "NewColoring\NewColoring.csproj", "{5608976C-932C-4766-82E6-876F93F12186}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{68EF95AC-B118-440B-8495-119100466AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68EF95AC-B118-440B-8495-119100466AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68EF95AC-B118-440B-8495-119100466AEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5608976C-932C-4766-82E6-876F93F12186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5608976C-932C-4766-82E6-876F93F12186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5608976C-932C-4766-82E6-876F93F12186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5608976C-932C-4766-82E6-876F93F12186}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
