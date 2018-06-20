@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "garbage", "ConsoleApp1\garbage.csproj", "{C5CBC090-648D-401C-9089-46CEE8F01D20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "garbage", "garbage\garbage.csproj", "{C5CBC090-648D-401C-9089-46CEE8F01D20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Training-00", "Training-00\Training-00.csproj", "{4C4F60C4-5340-458C-830D-7428AD23E7C7}"
 EndProject

@@ -29,6 +29,7 @@ namespace PathCreator
 			Write("1 = Create file");
 			Write("2 = Find all files in direction");
 			Write("3 = Delete file");
+			Write("4 = Browser");
 			string check = Console.ReadLine();
 			if(check == "0")
 			{
@@ -46,6 +47,29 @@ namespace PathCreator
 			{
 				deletingFile();
 			}
+			else if(check == "4")
+			{
+				Browser();
+			}
+		}
+
+		public static void Browser()
+		{
+			string[] dirs = Directory.GetDirectories(@"C:\", "*");
+			DirectoryInfo[] directs = new DirectoryInfo[dirs.Length];
+			for (int i = 0; i < dirs.Length; i++)
+			{
+				Write(i + " - " + dirs[i]);
+				directs = dirs[i];
+			}
+
+			if(dirs.Length > 0)
+			{
+				string write = Console.ReadLine();
+				int number = int.Parse(write);
+				dirs[i].
+			}
+			selectFunction();
 		}
 
 		public static void createFolder()
