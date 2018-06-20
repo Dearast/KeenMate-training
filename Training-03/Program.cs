@@ -52,19 +52,29 @@ namespace PathCreator
 		{
 			Write("enter path");
 			string path = Console.ReadLine();
-			Write("how many folder you want create");
-			string countFolderStr = Console.ReadLine();
-			int countFolder = int.Parse(countFolderStr);
-			for (int i = 0; i < countFolder; i++)
+			if (!System.IO.Directory.Exists(@path))
 			{
-				if (!System.IO.Directory.Exists(@path + i))
+				//System.IO.Directory.CreateDirectory(@path + @"\" + i);
+				Write("path not exist", ConsoleColor.Red);
+				Write("if you want repeat enter path then you write 0");
+				Write("if you want create path then you write 1");
+				string check = Console.ReadLine();
+				if(check == "0")
 				{
-					System.IO.Directory.CreateDirectory(@path + i);
+					createFolder();
+				}
+				else if(check == "1")
+				{
+					System.IO.Directory.CreateDirectory(@path);
 				}
 				else
 				{
-					Write("The folder exist in this path: " + path);
+					selectFunction();
 				}
+			}
+			else
+			{
+				Write("The folder exist in this path: " + path);
 			}
 			Write("Press enter to back");
 			Console.ReadKey();
