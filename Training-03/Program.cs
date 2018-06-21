@@ -31,15 +31,15 @@ namespace PathCreator
 			Write("3 = Delete file");
 			Write("4 = Browser");
 			string check = Console.ReadLine();
-			if(check == "0")
+			if (check == "0")
 			{
 				createFolder();
 			}
-			else if(check == "1")
+			else if (check == "1")
 			{
 				fileCreator();
 			}
-			else if(check == "2")
+			else if (check == "2")
 			{
 				findAllFilesInDirection();
 			}
@@ -47,7 +47,7 @@ namespace PathCreator
 			{
 				deletingFile();
 			}
-			else if(check == "4")
+			else if (check == "4")
 			{
 				Browser();
 			}
@@ -55,37 +55,37 @@ namespace PathCreator
 
 		public static void Browser(string path = @"C:\")
 		{
-            Write("Current path - " + path);
-            string directory = string.Empty;
-            if(path != @"C:\")
-            {
-                directory = System.IO.Directory.GetParent(path).ToString();
-            }
-            string[] dirs = Directory.GetDirectories(path, "*");
+			Write("Current path - " + path);
+			string directory = string.Empty;
+			if (path != @"C:\")
+			{
+				directory = System.IO.Directory.GetParent(path).ToString();
+			}
+			string[] dirs = Directory.GetDirectories(path, "*");
 			DirectoryInfo[] directs = new DirectoryInfo[dirs.Length];
 			for (int i = 0; i < dirs.Length; i++)
 			{
 				Write(i + " - " + dirs[i]);
-                if(i == (dirs.Length -1) && path != @"C:\")
-                {
-                    Write((i + 1) + " - " + directory + " - for back");
-                }
-                //directs = dirs[i];
-            }
+				if (i == (dirs.Length - 1) && path != @"C:\")
+				{
+					Write((i + 1) + " - " + directory + " - for back");
+				}
+				//directs = dirs[i];
+			}
 
-			if(dirs.Length > 0)
+			if (dirs.Length > 0)
 			{
-                Write("select path");
-                string write = Console.ReadLine();
+				Write("select path");
+				string write = Console.ReadLine();
 				int number = int.Parse(write);
-                if (number < dirs.Length)
-                {
-                    Browser(dirs[number]);
-                }
-                else
-                {
-                    Browser(directory);
-                }
+				if (number < dirs.Length)
+				{
+					Browser(dirs[number]);
+				}
+				else
+				{
+					Browser(directory);
+				}
 
 			}
 
@@ -103,11 +103,11 @@ namespace PathCreator
 				Write("if you want repeat enter path then you write 0");
 				Write("if you want create path then you write 1");
 				string check = Console.ReadLine();
-				if(check == "0")
+				if (check == "0")
 				{
 					createFolder();
 				}
-				else if(check == "1")
+				else if (check == "1")
 				{
 					System.IO.Directory.CreateDirectory(@path);
 				}
@@ -146,11 +146,12 @@ namespace PathCreator
 			Write("enter path for find files");
 			string path = Console.ReadLine();
 			DirectoryInfo d = new DirectoryInfo(@path);
-			FileInfo[] Files = d.GetFiles("*.txt");
+			//FileInfo[] Files = d.GetFiles("*.txt");
+			FileInfo[] Files = d.GetFiles();
 			string str = "";
 			foreach (FileInfo file in Files)
 			{
-				str = str+ file.Name + "|" + file.CreationTime + "|" + file.Extension 
+				str = str + file.Name + "|" + file.CreationTime + "|" + file.Extension
 				+ "|" + file.Attributes + "|" + file.Length + "|" + file.Directory + " ; ";
 				Write(str, ConsoleColor.Red);
 			}
