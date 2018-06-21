@@ -12,7 +12,7 @@ namespace PathCreator
 		static void Main(string[] args)
 		{
 			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
-			selectFunction();
+			SelectFunction();
 		}
 
 		public static void Write(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
@@ -22,7 +22,7 @@ namespace PathCreator
 			Console.WriteLine(text);
 		}
 
-		public static void selectFunction()
+		public static void SelectFunction()
 		{
 			Write("Select funciton");
 			Write("0 = Create folder");
@@ -33,66 +33,184 @@ namespace PathCreator
 			string check = Console.ReadLine();
 			if (check == "0")
 			{
-				createFolder();
+				CreateFolder();
 			}
 			else if (check == "1")
 			{
-				fileCreator();
+				FileCreator();
 			}
 			else if (check == "2")
 			{
-				findAllFilesInDirection();
+				FindAllFilesInDirection();
 			}
 			else if (check == "3")
 			{
-				deletingFile();
+				DeletingFile();
 			}
 			else if (check == "4")
 			{
-				Browser();
+				FindAllDisk();
 			}
 		}
 
-		public static void Browser(string path = @"C:\")
+		public static void IsDisk(ref bool isDisk,string path)
 		{
-			Write("Current path - " + path);
+			char[] charx = path.ToCharArray();
+			int index = 0;
+			foreach (var item in charx)
+			{
+				if(item.ToString() == @"\")
+				{
+					Write("this is disk", ConsoleColor.Blue);
+					index++;
+				}
+
+				if(index > 1)
+				{
+					isDisk = true;
+					break;
+				}
+			}
+		}
+
+		public static void WriteAllSubFolder(string @path)
+		{
+			Write("Current path - " + path,ConsoleColor.Red);
+			string lastPath = System.IO.Directory.GetCurrentDirectory();
 			string directory = string.Empty;
-			if (path != @"C:\")
+			bool isInDisk = false;
+			IsDisk(ref isInDisk, path);
+			if(!isInDisk)
 			{
 				directory = System.IO.Directory.GetParent(path).ToString();
+				Write(directory + " Parent", ConsoleColor.Blue);
 			}
 			string[] dirs = Directory.GetDirectories(path, "*");
-			DirectoryInfo[] directs = new DirectoryInfo[dirs.Length];
-			for (int i = 0; i < dirs.Length; i++)
+			int index = 0;
+			foreach (var item in dirs)
 			{
-				Write(i + " - " + dirs[i]);
-				if (i == (dirs.Length - 1) && path != @"C:\")
+				index++;
+				Write((index - 1) + " - " + item);
+				if (index == (dirs.Length - 1) && !isInDisk)
 				{
-					Write((i + 1) + " - " + directory + " - for back");
+					Write(directory + " - for back");
 				}
-				//directs = dirs[i];
 			}
-
-			if (dirs.Length > 0)
+			Write("Select function");
+			Write("0 = Go to browser");
+			string check = Console.ReadLine();
+			switch (check)
 			{
-				Write("select path");
-				string write = Console.ReadLine();
-				int number = int.Parse(write);
-				if (number < dirs.Length)
-				{
-					Browser(dirs[number]);
-				}
-				else
-				{
-					Browser(directory);
-				}
-
+				case "0":
+					if (!isInDisk)
+					{
+						Browser(dirs, directory);
+					}
+					else
+					{
+						Browser(dirs);
+					}
+					break;
+				default:
+					SelectFunction();
+					break;
 			}
-
-			selectFunction();
 		}
 
-		public static void createFolder()
+		public static void FindAllDisk()
+		{
+			DriveInfo[] allDrives = DriveInfo.GetDrives();
+			string[] DisksName = new string[allDrives.Length];
+			int index = 0;
+			foreach (var item in allDrives)
+			{
+				DisksName[index] = item.Name;
+				Write(DisksName[index]);
+				index++;
+			}
+			Write("Select funcion");
+			Write("0 = select disk");
+			Write("anything = go to menu");
+			string check = Console.ReadLine();
+			switch (check)
+			{
+				case "0":
+					SelectDisk(DisksName);
+					break;
+				default:
+					SelectFunction();
+					break;
+			}
+			//Write("Current path - " + path);
+			//string directory = string.Empty;
+			//if (path != @"C:\")
+			//{
+			//	directory = System.IO.Directory.GetParent(path).ToString();
+			//}
+			//string[] dirs = Directory.GetDirectories(path, "*");
+			//int index = 0;
+			//foreach (var item in dirs)
+			//{
+			//	index++;
+			//	Write(index + " - " + item);
+			//	if (index == (dirs.Length - 1) && path != @"C:\")
+			//	{
+			//		Write((index + 1) + " - " + directory + " - for back");
+			//	}
+			//}
+			//string check = Console.ReadLine();
+			//int checkNumber = int.Parse(check);
+			//switch (checkNumber)
+			//{
+			//	case 0:
+			//		WriteAllSubFolder();
+			//		break;
+			//	case 1:
+			//		Browser();
+			//		break;
+			//	default:
+			//		SelectFunction();
+			//		break;
+			//}
+		}
+
+		public static void SelectDisk(string[] name)
+		{
+			Write("Select disk");
+			int index = 0;
+			foreach (var item in name)
+			{
+				Write(index + " = " + name[index]);
+				index++;
+			}
+			string check = Console.ReadLine();
+			if(int.Parse(check) <= name.Length)
+			{
+				WriteAllSubFolder(name[int.Parse(check)]);
+			}
+			else
+			{
+				SelectFunction();
+			}
+		}
+
+		public static void Browser(string[] dirs,string directory = "")
+		{
+			Write("select path");
+			string write = Console.ReadLine();
+			int number = int.Parse(write);
+			if (number < dirs.Length)
+			{
+				WriteAllSubFolder(dirs[number]);
+			}
+			else
+			{
+				WriteAllSubFolder(directory);
+			}
+			SelectFunction();
+		}
+
+		public static void CreateFolder()
 		{
 			Write("enter path");
 			string path = Console.ReadLine();
@@ -105,7 +223,7 @@ namespace PathCreator
 				string check = Console.ReadLine();
 				if (check == "0")
 				{
-					createFolder();
+					CreateFolder();
 				}
 				else if (check == "1")
 				{
@@ -113,7 +231,7 @@ namespace PathCreator
 				}
 				else
 				{
-					selectFunction();
+					SelectFunction();
 				}
 			}
 			else
@@ -122,10 +240,10 @@ namespace PathCreator
 			}
 			Write("Press enter to back");
 			Console.ReadKey();
-			selectFunction();
+			SelectFunction();
 		}
 
-		public static void fileCreator()
+		public static void FileCreator()
 		{
 			Write("enter path for create files and type file");
 			string path = Console.ReadLine();
@@ -138,10 +256,10 @@ namespace PathCreator
 			}
 			Write("Press enter to back");
 			Console.ReadKey();
-			selectFunction();
+			SelectFunction();
 		}
 
-		public static void findAllFilesInDirection()
+		public static void FindAllFilesInDirection()
 		{
 			Write("enter path for find files");
 			string path = Console.ReadLine();
@@ -157,17 +275,17 @@ namespace PathCreator
 			}
 			Write("Press enter to back");
 			Console.ReadKey();
-			selectFunction();
+			SelectFunction();
 		}
 
-		public static void deletingFile()
+		public static void DeletingFile()
 		{
 			Write("enter path to delete file");
 			string path = Console.ReadLine();
 			File.Delete(@path);
 			Write("Press enter to back");
 			Console.ReadKey();
-			selectFunction();
+			SelectFunction();
 		}
 	}
 }
