@@ -53,22 +53,42 @@ namespace PathCreator
 			}
 		}
 
-		public static void Browser()
+		public static void Browser(string path = @"C:\")
 		{
-			string[] dirs = Directory.GetDirectories(@"C:\", "*");
+            Write("Current path - " + path);
+            string directory = string.Empty;
+            if(path != @"C:\")
+            {
+                directory = System.IO.Directory.GetParent(path).ToString();
+            }
+            string[] dirs = Directory.GetDirectories(path, "*");
 			DirectoryInfo[] directs = new DirectoryInfo[dirs.Length];
 			for (int i = 0; i < dirs.Length; i++)
 			{
 				Write(i + " - " + dirs[i]);
-				directs = dirs[i];
-			}
+                if(i == (dirs.Length -1) && path != @"C:\")
+                {
+                    Write((i + 1) + " - " + directory + " - for back");
+                }
+                //directs = dirs[i];
+            }
 
 			if(dirs.Length > 0)
 			{
-				string write = Console.ReadLine();
+                Write("select path");
+                string write = Console.ReadLine();
 				int number = int.Parse(write);
-				dirs[i].
+                if (number < dirs.Length)
+                {
+                    Browser(dirs[number]);
+                }
+                else
+                {
+                    Browser(directory);
+                }
+
 			}
+
 			selectFunction();
 		}
 
