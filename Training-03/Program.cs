@@ -12,44 +12,66 @@ namespace PathCreator
 		static void Main(string[] args)
 		{
 			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
+			WriteFunctions();
 			SelectFunction();
 		}
 
-		public static void Write(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
 			Console.ForegroundColor = color;
 			Console.BackgroundColor = backColor;
 			Console.WriteLine(text);
+			if (backToDefault)
+			{
+				Console.ForegroundColor = ConsoleColor.White;
+			}
 		}
 
-		public static void SelectFunction()
+		public static void WriteFunctions()
 		{
+			Console.Clear();
 			Write("Select funciton");
 			Write("0 = Create folder");
 			Write("1 = Create file");
 			Write("2 = Find all files in direction");
 			Write("3 = Delete file");
 			Write("4 = Browser");
+			Write("exit = end application");
+		}
+		
+		public static void SelectFunction()
+		{
 			string check = Console.ReadLine();
-			if (check == "0")
+			switch (check)
 			{
-				CreateFolder();
-			}
-			else if (check == "1")
-			{
-				FileCreator();
-			}
-			else if (check == "2")
-			{
-				FindAllFilesInDirection();
-			}
-			else if (check == "3")
-			{
-				DeletingFile();
-			}
-			else if (check == "4")
-			{
-				FindAllDisk();
+				case "0":
+					CreateFolder();
+					break;
+				case "1":
+					FileCreator();
+					break;
+				case "2":
+					FindAllFilesInDirection();
+					break;
+				case "3":
+					DeletingFile();
+					break;
+				case "4":
+					FindAllDisk();
+					break;
+				case "exit":
+					Environment.Exit(0);
+					break;
+				case "Exit":
+					Environment.Exit(0);
+					break;
+				case "EXIT":
+					Environment.Exit(0);
+					break;
+				default:
+					Write("Bad select function please try again", ConsoleColor.Red,true);
+					SelectFunction();
+					break;
 			}
 		}
 

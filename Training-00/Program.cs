@@ -10,15 +10,20 @@ namespace Functions
 	{
 		static void Main(string[] args)
 		{
-			Console.BackgroundColor = ConsoleColor.Black;
-			Console.ForegroundColor = ConsoleColor.Green;
-			Console.Title = "Training by KeenMate                                   Done by Damien Clément";
+			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
 			MainMenu();
+		}
+
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
+		{
+			Console.ForegroundColor = color;
+			Console.BackgroundColor = backColor;
+			Console.WriteLine(text);
 		}
 
 		public static void BackSelect()
 		{
-			Console.WriteLine("press key for call function" + "\n" + "0 = go back");
+			Write("press key for call function" + "\n" + "0 = go back");
 			string checkPress = Console.ReadLine();
 			if (checkPress == "0")
 			{
@@ -102,20 +107,20 @@ namespace Functions
 		public static void loverUpperText()
 		{
 			Console.Clear();
-			Console.WriteLine("Lowercase and uppercase function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Lowercase and uppercase function");
+			Write("Write text and then push enter");
 			string defaultText = Console.ReadLine();
 			string lowerText = defaultText.ToLower();
 			string upperText = defaultText.ToUpper();
-			Console.WriteLine(defaultText + " this is a default text" + "\n" + lowerText + " this is a lower text" + "\n" + upperText + " this is a upper text");
+			Write(defaultText + " this is a default text" + "\n" + lowerText + " this is a lower text" + "\n" + upperText + " this is a upper text");
 			BackSelect();
 		}
 
 		public static void sortingText()
 		{
 			Console.Clear();
-			Console.WriteLine("Soritng text function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Soritng text function");
+			Write("Write text and then push enter");
 			string sort = Console.ReadLine();
 			char[] sortChar = sort.ToCharArray();
 			Array.Sort(sortChar);
@@ -124,50 +129,50 @@ namespace Functions
 			{
 				sorted += item;
 			}
-			Console.WriteLine("Before: " + sort);
-			Console.WriteLine("After: " + sorted);
+			Write("Before: " + sort);
+			Write("After: " + sorted);
 			BackSelect();
 		}
 
 		public static void TrimText()
 		{
 			Console.Clear();
-			Console.WriteLine("Trim text function");
-			Console.WriteLine("press key for call function" + "\n" + "0 = remove characters from begin of text" + "\n" +
+			Write("Trim text function");
+			Write("press key for call function" + "\n" + "0 = remove characters from begin of text" + "\n" +
 				"1 = remove characters from end of text" + "\n" + "2 = remove character from both side");
 			string check = Console.ReadLine();
 			if (check == "0")
 			{
-				Console.WriteLine("Write text and then push enter");
+				Write("Write text and then push enter");
 				string text = Console.ReadLine();
-				Console.WriteLine("write all characters for remove [ WITHOUT SPACES AND DOTS ] and then push enter");
+				Write("write all characters for remove [ WITHOUT SPACES AND DOTS ] and then push enter");
 				string charText = Console.ReadLine();
 				char[] Char = charText.ToCharArray();
 				string NewString = text.TrimStart(Char);
-				Console.WriteLine("Before: " + text);
-				Console.WriteLine("After: " + NewString);
+				Write("Before: " + text);
+				Write("After: " + NewString);
 			}
 			else if (check == "1")
 			{
-				Console.WriteLine("Write text and then push enter");
+				Write("Write text and then push enter");
 				string text = Console.ReadLine();
-				Console.WriteLine("write all characters for remove [ WITHOUT SPACES AND DOTS ] and then push enter");
+				Write("write all characters for remove [ WITHOUT SPACES AND DOTS ] and then push enter");
 				string charText = Console.ReadLine();
 				char[] Char = charText.ToCharArray();
 				string NewString = text.TrimEnd(Char);
-				Console.WriteLine("Before: " + text);
-				Console.WriteLine("After: " + NewString);
+				Write("Before: " + text);
+				Write("After: " + NewString);
 			}
 			else if (check == "2")
 			{
-				Console.WriteLine("Write text and then push enter");
+				Write("Write text and then push enter");
 				string text = Console.ReadLine();
-				Console.WriteLine("write all characters for remove [ WITHOUT SPACES AND DOTS ] and then push enter");
+				Write("write all characters for remove [ WITHOUT SPACES AND DOTS ] and then push enter");
 				string charText = Console.ReadLine();
 				char[] Char = charText.ToCharArray();
 				string NewString = text.Trim(Char);
-				Console.WriteLine("Before: " + text);
-				Console.WriteLine("After: " + NewString);
+				Write("Before: " + text);
+				Write("After: " + NewString);
 			}
 			BackSelect();
 		}
@@ -175,41 +180,41 @@ namespace Functions
 		public static void RemovePartOfText()
 		{
 			Console.Clear();
-			Console.WriteLine("Remove part of text function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Remove part of text function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
-			Console.WriteLine("Write two int for position and for length");
+			Write("Write two int for position and for length");
 			string pos1 = Console.ReadLine();
 			int posx = int.Parse(pos1);
 			string pos2 = Console.ReadLine();
 			int posy = int.Parse(pos2);
 			string newText = text.Remove(posx, posy);
-			Console.WriteLine("Before: " + text);
-			Console.WriteLine("After: " + newText);
+			Write("Before: " + text);
+			Write("After: " + newText);
 			BackSelect();
 		}
 
 		public static void FindPartOfText()
 		{
 			Console.Clear();
-			Console.WriteLine("Find part of text function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Find part of text function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
-			Console.WriteLine("Write text and then push enter");
+			Write("Write text and then push enter");
 			string startText = Console.ReadLine();
-			Console.WriteLine("Write text and then push enter");
+			Write("Write text and then push enter");
 			string endText = Console.ReadLine();
 			if (text.Contains(startText) && text.Contains(endText))
 			{
 				int Start = text.IndexOf(startText, 0) + startText.Length;
 				int End = text.IndexOf(endText, Start);
 				string strToReplace = text.Substring(Start, End - Start);
-				Console.WriteLine("Find");
-				Console.WriteLine(strToReplace);
+				Write("Find");
+				Write(strToReplace);
 			}
 			else
 			{
-				Console.WriteLine("Text not contain finding part of text");
+				Write("Text not contain finding part of text");
 			}
 			BackSelect();
 		}
@@ -217,17 +222,17 @@ namespace Functions
 		public static void CopyText()
 		{
 			Console.Clear();
-			Console.WriteLine("Copy text function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Copy text function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
-			Console.WriteLine("Write number for multiplication");
+			Write("Write number for multiplication");
 			string numberText = Console.ReadLine();
 			int number = int.Parse(numberText);
 			string[] writeText = new string[number];
 			for (int i = 0; i < number; i++)
 			{
 				writeText[i] = text;
-				Console.WriteLine(writeText[i]);
+				Write(writeText[i]);
 			}
 			BackSelect();
 		}
@@ -235,8 +240,8 @@ namespace Functions
 		public static void ReverseString()
 		{
 			Console.Clear();
-			Console.WriteLine("Reverse text function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Reverse text function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
 			char[] charX = text.ToCharArray();
 			Array.Reverse(charX);
@@ -245,16 +250,16 @@ namespace Functions
 			{
 				reversed += item;
 			}
-			Console.WriteLine("Before: " + text);
-			Console.WriteLine("After: " + reversed);
+			Write("Before: " + text);
+			Write("After: " + reversed);
 			BackSelect();
 		}
 
 		public static void uppercase()
 		{
 			Console.Clear();
-			Console.WriteLine("Uppercase function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Uppercase function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
 			char[] charX = text.ToCharArray();
 			charX[0] = Char.ToUpper(charX[0]);
@@ -270,16 +275,16 @@ namespace Functions
 			{
 				newText += item;
 			}
-			Console.WriteLine("Before: " + text);
-			Console.WriteLine("After: " + newText);
+			Write("Before: " + text);
+			Write("After: " + newText);
 			BackSelect();
 		}
 
 		public static void uppercaseLastWord()
 		{
 			Console.Clear();
-			Console.WriteLine("Uppercase last word function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Uppercase last word function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
 			char[] charX = text.ToCharArray();
 			for (int i = (charX.Length - 1); i > 1; i--)
@@ -298,16 +303,16 @@ namespace Functions
 			{
 				newText += item;
 			}
-			Console.WriteLine("Before: " + text);
-			Console.WriteLine("After: " + newText);
+			Write("Before: " + text);
+			Write("After: " + newText);
 			BackSelect();
 		}
 
 		public static void everySecondWordWillUppercase()
 		{
 			Console.Clear();
-			Console.WriteLine("Every second word will uppercase function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Every second word will uppercase function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
 			bool second = true;
 			int start = 0;
@@ -321,7 +326,7 @@ namespace Functions
 					if (second == false)
 					{
 						second = true;
-						Console.WriteLine("second");
+						Write("second");
 					}
 					else
 					{
@@ -332,13 +337,13 @@ namespace Functions
 								start = i;
 								end = y;
 								value = end - start;
-								Console.WriteLine("find second word");
-								Console.WriteLine("start " + start);
-								Console.WriteLine("end " + end);
-								Console.WriteLine("value is " + value);
+								Write("find second word");
+								Write("start " + start);
+								Write("end " + end);
+								Write("value is " + value);
 								for (int x = 0; x < value; x++)
 								{
-									Console.WriteLine("lets change");
+									Write("lets change");
 									charX[x + start] = Char.ToUpper(charX[x + start]);
 								}
 								second = false;
@@ -353,18 +358,18 @@ namespace Functions
 			{
 				newText += item;
 			}
-			Console.WriteLine("Before: " + text);
-			Console.WriteLine("After: " + newText);
+			Write("Before: " + text);
+			Write("After: " + newText);
 			BackSelect();
 		}
 
 		public static void deleteWithoutTrim()
 		{
 			Console.Clear();
-			Console.WriteLine("Deleting without trim function");
-			Console.WriteLine("Write text and then push enter");
+			Write("Deleting without trim function");
+			Write("Write text and then push enter");
 			string text = Console.ReadLine();
-			Console.WriteLine("Write text and then push enter");
+			Write("Write text and then push enter");
 			string deleteText = Console.ReadLine();
 			char[] charX = deleteText.ToCharArray();
 			char[] charText = text.ToCharArray();
@@ -373,8 +378,8 @@ namespace Functions
 			{
 				Deleting(ref newText, charX);
 			}
-			Console.WriteLine("Before: " + text);
-			Console.WriteLine("After: " + newText);
+			Write("Before: " + text);
+			Write("After: " + newText);
 			BackSelect();
 		}
 
@@ -394,22 +399,22 @@ namespace Functions
 		public static void Calculator()
 		{
 			Console.Clear();
-			Console.WriteLine("Calculate function");
-			Console.WriteLine("Select function");
-			Console.WriteLine("0 = +");
-			Console.WriteLine("1 = -");
-			Console.WriteLine("2 = /");
-			Console.WriteLine("3 = *");
-			Console.WriteLine("4 = power");
-			Console.WriteLine("5 = while power");
-			Console.WriteLine("6 = do/while power");
-			Console.WriteLine("7 = [f (x) = x ^ (x-1)]");
-			Console.WriteLine("8 = time");
+			Write("Calculate function");
+			Write("Select function");
+			Write("0 = +");
+			Write("1 = -");
+			Write("2 = /");
+			Write("3 = *");
+			Write("4 = power");
+			Write("5 = while power");
+			Write("6 = do/while power");
+			Write("7 = [f (x) = x ^ (x-1)]");
+			Write("8 = time");
 			string check = Console.ReadLine();
 			if (check == "0")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
@@ -420,51 +425,51 @@ namespace Functions
 			else if (check == "1")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
 				float numberCalcul2 = float.Parse(calcul2, System.Globalization.CultureInfo.InvariantCulture);
 				float value = numberCalcul - numberCalcul2;
-				Console.WriteLine(value);
+				Write(value.ToString());
 			}
 			else if (check == "2")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
 				float numberCalcul2 = float.Parse(calcul2, System.Globalization.CultureInfo.InvariantCulture);
 				float value = numberCalcul / numberCalcul2;
-				Console.WriteLine(value);
+				Write(value.ToString());
 			}
 			else if (check == "3")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
 				float numberCalcul2 = float.Parse(calcul2, System.Globalization.CultureInfo.InvariantCulture);
 				float value = numberCalcul * numberCalcul2;
-				Console.WriteLine(value);
+				Write(value.ToString());
 			}
 			else if (check == "4")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
 				float numberCalcul2 = float.Parse(calcul2, System.Globalization.CultureInfo.InvariantCulture);
 				float value = (float)Math.Pow(numberCalcul, numberCalcul2);
-				Console.WriteLine(value);
+				Write(value.ToString());
 			}
 			else if (check == "5")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
@@ -473,13 +478,13 @@ namespace Functions
 				while (value < numberCalcul2)
 				{
 					value = (float)Math.Pow(value, 2);
-					Console.WriteLine(value);
+					Write(value.ToString());
 				}
 			}
 			else if (check == "6")
 			{
 				Console.Clear();
-				Console.WriteLine("write two number");
+				Write("write two number");
 				string calcul = Console.ReadLine();
 				float numberCalcul = float.Parse(calcul, System.Globalization.CultureInfo.InvariantCulture);
 				string calcul2 = Console.ReadLine();
@@ -488,29 +493,29 @@ namespace Functions
 				do
 				{
 					value = (float)Math.Pow(value, 2);
-					Console.WriteLine(value);
+					Write(value.ToString());
 				} while (value < numberCalcul2);
 			}
 			else if (check == "7")
 			{
 				Console.Clear();
-				Console.WriteLine("f(x) = x ^ (x - 1)");
+				Write("f(x) = x ^ (x - 1)");
 				for (int i = -10; i < 10; i++)
 				{
 					float value = (float)Math.Pow(i, (i - 1));
-					Console.WriteLine(value);
+					Write(value.ToString());
 				}
 			}
 			else if (check == "8")
 			{
 				do
 				{
-					Console.WriteLine(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second
+					Write(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second
 						+ "." + DateTime.Now.Millisecond);
 				} while (!Console.KeyAvailable);
 				{
-					Console.WriteLine("stopped");
-					Console.WriteLine(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second);
+					Write("stopped");
+					Write(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second);
 				}
 			}
 			BackSelect();
