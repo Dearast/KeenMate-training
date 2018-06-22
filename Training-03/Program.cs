@@ -53,68 +53,50 @@ namespace PathCreator
 			}
 		}
 
-		public static void IsDisk(ref bool isDisk,string path)
+		public static void WriteAllSubFolder(string path, int AdressNumber)
 		{
-			char[] charx = path.ToCharArray();
-			int index = 0;
-			foreach (var item in charx)
-			{
-				if(item.ToString() == @"\")
-				{
-					Write("this is disk", ConsoleColor.Blue);
-					index++;
-				}
-
-				if(index > 1)
-				{
-					isDisk = true;
-					break;
-				}
-			}
-		}
-
-		public static void WriteAllSubFolder(string @path)
-		{
-			Write("Current path - " + path,ConsoleColor.Red);
-			string lastPath = System.IO.Directory.GetCurrentDirectory();
+			Write("Current path - " + path, ConsoleColor.Red);
+			int adressChange = AdressNumber;
 			string directory = string.Empty;
-			bool isInDisk = false;
-			IsDisk(ref isInDisk, path);
-			if(!isInDisk)
+			string[] dirs;
+			if(AdressNumber > 0)
 			{
 				directory = System.IO.Directory.GetParent(path).ToString();
-				Write(directory + " Parent", ConsoleColor.Blue);
+				//Write(directory + " Parent", ConsoleColor.Blue);
+				string[] newDirs = Directory.GetDirectories(path, "*");
+				dirs = new string[(Directory.GetDirectories(path, "*")).Length + 1];
+				//Write("lenght array - " + dirs.Length, ConsoleColor.Blue);
+				for (int i = 0; i < newDirs.Length; i++)
+				{
+					dirs[i] = newDirs[i];
+				}
+				int length = dirs.Length;
+				dirs[dirs.Length - 1] = directory;
 			}
-			string[] dirs = Directory.GetDirectories(path, "*");
+			else
+			{
+				dirs = new string[(Directory.GetDirectories(path, "*")).Length];
+				dirs = Directory.GetDirectories(path, "*");
+			}
 			int index = 0;
 			foreach (var item in dirs)
 			{
+				Write((index) + " - " + item);
 				index++;
-				Write((index - 1) + " - " + item);
-				if (index == (dirs.Length - 1) && !isInDisk)
-				{
-					Write(directory + " - for back");
-				}
 			}
-			Write("Select function");
-			Write("0 = Go to browser");
 			string check = Console.ReadLine();
-			switch (check)
+			int checkInt = int.Parse(check);
+			if(checkInt == (dirs.Length - 1) && AdressNumber > 0)
 			{
-				case "0":
-					if (!isInDisk)
-					{
-						Browser(dirs, directory);
-					}
-					else
-					{
-						Browser(dirs);
-					}
-					break;
-				default:
-					SelectFunction();
-					break;
+				adressChange -= 1;
+				Write("Down", ConsoleColor.Blue);
 			}
+			else
+			{
+				adressChange += 1;
+				Write("Up", ConsoleColor.Blue);
+			}
+			Browser(dirs, checkInt,adressChange);
 		}
 
 		public static void FindAllDisk()
@@ -125,89 +107,22 @@ namespace PathCreator
 			foreach (var item in allDrives)
 			{
 				DisksName[index] = item.Name;
-				Write(DisksName[index]);
+				Write("index: " + index + " - " + DisksName[index]);
 				index++;
 			}
 			Write("Select funcion");
-			Write("0 = select disk");
-			Write("anything = go to menu");
+			Write("anything else = go to menu");
+			Write("Select adress");
 			string check = Console.ReadLine();
-			switch (check)
-			{
-				case "0":
-					SelectDisk(DisksName);
-					break;
-				default:
-					SelectFunction();
-					break;
-			}
-			//Write("Current path - " + path);
-			//string directory = string.Empty;
-			//if (path != @"C:\")
-			//{
-			//	directory = System.IO.Directory.GetParent(path).ToString();
-			//}
-			//string[] dirs = Directory.GetDirectories(path, "*");
-			//int index = 0;
-			//foreach (var item in dirs)
-			//{
-			//	index++;
-			//	Write(index + " - " + item);
-			//	if (index == (dirs.Length - 1) && path != @"C:\")
-			//	{
-			//		Write((index + 1) + " - " + directory + " - for back");
-			//	}
-			//}
-			//string check = Console.ReadLine();
-			//int checkNumber = int.Parse(check);
-			//switch (checkNumber)
-			//{
-			//	case 0:
-			//		WriteAllSubFolder();
-			//		break;
-			//	case 1:
-			//		Browser();
-			//		break;
-			//	default:
-			//		SelectFunction();
-			//		break;
-			//}
+			int checkInt = int.Parse(check);
+			Browser(DisksName,checkInt);
 		}
 
-		public static void SelectDisk(string[] name)
+		public static void Browser(string[] adress, int checkNumber = 0, int AdressNumber = 0)
 		{
-			Write("Select disk");
-			int index = 0;
-			foreach (var item in name)
-			{
-				Write(index + " = " + name[index]);
-				index++;
-			}
-			string check = Console.ReadLine();
-			if(int.Parse(check) <= name.Length)
-			{
-				WriteAllSubFolder(name[int.Parse(check)]);
-			}
-			else
-			{
-				SelectFunction();
-			}
-		}
+			Write("Adress number - " + AdressNumber, ConsoleColor.Blue);
 
-		public static void Browser(string[] dirs,string directory = "")
-		{
-			Write("select path");
-			string write = Console.ReadLine();
-			int number = int.Parse(write);
-			if (number < dirs.Length)
-			{
-				WriteAllSubFolder(dirs[number]);
-			}
-			else
-			{
-				WriteAllSubFolder(directory);
-			}
-			SelectFunction();
+			WriteAllSubFolder(adress[checkNumber], AdressNumber);
 		}
 
 		public static void CreateFolder()
