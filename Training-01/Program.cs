@@ -11,7 +11,7 @@ namespace NewColoring
 		static void Main(string[] args)
 		{
 			Console.Title = "Training by KeenMate";
-			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément" , ConsoleColor.Green);
+			Write("Training by KeenMate \t\t\t\t\t Done by Damien Clément", ConsoleColor.Green, true);
 			ChangeColor();
 		}
 
@@ -64,10 +64,10 @@ namespace NewColoring
 						BackMonth = ConsoleColor.Black;
 					}
 
-					Write("month - " + (y + 1), Month,BackMonth);
+					Write("month - " + (y + 1), Month,false,BackMonth);
 					for (int a = 0; a < 30; a++)
 					{
-						Write("day - " + (a + 1),Month,BackMonth);
+						Write("day - " + (a + 1),Month,false,BackMonth);
 					}
 				}
 				if(i <= 8)
@@ -77,11 +77,15 @@ namespace NewColoring
 			}
 			BackSelect();
 		}
-		public static void Write(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
 			Console.ForegroundColor = color;
 			Console.BackgroundColor = backColor;
 			Console.WriteLine(text);
+			if (backToDefault)
+			{
+				Console.ForegroundColor = ConsoleColor.White;
+			}
 		}
 	}
 }

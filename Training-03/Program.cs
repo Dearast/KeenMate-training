@@ -11,7 +11,8 @@ namespace PathCreator
 	{
 		static void Main(string[] args)
 		{
-			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément", ConsoleColor.Green);
+			Console.Title = "Training by KeenMate";
+			Write("Training by KeenMate \t\t\t\t\t Done by Damien Clément", ConsoleColor.Green, true);
 			WriteFunctions();
 			SelectFunction();
 		}
@@ -109,12 +110,16 @@ namespace PathCreator
 			if(checkInt == (dirs.Length - 1) && AdressNumber > 0)
 			{
 				adressChange -= 1;
+#if DEBUG
 				Write("Down", ConsoleColor.Blue);
+#endif
 			}
 			else
 			{
 				adressChange += 1;
+#if DEBUG
 				Write("Up", ConsoleColor.Blue);
+#endif
 			}
 			Browser(dirs, checkInt,adressChange);
 		}
@@ -140,8 +145,9 @@ namespace PathCreator
 
 		public static void Browser(string[] adress, int checkNumber = 0, int AdressNumber = 0)
 		{
+#if DEBUG
 			Write("Adress number - " + AdressNumber, ConsoleColor.Blue);
-
+#endif
 			WriteAllSubFolder(adress[checkNumber], AdressNumber);
 		}
 

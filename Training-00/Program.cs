@@ -10,34 +10,27 @@ namespace Functions
 	{
 		static void Main(string[] args)
 		{
-			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément", ConsoleColor.Green);
-			MainMenu();
+			Console.Title = "Training by KeenMate";
+			Write("Training by KeenMate \t\t\t\t\t Done by Damien Clément", ConsoleColor.Green,true);
+			WriteFunctions();
+			SelectFunction();
 		}
 
-		public static void Write(string text, ConsoleColor color = ConsoleColor.White, ConsoleColor backColor = ConsoleColor.Black)
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
 			Console.ForegroundColor = color;
 			Console.BackgroundColor = backColor;
 			Console.WriteLine(text);
-		}
-
-		public static void BackSelect()
-		{
-			Write("press key for call function" + "\n" + "0 = go back");
-			string checkPress = Console.ReadLine();
-			if (checkPress == "0")
+			if (backToDefault)
 			{
-				MainMenu();
+				Console.ForegroundColor = ConsoleColor.White;
 			}
 		}
 
-		public static void MainMenu()
+		public static void WriteFunctions()
 		{
-			#region Console
 			Console.Clear();
-			Console.ForegroundColor = ConsoleColor.Blue;
 			Console.WriteLine("press key for call function");
-			Console.ForegroundColor = ConsoleColor.Green;
 			Console.WriteLine("0 = Lower and Upper text");
 			Console.WriteLine("1 = sorting text");
 			Console.WriteLine("2 = Trim text");
@@ -50,58 +43,54 @@ namespace Functions
 			Console.WriteLine("9 = every second word will uppercase");
 			Console.WriteLine("10 = delet without trim");
 			Console.WriteLine("11 = calculation");
-			#endregion
-			#region Functions
-			string checkPress = Console.ReadLine();
-			if (checkPress == "0")
+		}
+
+		public static void SelectFunction()
+		{
+			string check = Console.ReadLine();
+			switch (check)
 			{
-				loverUpperText();
+				case "0":
+					loverUpperText();
+					break;
+				case "1":
+					sortingText();
+					break;
+				case "2":
+					TrimText();
+					break;
+				case "3":
+					RemovePartOfText();
+					break;
+				case "4":
+					FindPartOfText();
+					break;
+				case "5":
+					CopyText();
+					break;
+				case "6":
+					ReverseString();
+					break;
+				case "7":
+					uppercase();
+					break;
+				case "8":
+					uppercaseLastWord();
+					break;
+				case "9":
+					everySecondWordWillUppercase();
+					break;
+				case "10":
+					deleteWithoutTrim();
+					break;
+				case "11":
+					Calculator();
+					break;
+				default:
+					Write("Bad select function please reapet");
+					SelectFunction();
+					break;
 			}
-			else if (checkPress == "1")
-			{
-				sortingText();
-			}
-			else if (checkPress == "2")
-			{
-				TrimText();
-			}
-			else if (checkPress == "3")
-			{
-				RemovePartOfText();
-			}
-			else if (checkPress == "4")
-			{
-				FindPartOfText();
-			}
-			else if (checkPress == "5")
-			{
-				CopyText();
-			}
-			else if (checkPress == "6")
-			{
-				ReverseString();
-			}
-			else if (checkPress == "7")
-			{
-				uppercase();
-			}
-			else if (checkPress == "8")
-			{
-				uppercaseLastWord();
-			}
-			else if (checkPress == "9")
-			{
-				everySecondWordWillUppercase();
-			}
-			else if (checkPress == "10")
-			{
-				deleteWithoutTrim();
-			}
-			else if (checkPress == "11")
-			{
-				Calculator();
-			}
-			#endregion
 		}
 
 		public static void loverUpperText()
@@ -113,7 +102,8 @@ namespace Functions
 			string lowerText = defaultText.ToLower();
 			string upperText = defaultText.ToUpper();
 			Write(defaultText + " this is a default text" + "\n" + lowerText + " this is a lower text" + "\n" + upperText + " this is a upper text");
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void sortingText()
@@ -131,7 +121,8 @@ namespace Functions
 			}
 			Write("Before: " + sort);
 			Write("After: " + sorted);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void TrimText()
@@ -174,7 +165,8 @@ namespace Functions
 				Write("Before: " + text);
 				Write("After: " + NewString);
 			}
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void RemovePartOfText()
@@ -191,7 +183,8 @@ namespace Functions
 			string newText = text.Remove(posx, posy);
 			Write("Before: " + text);
 			Write("After: " + newText);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void FindPartOfText()
@@ -216,7 +209,8 @@ namespace Functions
 			{
 				Write("Text not contain finding part of text");
 			}
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void CopyText()
@@ -234,7 +228,8 @@ namespace Functions
 				writeText[i] = text;
 				Write(writeText[i]);
 			}
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void ReverseString()
@@ -252,7 +247,8 @@ namespace Functions
 			}
 			Write("Before: " + text);
 			Write("After: " + reversed);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void uppercase()
@@ -277,7 +273,8 @@ namespace Functions
 			}
 			Write("Before: " + text);
 			Write("After: " + newText);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void uppercaseLastWord()
@@ -305,7 +302,8 @@ namespace Functions
 			}
 			Write("Before: " + text);
 			Write("After: " + newText);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void everySecondWordWillUppercase()
@@ -360,7 +358,8 @@ namespace Functions
 			}
 			Write("Before: " + text);
 			Write("After: " + newText);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void deleteWithoutTrim()
@@ -380,7 +379,8 @@ namespace Functions
 			}
 			Write("Before: " + text);
 			Write("After: " + newText);
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 
 		public static void Deleting(ref string newText_, char[] CharX_)
@@ -518,7 +518,8 @@ namespace Functions
 					Write(DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second);
 				}
 			}
-			BackSelect();
+			WriteFunctions();
+			SelectFunction();
 		}
 	}
 }
