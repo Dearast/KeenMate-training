@@ -25,140 +25,51 @@ namespace TipSport
 			}
 		}
 
-		public static void CountTips(out int check, int max)
+		public static void ParseString(string text, out int outInt)
 		{
-			while (true)
-			{
-				Write("Write count your tipes");
-				check = int.Parse(Console.ReadLine());
-				if (check > max)
-				{
-					Write("Your count tipes must be lower then generated number", ConsoleColor.Red);
-				}
-				else
-				{
-					break;
-				}
-			}
+			outInt = int.Parse(text);
 		}
 
-		public static void Tip(ref string[] player,int min, int max, int currentTip = 0)
+		public static void WriteTip(out string check)
 		{
-			int index = 0;
+			check = Console.ReadLine();
+		}
+
+		public static void TipGame(int count = 0)
+		{
 			int i = 0;
-			if(currentTip > 0)
+			i += count;
+			Random r = new Random();
+			//int max = sett
+			int rNumber = r.Next(0, 10);
+			Write("Guess number between 0-10");
+			string check;
+			WriteTip(out check);
+			int checkNumber;
+			ParseString(check, out checkNumber);
+			if(checkNumber == rNumber)
 			{
-				index = currentTip;
-				Write("index - " + index, ConsoleColor.Blue);
+				EndTip(i);
 			}
-
-			for (i = index; i < player.Length; i++)
+			else
 			{
-				Write("Write tip - " + i);
-				player[i] = Console.ReadLine();
-				if (i >= 1)
-				{
-					Write("is after second", ConsoleColor.Blue);
-					for (int a = 0; a < i; a++)
-					{
-						Write("check if have same number", ConsoleColor.Blue);
-						if (int.Parse(player[i]) == int.Parse(player[a]))
-						{
-							Write("Your current tips is same as before please repeat tip", ConsoleColor.Red);
-							Tip(ref player, min, max, i);
-						}
-					}
-				}
-				if (int.Parse(player[i]) > max || int.Parse(player[i]) < min)
-				{
-					Write("Your current tip is out",ConsoleColor.Red);
-					Tip(ref player,min,max, i);
-				}
+				i++;
+				TipGame(i);
 			}
 		}
 
-		public static void TipGame()
+		public static void EndTip(int count)
 		{
-			Write("Write count for generate number");
-			int checkA = int.Parse(Console.ReadLine());
-			Write("Write minimum generate number");
-			int checkB = int.Parse(Console.ReadLine());
-			Write("Write maximum generate number");
-			int checkC = int.Parse(Console.ReadLine());
-			int checkD;
-			CountTips(out checkD,checkA);
-			Random r = new Random();
-			int[] random = new int[checkA];
-			int succes = 0;
-			for (int i = 0; i < random.Length; i++)
+			Write("yout tip count to hit success number is - " + count);
+			if(count > 20)
 			{
-				random[i] = r.Next(checkB, checkC);
+				Write("little bit more");
 			}
-			string[] player = new string[checkD];
-			Tip(ref player,checkB,checkC);
-			int[] tips = new int[player.Length];
-			for (int i = 0; i < tips.Length; i++)
+			else if(count > 40)
 			{
-				tips[i] = int.Parse(player[i]);
-				for (int y = 0; y < random.Length; y++)
-				{
-					if (tips[i] == random[y])
-					{
-						succes++;
-					}
-				}
+				Write("far more");
 			}
-			float value = succes / player.Length;
-			Write("succes tips " + value);
-			Write("if you want to show all number then push 0");
-			Write("if you want restart game then write 1");
-			Write("if you want exit then write anything else");
-			string check = Console.ReadLine();
-			switch (check)
-			{
-				case "0":
-					int index = 0;
-					foreach (var item in random)
-					{
-						Write("number " + (index + 1) + " - " + random[index], ConsoleColor.Yellow);
-						index++;
-					}
-					int minimum = checkC;
-					int maximum = checkB;
-					for (int i = 0; i < random.Length; i++)
-					{
-						if(random[i] > maximum)
-						{
-							maximum = random[i];
-						}
-
-						if(random[i] < minimum)
-						{
-							minimum = random[i];
-						}
-					}
-					Write("Maximum is - " + maximum);
-					Write("Minimum is - " + minimum);
-					Write("if you want restart game then write 0");
-					Write("if you want exit then write anything else");
-					string check2 = Console.ReadLine();
-					switch (check2)
-					{
-						case "0":
-							TipGame();
-							break;
-						default:
-							Environment.Exit(0);
-							break;
-					}
-					break;
-				case "1":
-					TipGame();
-					break;
-				default:
-					Environment.Exit(0);
-					break;
-			}
+			Console.ReadKey();
 		}
 	}
 }
