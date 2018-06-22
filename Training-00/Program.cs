@@ -10,7 +10,7 @@ namespace Functions
 	{
 		static void Main(string[] args)
 		{
-			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
+			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément", ConsoleColor.Green);
 			MainMenu();
 		}
 

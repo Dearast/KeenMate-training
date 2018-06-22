@@ -11,7 +11,7 @@ namespace PathCreator
 	{
 		static void Main(string[] args)
 		{
-			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
+			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément", ConsoleColor.Green);
 			WriteFunctions();
 			SelectFunction();
 		}
@@ -84,10 +84,8 @@ namespace PathCreator
 			if(AdressNumber > 0)
 			{
 				directory = System.IO.Directory.GetParent(path).ToString();
-				//Write(directory + " Parent", ConsoleColor.Blue);
 				string[] newDirs = Directory.GetDirectories(path, "*");
 				dirs = new string[(Directory.GetDirectories(path, "*")).Length + 1];
-				//Write("lenght array - " + dirs.Length, ConsoleColor.Blue);
 				for (int i = 0; i < newDirs.Length; i++)
 				{
 					dirs[i] = newDirs[i];

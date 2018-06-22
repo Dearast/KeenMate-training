@@ -10,7 +10,7 @@ namespace TipSport
 	{
 		static void Main(string[] args)
 		{
-			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément");
+			Write("Training by KeenMate \t\t\t\t\t\t\t Done by Damien Clément", ConsoleColor.Green);
 			TipGame();
 		}
 
@@ -40,7 +40,6 @@ namespace TipSport
 			int i = 0;
 			i += count;
 			Random r = new Random();
-			//int max = sett
 			int rNumber = r.Next(0, 10);
 			Write("Guess number between 0-10");
 			string check;
