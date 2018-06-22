@@ -78,7 +78,7 @@ namespace PathCreator
 
 		public static void WriteAllSubFolder(string path, int AdressNumber)
 		{
-			Write("Current path - " + path, ConsoleColor.Red);
+			Write("Current path - " + path, ConsoleColor.Gray);
 			int adressChange = AdressNumber;
 			string directory = string.Empty;
 			string[] dirs;
@@ -157,7 +157,6 @@ namespace PathCreator
 			string path = Console.ReadLine();
 			if (!System.IO.Directory.Exists(@path))
 			{
-				//System.IO.Directory.CreateDirectory(@path + @"\" + i);
 				Write("path not exist", ConsoleColor.Red);
 				Write("if you want repeat enter path then you write 0");
 				Write("if you want create path then you write 1");
