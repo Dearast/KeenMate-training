@@ -11,15 +11,25 @@ namespace Training_04
 		static void Main(string[] args)
 		{
 			Console.Title = "Training by KeenMate";
-			Write("Training by KeenMate \t\t\t\t\t Done by Damien Clément", ConsoleColor.Green, true);
+			Write("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
 			Matrix();
 		}
 
-		public static void Write(string text, ConsoleColor color = ConsoleColor.White, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White, bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
 			Console.ForegroundColor = color;
 			Console.BackgroundColor = backColor;
-			Console.WriteLine(text);
+			if (center)
+			{
+				int screenWidth = Console.WindowWidth;
+				int stringWidth = text.Length;
+				int spaces = (screenWidth / 2) + (stringWidth / 2);
+				Console.WriteLine(text.PadLeft(spaces));
+			}
+			else
+			{
+				Console.WriteLine(text);
+			}
 			if (backToDefault)
 			{
 				Console.ForegroundColor = ConsoleColor.White;
@@ -36,6 +46,7 @@ namespace Training_04
 			int[,] array = new int[Collumn, rows];
 			int bound0 = array.GetUpperBound(0);
 			int bound1 = array.GetUpperBound(1);
+			string text = string.Empty;
 			for (int x = 0; x <= bound0; x++)
 			{
 				for (int y = 0; y <= bound1; y++)
@@ -44,8 +55,18 @@ namespace Training_04
 #if DEBUG
 					Write("Number in array - [" + x + ";" + y + "] is = " + array[x, y],ConsoleColor.Blue,true);
 #endif
-					Console.WriteLine(String.Join(" ", array.Cast<int>()));
+					text += array[x, y].ToString();
+					if(array[x, y] < 10)
+					{
+						text += "  ";
+					}
+					else
+					{
+						text += " ";
+					}
 				}
+				Write(text, ConsoleColor.Green, true, true);
+				text = string.Empty;
 			}
 			Console.ReadKey();
 		}
