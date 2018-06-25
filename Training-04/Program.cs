@@ -142,7 +142,26 @@ namespace Training_04
 		{
 			WriteLine("Write how much the number will divided");
 			int check = int.Parse(Console.ReadLine());
-
+			int group = 0;
+			int[] maxNumber;
+			if(20 % check == 0)
+			{
+				group = 20 / check;
+				maxNumber = new int[group];
+				for (int i = 0; i < group; i++)
+				{
+					maxNumber[i] = check * (i + 1);
+#if DEBUG
+					WriteLine("Number " + i + " is max - " + maxNumber[i], ConsoleColor.Blue);
+#endif
+				}
+			}
+			else
+			{
+				group = Convert.ToInt32(20 / check);
+				maxNumber = new int[group + 1];
+			}
+			Console.ReadKey();
 		}
 	}
 }
