@@ -103,14 +103,17 @@ namespace Training_04
 					}
 				}
 				WriteLine(text, ConsoleColor.Green, true, true);
-				text = string.Empty;
+				if(x != bound0_)
+				{
+					text = string.Empty;
+				}
 			}
 			WriteLine("Press enter to continue");
-			DivideToGroupForColor(array_, bound0_, bound1_);
+			DivideToGroupForColor(array_, bound0_, bound1_,text);
 			Console.ReadKey();
 		}
 
-		public static void DivideToGroupForColor(int[,] array_, int bound0_, int bound1_)
+		public static void DivideToGroupForColor(int[,] array_, int bound0_, int bound1_,string text)
 		{
 			WriteLine("Write how much the number will divided");
 			int check = int.Parse(Console.ReadLine());
@@ -146,14 +149,18 @@ namespace Training_04
 #endif
 				}
 			}
-			Write2DArrayDifferentColor(array_, bound0_, bound1_,maxNumber);
+			Write2DArrayDifferentColor(array_, bound0_, bound1_,maxNumber,text);
 		}
 
-		public static void Write2DArrayDifferentColor(int[,] array_, int bound0_, int bound1_,int[] maxNumber_)
+		public static void Write2DArrayDifferentColor(int[,] array_, int bound0_, int bound1_,int[] maxNumber_,string lastText)
 		{
 			string text = string.Empty;
 			for (int x = 0; x <= bound0_; x++)
 			{
+				if(x == 0)
+				{
+					//CenterText(lastText);
+				}
 				for (int y = 0; y <= bound1_; y++)
 				{
 					text += array_[x, y].ToString();
@@ -179,9 +186,21 @@ namespace Training_04
 					text = string.Empty;
 				}
 				WriteLine("");
+				//CenterText(lastText);
 			}
 			WriteLine("Press enter to end");
 			Console.ReadKey();
+		}
+
+		public static void CenterText(string text)
+		{
+			int screenWidth = Console.WindowWidth;
+			int stringWidth = text.Length;
+			int spaces = ((screenWidth / 2) + (stringWidth / 2))-(((screenWidth / 2) + (stringWidth / 2))/5);
+			for (int i = 0; i < spaces; i++)
+			{
+				Console.Write(" ");
+			}
 		}
 
 		public static void Color(int colorID, out ConsoleColor color)
