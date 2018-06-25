@@ -67,25 +67,19 @@ namespace Training_04
 			int[,] array = new int[Collumn, rows];
 			int bound0 = array.GetUpperBound(0);
 			int bound1 = array.GetUpperBound(1);
-#if DEBUG
-			WriteLine("Debug log have blue color", ConsoleColor.Blue);
-#endif
 			for (int x = 0; x <= bound0; x++)
 			{
 				for (int y = 0; y <= bound1; y++)
 				{
 					array[x, y] = r.Next(0, 20);
-#if DEBUG
-					WriteLine("Number in array - [" + x + ";" + y + "] is = " + array[x, y], ConsoleColor.Blue, false);
-#endif
 				}
 			}
 			WriteLine("Press enter to show matrix");
 			Console.ReadKey();
-			Write2DArray(array,bound0,bound1);
+			Write2DArray(array,bound0,bound1,Collumn);
 		}
 
-		public static void Write2DArray(int[,] array_, int bound0_, int bound1_)
+		public static void Write2DArray(int[,] array_, int bound0_, int bound1_,int Collumn_)
 		{
 			string text = string.Empty;
 			for (int x = 0; x <= bound0_; x++)
@@ -103,20 +97,26 @@ namespace Training_04
 					}
 				}
 				WriteLine(text, ConsoleColor.Green, true, true);
-				if(x != bound0_)
-				{
-					text = string.Empty;
-				}
+				text = string.Empty;
 			}
 			WriteLine("Press enter to continue");
-			DivideToGroupForColor(array_, bound0_, bound1_,text);
+			DivideToGroupForColor(array_, bound0_, bound1_,Collumn_);
 			Console.ReadKey();
 		}
 
-		public static void DivideToGroupForColor(int[,] array_, int bound0_, int bound1_,string text)
+		public static void DivideToGroupForColor(int[,] array_, int bound0_, int bound1_,int collumn)
 		{
-			WriteLine("Write how much the number will divided");
-			int check = int.Parse(Console.ReadLine());
+			WriteLine("Write how much the number will divided or write enter for end");
+			string checkStr = Console.ReadLine();
+			int check = 0;
+			if(checkStr == string.Empty)
+			{
+				Environment.Exit(0);
+			}
+			else
+			{
+				check = int.Parse(checkStr);
+			}
 			int group = 0;
 			int[] maxNumber;
 			if (20 % check == 0)
@@ -126,9 +126,6 @@ namespace Training_04
 				for (int i = 0; i < group; i++)
 				{
 					maxNumber[i] = check * (i + 1);
-#if DEBUG
-					WriteLine("Number " + i + " is max - " + maxNumber[i], ConsoleColor.Blue);
-#endif
 				}
 			}
 			else
@@ -138,29 +135,22 @@ namespace Training_04
 				int remaind = 0;
 				int remNumber = Math.DivRem(20, check, out remaind);
 				maxNumber[0] = remaind;
-#if DEBUG
-				WriteLine("Number " + 0 + " is max - " + maxNumber[0], ConsoleColor.Blue);
-#endif
 				for (int i = 1; i < group; i++)
 				{
 					maxNumber[i] = check * (i + 1);
-#if DEBUG
-					WriteLine("Number " + i + " is max - " + maxNumber[i], ConsoleColor.Blue);
-#endif
 				}
 			}
-			Write2DArrayDifferentColor(array_, bound0_, bound1_,maxNumber,text);
+			Write2DArrayDifferentColor(array_, bound0_, bound1_,maxNumber,collumn);
 		}
 
-		public static void Write2DArrayDifferentColor(int[,] array_, int bound0_, int bound1_,int[] maxNumber_,string lastText)
+		public static void Write2DArrayDifferentColor(int[,] array_, int bound0_, int bound1_,int[] maxNumber_,int column)
 		{
+			Console.Clear();
 			string text = string.Empty;
+			int index = 0;
+			int lastMousePos = 0;
 			for (int x = 0; x <= bound0_; x++)
 			{
-				if(x == 0)
-				{
-					//CenterText(lastText);
-				}
 				for (int y = 0; y <= bound1_; y++)
 				{
 					text += array_[x, y].ToString();
@@ -172,34 +162,45 @@ namespace Training_04
 					{
 						text += " ";
 					}
-					int index = 0;
+
 					for (int i = 0; i < maxNumber_.Length; i++)
 					{
-						if(array_[x, y] >= maxNumber_[i])
+						if(i < (maxNumber_.Length - 1))
+						{
+							if (array_[x, y] >= maxNumber_[i] && array_[x, y] < maxNumber_[i + 1])
+							{
+								index = i;
+								break;
+							}
+						}
+						else
 						{
 							index = i;
+							break;
 						}
 					}
-					ConsoleColor color = ConsoleColor.White;
-					Color(index, out color);
-					Write(text, color, false, true);
+					WriteTextWithUseMouse(text, x, index, lastMousePos,column);
+					lastMousePos += text.ToCharArray().Length;
 					text = string.Empty;
 				}
+				lastMousePos = 0;
 				WriteLine("");
-				//CenterText(lastText);
 			}
 			WriteLine("Press enter to end");
-			Console.ReadKey();
+			DivideToGroupForColor(array_, bound0_, bound1_, column);
 		}
 
-		public static void CenterText(string text)
+		public static void WriteTextWithUseMouse(string text, int index, int color,int lastPos,int column)
 		{
+			char[] charx = text.ToCharArray();
 			int screenWidth = Console.WindowWidth;
-			int stringWidth = text.Length;
-			int spaces = ((screenWidth / 2) + (stringWidth / 2))-(((screenWidth / 2) + (stringWidth / 2))/5);
-			for (int i = 0; i < spaces; i++)
+			ConsoleColor colorC = ConsoleColor.White;
+			System.Console.SetCursorPosition(((screenWidth / 2) - column) + lastPos, index);
+			Color(color, out colorC);
+			for (int i = 0; i < charx.Length; i++)
 			{
-				Console.Write(" ");
+				Console.ForegroundColor = colorC;
+				Console.Write(charx[i].ToString());
 			}
 		}
 
