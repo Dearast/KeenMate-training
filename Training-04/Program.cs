@@ -12,7 +12,7 @@ namespace Training_04
 		{
 			Console.Title = "Training by KeenMate";
 			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
-			FirstMatrix();
+			Create2DArray();
 		}
 
 		public static void WriteLine(string text, ConsoleColor color = ConsoleColor.White, bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
@@ -36,55 +36,9 @@ namespace Training_04
 			}
 		}
 
-		public static void Write(string text, int divided,bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
+		public static void Write(string text, ConsoleColor color = ConsoleColor.White,bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
-			float number = 20 / divided;
-			int[] max = new int[(int)number];
-			int[] min = new int[(int)number];
-			int dividedNumber = Math.DivRem(20, divided, out dividedNumber);
-			if(dividedNumber == 0)
-			{
-				for (int i = 0; i < number; i++)
-				{
-					max[i] = (int)(number * i);
-					min[i] = (int)((number * i) - 4);
-				}
-			}
-			else
-			{
-
-			}
-			for (int i = 0; i < number; i++)
-			{
-				if (int.Parse(text) >= min[i] && int.Parse(text) <= max[i])
-				{
-					if(i == 0)
-					{
-						Console.ForegroundColor = ConsoleColor.Red;
-					}
-					else if(i == 1)
-					{
-						Console.ForegroundColor = ConsoleColor.Blue;
-					}
-					else if(i == 2)
-					{
-						Console.ForegroundColor = ConsoleColor.Yellow;
-					}
-					else if(i == 3)
-					{
-						Console.ForegroundColor = ConsoleColor.Green;
-					}
-					else if(i == 4)
-					{
-						Console.ForegroundColor = ConsoleColor.Magenta;
-					}
-					else if(i == 5)
-					{
-						Console.ForegroundColor = ConsoleColor.Cyan;
-					}
-				}
-			}
-
+			Console.ForegroundColor = color;
 			Console.BackgroundColor = backColor;
 			if (center)
 			{
@@ -100,6 +54,164 @@ namespace Training_04
 			if (backToDefault)
 			{
 				Console.ForegroundColor = ConsoleColor.White;
+			}
+		}
+
+		public static void Create2DArray()
+		{
+			WriteLine("Write count rows");
+			int rows = int.Parse(Console.ReadLine());
+			WriteLine("Write count collumn");
+			Random r = new Random();
+			int Collumn = int.Parse(Console.ReadLine());
+			int[,] array = new int[Collumn, rows];
+			int bound0 = array.GetUpperBound(0);
+			int bound1 = array.GetUpperBound(1);
+#if DEBUG
+			WriteLine("Debug log have blue color", ConsoleColor.Blue);
+#endif
+			for (int x = 0; x <= bound0; x++)
+			{
+				for (int y = 0; y <= bound1; y++)
+				{
+					array[x, y] = r.Next(0, 20);
+#if DEBUG
+					WriteLine("Number in array - [" + x + ";" + y + "] is = " + array[x, y], ConsoleColor.Blue, false);
+#endif
+				}
+			}
+			WriteLine("Press enter to show matrix");
+			Console.ReadKey();
+			Write2DArray(array,bound0,bound1);
+		}
+
+		public static void Write2DArray(int[,] array_, int bound0_, int bound1_)
+		{
+			string text = string.Empty;
+			for (int x = 0; x <= bound0_; x++)
+			{
+				for (int y = 0; y <= bound1_; y++)
+				{
+					text += array_[x, y].ToString();
+					if (array_[x, y] < 10)
+					{
+						text += "  ";
+					}
+					else
+					{
+						text += " ";
+					}
+				}
+				WriteLine(text, ConsoleColor.Green, true, true);
+				text = string.Empty;
+			}
+			WriteLine("Press enter to continue");
+			DivideToGroupForColor(array_, bound0_, bound1_);
+			Console.ReadKey();
+		}
+
+		public static void DivideToGroupForColor(int[,] array_, int bound0_, int bound1_)
+		{
+			WriteLine("Write how much the number will divided");
+			int check = int.Parse(Console.ReadLine());
+			int group = 0;
+			int[] maxNumber;
+			if (20 % check == 0)
+			{
+				group = 20 / check;
+				maxNumber = new int[group];
+				for (int i = 0; i < group; i++)
+				{
+					maxNumber[i] = check * (i + 1);
+#if DEBUG
+					WriteLine("Number " + i + " is max - " + maxNumber[i], ConsoleColor.Blue);
+#endif
+				}
+			}
+			else
+			{
+				group = Convert.ToInt32(20 / check);
+				maxNumber = new int[group + 1];
+				int remaind = 0;
+				int remNumber = Math.DivRem(20, check, out remaind);
+				maxNumber[0] = remaind;
+#if DEBUG
+				WriteLine("Number " + 0 + " is max - " + maxNumber[0], ConsoleColor.Blue);
+#endif
+				for (int i = 1; i < group; i++)
+				{
+					maxNumber[i] = check * (i + 1);
+#if DEBUG
+					WriteLine("Number " + i + " is max - " + maxNumber[i], ConsoleColor.Blue);
+#endif
+				}
+			}
+			Write2DArrayDifferentColor(array_, bound0_, bound1_,maxNumber);
+		}
+
+		public static void Write2DArrayDifferentColor(int[,] array_, int bound0_, int bound1_,int[] maxNumber_)
+		{
+			string text = string.Empty;
+			for (int x = 0; x <= bound0_; x++)
+			{
+				for (int y = 0; y <= bound1_; y++)
+				{
+					text += array_[x, y].ToString();
+					if (array_[x, y] < 10)
+					{
+						text += "  ";
+					}
+					else
+					{
+						text += " ";
+					}
+					int index = 0;
+					for (int i = 0; i < maxNumber_.Length; i++)
+					{
+						if(array_[x, y] >= maxNumber_[i])
+						{
+							index = i;
+						}
+					}
+					ConsoleColor color = ConsoleColor.White;
+					Color(index, out color);
+					Write(text, color, false, true);
+					text = string.Empty;
+				}
+			}
+			WriteLine("Press enter to end");
+			Console.ReadKey();
+		}
+
+		public static void Color(int colorID, out ConsoleColor color)
+		{
+			color = ConsoleColor.White;
+			switch (colorID)
+			{
+				case 0:
+					color = ConsoleColor.Red;
+					break;
+				case 1:
+					color = ConsoleColor.Blue;
+					break;
+				case 2:
+					color = ConsoleColor.Yellow;
+					break;
+				case 3:
+					color = ConsoleColor.Cyan;
+					break;
+				case 4:
+					color = ConsoleColor.Magenta;
+					break;
+				case 5:
+					color = ConsoleColor.Green;
+					break;
+				case 6:
+					color = ConsoleColor.DarkRed;
+					break;
+				default:
+					color = ConsoleColor.White;
+					break;
 			}
 		}
 
@@ -135,10 +247,85 @@ namespace Training_04
 				WriteLine(text, ConsoleColor.Green, true, true);
 				text = string.Empty;
 			}
-			SecondMatrix();
+			SecondMatrix(Collumn, rows);
 		}
 
-		public static void SecondMatrix()
+		public static void Matrix(int Collumn,int rows, int[] maxNumber)
+		{
+			ConsoleColor blue = ConsoleColor.Blue;
+			ConsoleColor red = ConsoleColor.Red;
+			ConsoleColor green = ConsoleColor.Green;
+			ConsoleColor yellow = ConsoleColor.Yellow;
+			ConsoleColor cyan = ConsoleColor.Cyan;
+			ConsoleColor magenta = ConsoleColor.Magenta;
+			ConsoleColor gray = ConsoleColor.Gray;
+			ConsoleColor dGreen = ConsoleColor.DarkGreen;
+			Random r = new Random();
+			int[,] array = new int[Collumn, rows];
+			int bound0 = array.GetUpperBound(0);
+			int bound1 = array.GetUpperBound(1);
+			string text = string.Empty;
+			for (int x = 0; x <= bound0; x++)
+			{
+				for (int y = 0; y <= bound1; y++)
+				{
+					array[x, y] = r.Next(0, 20);
+#if DEBUG
+					WriteLine("Number in array - [" + x + ";" + y + "] is = " + array[x, y], ConsoleColor.Blue, true);
+#endif
+					text += array[x, y].ToString();
+					if (array[x, y] < 10)
+					{
+						text += "  ";
+					}
+					else
+					{
+						text += " ";
+					}
+					for (int i = 0; i < maxNumber.Length; i++)
+					{
+						if (array[x, y] <= maxNumber[i])
+						{
+							if(i == 0)
+							{
+								Write(text, blue,true);
+							}
+							else if(i == 1)
+							{
+								Write(text, red, true);
+							}
+							else if (i == 2)
+							{
+								Write(text, green, true);
+							}
+							else if (i == 3)
+							{
+								Write(text, yellow, true);
+							}
+							else if (i == 4)
+							{
+								Write(text, cyan, true);
+							}
+							else if (i == 5)
+							{
+								Write(text, magenta, true);
+							}
+							else if (i == 6)
+							{
+								Write(text, gray, true);
+							}
+							else if (i == 7)
+							{
+								Write(text, dGreen, true);
+							}
+						}
+					}
+					text = string.Empty;
+				}
+			}
+		}
+
+		public static void SecondMatrix(int Collumn, int rows)
 		{
 			WriteLine("Write how much the number will divided");
 			int check = int.Parse(Console.ReadLine());
@@ -160,7 +347,22 @@ namespace Training_04
 			{
 				group = Convert.ToInt32(20 / check);
 				maxNumber = new int[group + 1];
+				int remaind = 0;
+				int remNumber = Math.DivRem(20, check, out remaind);
+				maxNumber[0] = remaind;
+#if DEBUG
+				WriteLine("Number " + 0 + " is max - " + maxNumber[0], ConsoleColor.Blue);
+#endif
+				for (int i = 1; i < group; i++)
+				{
+					maxNumber[i] = check * (i + 1);
+#if DEBUG
+					WriteLine("Number " + i + " is max - " + maxNumber[i], ConsoleColor.Blue);
+#endif
+				}
 			}
+
+			Matrix(Collumn, rows, maxNumber);
 			Console.ReadKey();
 		}
 	}
