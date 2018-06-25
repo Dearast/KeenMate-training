@@ -229,6 +229,18 @@ namespace Training_04
 				case 6:
 					color = ConsoleColor.DarkRed;
 					break;
+				case 7:
+					color = ConsoleColor.DarkBlue;
+					break;
+				case 8:
+					color = ConsoleColor.DarkYellow;
+					break;
+				case 9:
+					color = ConsoleColor.DarkCyan;
+					break;
+				case 10:
+					color = ConsoleColor.DarkMagenta;
+					break;
 				default:
 					color = ConsoleColor.White;
 					break;
