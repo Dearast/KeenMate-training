@@ -15,12 +15,13 @@ namespace Training_05
 			WriteLine("**", ConsoleColor.White, true);
 			WriteLine("****", ConsoleColor.White, true);
 			WriteLine("II", ConsoleColor.White, true);
-			CreateTextForPartOfTree(0,1);
+			CreateTextForPartOfTree(0,1,true);
 			CreateTextForPartOfTree(1, 1);
 			CreateTextForPartOfTree(2, 1);
 			CreateTextForPartOfTree(3, 1);
 			CreateTextForPartOfTree(4, 1);
 			CreateTextForPartOfTree(5, 1);
+			CreateTextForPartOfTree(0, 2,true);
 			CreateTextForPartOfTree(1, 2);
 			CreateTextForPartOfTree(2, 2);
 			CreateTextForPartOfTree(3, 2);
@@ -162,11 +163,11 @@ namespace Training_05
 				lastPosText = 0;
 			}
 		}
-		public static void CreateTextForPartOfTree(int index,int level)
+		public static void CreateTextForPartOfTree(int index,int level,bool start = false)
 		{
 			string text = string.Empty;
 			text += "*";
-			if(index == 0)
+			if(start)
 			{
 				for (int b = 0; b < (2 * level); b++)
 				{
