@@ -66,24 +66,6 @@ namespace Training_04
 			Console.ReadKey();
 		}
 
-		public static void RemovePartOfText()
-		{
-			//Console.Clear();
-			//Write("Remove part of text function");
-			//Write("Write text and then push enter");
-			//string text = Console.ReadLine();
-			//Write("Write two int for position and for length");
-			//string pos1 = Console.ReadLine();
-			//int posx = int.Parse(pos1);
-			//string pos2 = Console.ReadLine();
-			//int posy = int.Parse(pos2);
-			//string newText = text.Remove(posx, posy);
-			//Write("Before: " + text);
-			//Write("After: " + newText);
-			//WriteFunctions();
-			//SelectFunction();
-		}
-
 		public static void ColorMatrix(int[,] array,int bound0,int bound1,int column,out int[] maxNumber)
 		{
 			WriteLine("Write how much the number will divided or write enter for end");
