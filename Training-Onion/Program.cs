@@ -19,39 +19,73 @@ namespace Training_Onion
 			}
 		}
 
-		public static void Check(string)
-
 		static void Main(string[] args)
 		{
-			Write("Now a go check if a have onion in my storage");
-			CheckIsAvaiableOnionInStorage(true);
-			CheckHowMuchIsHaveOnionInStorage(5)
-			CheckIsNotCorrupted()
+			Start(false, true, true,false);
+			Console.ReadKey();
 		}
 
-		public static void CheckIsAvaiableOnionInStorage(bool isAble = false)
+		public static void Start(bool isEnableOnionInStorage, bool isItRotten, bool isItDirty,bool breakThem)
 		{
-			if (isAble)
+			Write("Now i go check if a have onion in my storage");
+			if (isEnableOnionInStorage)
 			{
-				Write("Oh yeah i have onion");
+				Write("Oh yeah i have onion in storage");
+				Write("Now i must check if is rotten");
+				if (isItRotten)
+				{
+					Write("Oh no all onion is rotten");
+					BuyOnion();
+				}
+				else
+				{
+					Write("It is clean or dirty");
+					if (isItDirty)
+					{
+						Write("Oh its look as ***");
+						CleanOnion();
+					}
+					else
+					{
+						Write("ehmm break them?");
+						if (breakThem)
+						{
+							Write("Ehmm yeah i have to");
+							BreakOnion();
+						}
+						else
+						{
+							Write("Now i will cut the onions");
+							CutOnion();
+						}
+					}
+				}
 			}
 			else
 			{
-				Write("Oh no i must go buy some onion");
-
+				Write("Oh no i must buy some Onion");
+				BuyOnion();
 			}
 		}
 
 		public static void BuyOnion()
 		{
-
+			Start(true, false, true,false);
 		}
 
-		public static void CheckHowMuchIsHaveOnionInStorage(int inStorage = 0)
+		public static void CleanOnion()
 		{
-
+			Start(true, false, false,false);
 		}
 
-		public static void CheckIsNotCorrupted()
+		public static void BreakOnion()
+		{
+			Start(true, true, false, true);
+		}
+
+		public static void CutOnion()
+		{
+			Write("I do it :D");
+		}
 	}
 }
