@@ -12,27 +12,35 @@ namespace Training_05
 		{
 			Console.Title = "Training by KeenMate";
 			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
-			WriteLine("**", ConsoleColor.White, true);
-			WriteLine("****", ConsoleColor.White, true);
-			WriteLine("II", ConsoleColor.White, true);
-			CreateTextForPartOfTree(0,1,true);
-			CreateTextForPartOfTree(1, 1);
-			CreateTextForPartOfTree(2, 1);
-			CreateTextForPartOfTree(3, 1);
-			CreateTextForPartOfTree(4, 1);
-			CreateTextForPartOfTree(5, 1);
-			CreateTextForPartOfTree(0, 2,true);
-			CreateTextForPartOfTree(1, 2);
-			CreateTextForPartOfTree(2, 2);
-			CreateTextForPartOfTree(3, 2);
-			CreateTextForPartOfTree(4, 2);
-			CreateTextForPartOfTree(5, 2);
-			CreateTextForPartOfTree(6, 2);
-			CreateTextForPartOfTree(7, 2);
-			CreateTextForPartOfTree(8, 2);
-			CreateTextForPartOfTree(9, 2);
-			CreateTextForPartOfTree(10, 2);
-			CreateWood(12, 2);
+			string trunkStr = Console.ReadLine();
+			if(trunkStr == string.Empty)
+			{
+				trunkStr = "3";
+			}
+			int trunk = int.Parse(trunkStr);
+			if(trunk < 3)
+			{
+				trunk = 3;
+			}
+			else if(trunk > 12)
+			{
+				trunk = 12;
+			}
+			string branchStr = Console.ReadLine();
+			if(branchStr == string.Empty)
+			{
+				trunkStr = "4";
+			}
+			int branch = int.Parse(branchStr);
+			if(branch < 2)
+			{
+				branch = 2;
+			}
+			else if(branch > 16)
+			{
+				branch = 12;
+			}
+			CreateTree(trunk,branch);
 			Console.ReadKey();
 		}
 
@@ -55,25 +63,6 @@ namespace Training_05
 			if (backToDefault)
 			{
 				Console.ForegroundColor = ConsoleColor.White;
-			}
-		}
-
-		public static void Write(string text, int index)
-		{
-			char[] charx = text.ToCharArray();
-			int screenWidth = Console.WindowWidth;
-			System.Console.SetCursorPosition((screenWidth / 2) - (text.Length / 2), index);
-			for (int i = 0; i < charx.Length; i++)
-			{
-				if (charx[i] == '*')
-				{
-					Console.ForegroundColor = ConsoleColor.Green;
-				}
-				else if (charx[i] == '/')
-				{
-					Console.ForegroundColor = ConsoleColor.DarkGreen;
-				}
-				Console.Write(charx[i].ToString());
 			}
 		}
 
@@ -111,45 +100,119 @@ namespace Training_05
 			}
 		}
 
-		public static void CreateTextForPartOfTree(int index,int level,bool start = false)
+		public static void CreateTree(int trunk,int branch)
+		{
+			WriteLine("**", ConsoleColor.Green, true);
+			WriteLine("****", ConsoleColor.Green, true);
+			WriteLine("II", ConsoleColor.DarkYellow, true);
+			for (int i = 0; i < trunk; i++)
+			{
+				for (int y = 0; y < branch; y++)
+				{
+					CreateTextForPartOfTree(y, i + 1,y + i);
+				}
+			}
+			//CreateWood(branch, trunk);
+		}
+
+		public static void CreateTop()
+		{
+
+		}
+
+		public static void CreateTextForPartOfTreeSecond(int consoleRow,int sizeTrun,int sizeBranch)
 		{
 			string text = string.Empty;
+			int lastPos = 0;
+			int column = 2 + sizeTrun + sizeBranch;
 			text += "*";
-			if(start)
-			{
-				for (int b = 0; b < (2 * level); b++)
-				{
-					text += "I";
-				}
-			}
-			else
-			{
-				for (int a = 0; a < (1 * index); a++)
-				{
-
-					text += "/";
-
-				}
-
-				for (int b = 0; b < (2 * level); b++)
-				{
-					text += "I";
-				}
-
-				for (int c = 0; c < (1 * index); c++)
-				{
-					text += @"\";
-				}
-			}
-			text += "*";
-			WriteLine(text, ConsoleColor.White, true);
+			WriteTextWithUseMouse(text, consoleRow + 6, 0, lastPos, column);
+			lastPos++;
 			text = string.Empty;
+			for (int a = 0; a < sizeBranch; a++)
+			{
+				text += "/";
+				//WriteTextWithUseMouse(text, consoleRow + 6, 1, lastPos, column);
+				//lastPos++;
+				//text = string.Empty;
+			}
+			for (int b = 0; b < sizeTrun; b++)
+			{
+				text += "I";
+				//WriteTextWithUseMouse(text, consoleRow + 6, 2, lastPos, column);
+				//lastPos++;
+				//text = string.Empty;
+			}
+			for (int c = 0; c < sizeBranch; c++)
+			{
+				text += @"\";
+				//WriteTextWithUseMouse(text, consoleRow + 6, 1, lastPos, column);
+				//lastPos++;
+				//text = string.Empty;
+			}
+			text += "*";
+			//WriteTextWithUseMouse(text, consoleRow + 6, 0, lastPos, column);
+			//lastPos = 0;
+			//text = string.Empty;
+		}
+
+		public static void CreateTextForPartOfTree(int index,int level,int row,bool start = false)
+		{
+			string text = string.Empty;
+			int lastPos = 0;
+			int column = 2 + (2 * level) + ((1 * index) * 2);
+			//WriteLine("Column - " + column + " level - " + level + " index - " + index);
+			text += "*";
+			WriteTextWithUseMouse(text, row + 6, 0, lastPos, 2);
+			lastPos++;
+			text = string.Empty;
+			//if (start)
+			//{
+			//	for (int b = 0; b < (2 * level); b++)
+			//	{
+			//		text += "I";
+			//		WriteTextWithUseMouse(text, index + 6, 2, lastPos, column);
+			//		lastPos++;
+			//		text = string.Empty;
+			//	}
+			//}
+			//else
+			//{
+			//	for (int a = 0; a < (1 * index); a++)
+			//	{
+			//		text += "/";
+			//		WriteTextWithUseMouse(text, index + 6, 1, lastPos, column);
+			//		lastPos++;
+			//		text = string.Empty;
+			//	}
+			//	for (int b = 0; b < (2 * level); b++)
+			//	{
+			//		text += "I";
+			//		WriteTextWithUseMouse(text, index + 6, 2, lastPos, column);
+			//		lastPos++;
+			//		text = string.Empty;
+			//	}
+			//	for (int c = 0; c < (1 * index); c++)
+			//	{
+			//		text += @"\";
+			//		WriteTextWithUseMouse(text, index + 6, 1, lastPos, column);
+			//		lastPos++;
+			//		text = string.Empty;
+			//	}
+			//}
+			text += "*";
+			WriteTextWithUseMouse(text, row + 6, 0, lastPos, column);
+			lastPos = 0;
+			text = string.Empty;
+			column = 0;
+			//WriteLine(text, ConsoleColor.White, true);
+			//text = string.Empty;
 		}
 
 		public static void CreateWood(int index,int level)
 		{
 			string text = string.Empty;
-			for (int i = 0; i < (index / 3); i++)
+			for (int i = 0; i < index; i++)
 			{
 				for (int b = 0; b < (2 * level); b++)
 				{
