@@ -31,6 +31,7 @@ namespace Training_05
 			CreateTextForPartOfTree(8, 2);
 			CreateTextForPartOfTree(9, 2);
 			CreateTextForPartOfTree(10, 2);
+			CreateWood(12, 2);
 			Console.ReadKey();
 		}
 
@@ -174,16 +175,11 @@ namespace Training_05
 			}
 			else
 			{
-				for (int a = 0; a < (2 * index); a++)
+				for (int a = 0; a < (1 * index); a++)
 				{
-					if(a == 0 || a % 2 == 0)
-					{
-						text += "/";
-					}
-					else
-					{
-						text += @"\";
-					}
+
+					text += "/";
+
 				}
 
 				for (int b = 0; b < (2 * level); b++)
@@ -191,21 +187,28 @@ namespace Training_05
 					text += "I";
 				}
 
-				for (int c = 0; c < (2 * index); c++)
+				for (int c = 0; c < (1 * index); c++)
 				{
-					if (c == 0 || c % 2 == 0)
-					{
-						text += "/";
-					}
-					else
-					{
-						text += @"\";
-					}
+					text += @"\";
 				}
 			}
 			text += "*";
 			WriteLine(text, ConsoleColor.White, true);
 			text = string.Empty;
+		}
+
+		public static void CreateWood(int index,int level)
+		{
+			string text = string.Empty;
+			for (int i = 0; i < (index / 3); i++)
+			{
+				for (int b = 0; b < (2 * level); b++)
+				{
+					text += "I";
+				}
+				WriteLine(text, ConsoleColor.White, true);
+				text = string.Empty;
+			}
 		}
 	}
 }
