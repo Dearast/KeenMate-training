@@ -10,17 +10,26 @@ namespace Training_04
 	{
 		static void Main(string[] args)
 		{
+			Console.SetWindowSize(100, 35);
 			Console.Title = "Training by KeenMate";
 			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
 			WriteLine("Write count rows");
 			int rows = int.Parse(Console.ReadLine());
+			if(rows >= (100 / 3))
+			{
+				rows = (100 / 3)-1;
+			}
 			WriteLine("Write count collumn");
 			int collumn = int.Parse(Console.ReadLine());
+			if(collumn >= 30)
+			{
+				collumn = 30;
+			}
 			int[,] array = new int[collumn, rows];
 			int bound0 = array.GetUpperBound(0);		//get end number from array[x,]
 			int bound1 = array.GetUpperBound(1);		//get end number from array[,y]
-			Create2DArray(rows,collumn,bound0,bound1,array);
-			Write2DArray(array, bound0, bound1, collumn);
+			Create2DArray(bound0,bound1,array);
+			Write2DArray(array, bound0, bound1);
 			int[] maxNumber;
 			ColorMatrix(array, bound0, bound1, collumn, out maxNumber);
 			WriteLine("Press enter to end");
@@ -30,12 +39,21 @@ namespace Training_04
 		public static void ColorMatrix(int[,] array,int bound0,int bound1,int collumn,out int[] maxNumber)
 		{
 			WriteLine("Write how much the number will divided or write enter for end");
-			int check = int.Parse(Console.ReadLine());
-			if(check == 0)
+			string checkStr = Console.ReadLine();
+			if(checkStr == string.Empty)
 			{
 				Environment.Exit(0);
 			}
-			DivideToGroupForColor(check, array, bound0, bound1, collumn, out maxNumber);
+			int check = int.Parse(checkStr);
+			if(check > 10)
+			{
+				check = 10;
+			}
+			else if(check == 0)
+			{
+				check = 1;
+			}
+			DivideToGroupForColor(check, out maxNumber);
 			Write2DArrayDifferentColor(array, bound0, bound1, maxNumber, collumn);
 			ColorMatrix(array, bound0, bound1, collumn, out maxNumber);
 		}
@@ -61,7 +79,7 @@ namespace Training_04
 			}
 		}
 
-		public static void Create2DArray(int rows,int collumn,int bound0,int bound1,int[,] array)
+		public static void Create2DArray(int bound0,int bound1,int[,] array)
 		{
 			Random r = new Random();
 			for (int x = 0; x <= bound0; x++)
@@ -73,7 +91,7 @@ namespace Training_04
 			}
 		}
 
-		public static void Write2DArray(int[,] array_, int bound0_, int bound1_,int Collumn_)
+		public static void Write2DArray(int[,] array_, int bound0_, int bound1_)
 		{
 			string text = string.Empty;
 			for (int x = 0; x <= bound0_; x++)
@@ -95,7 +113,7 @@ namespace Training_04
 			}
 		}
 
-		public static void DivideToGroupForColor(int check,int[,] array_, int bound0_, int bound1_,int collumn, out int[] maxNumber)
+		public static void DivideToGroupForColor(int check, out int[] maxNumber)
 		{
 			int group = 0;
 			if (20 % check == 0)
@@ -171,7 +189,7 @@ namespace Training_04
 			char[] charx = text.ToCharArray();
 			int screenWidth = Console.WindowWidth;
 			ConsoleColor colorC = ConsoleColor.White;
-			System.Console.SetCursorPosition(((screenWidth / 2) - column) + lastPos, index);
+			System.Console.SetCursorPosition(((screenWidth / 2) - (column + 2 + (int)(column * 0.5))) + lastPos, index);
 			Color(color, out colorC);
 			for (int i = 0; i < charx.Length; i++)
 			{
