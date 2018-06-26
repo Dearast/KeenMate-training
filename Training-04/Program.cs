@@ -14,35 +14,89 @@ namespace Training_04
 			Console.Title = "Training by KeenMate";
 			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
 			WriteLine("Write count rows");
-			int rows = int.Parse(Console.ReadLine());
+			string rowsStr = Console.ReadLine();
+			if(rowsStr == string.Empty)
+			{
+				rowsStr = "10";
+			}
+			else if(rowsStr.Length > 9)
+			{
+				int pos = 9;
+				int lenght = rowsStr.Length - 9;
+				rowsStr = rowsStr.Remove(pos, lenght);
+			}
+			int rows = int.Parse(rowsStr);
 			if(rows >= (100 / 3))
 			{
 				rows = (100 / 3)-1;
 			}
-			WriteLine("Write count collumn");
-			int collumn = int.Parse(Console.ReadLine());
-			if(collumn >= 30)
+			else if(rows < 2)
 			{
-				collumn = 30;
+				rows = 2;
 			}
-			int[,] array = new int[collumn, rows];
+			WriteLine("Write count collumn");
+			string columnStr = Console.ReadLine();
+			if(columnStr == string.Empty)
+			{
+				columnStr = "10";
+			}
+			else if (columnStr.Length > 9)
+			{
+				int pos = 9;
+				int lenght = columnStr.Length - 9;
+				columnStr = columnStr.Remove(pos, lenght);
+			}
+			int column = int.Parse(columnStr);
+			if(column >= 30)
+			{
+				column = 30;
+			}
+			else if(column < 2)
+			{
+				column = 2;
+			}
+			int[,] array = new int[rows, column];
 			int bound0 = array.GetUpperBound(0);		//get end number from array[x,]
 			int bound1 = array.GetUpperBound(1);		//get end number from array[,y]
 			Create2DArray(bound0,bound1,array);
 			Write2DArray(array, bound0, bound1);
 			int[] maxNumber;
-			ColorMatrix(array, bound0, bound1, collumn, out maxNumber);
+			ColorMatrix(array, bound0, bound1, column, out maxNumber);
 			WriteLine("Press enter to end");
 			Console.ReadKey();
 		}
 
-		public static void ColorMatrix(int[,] array,int bound0,int bound1,int collumn,out int[] maxNumber)
+		public static void RemovePartOfText()
+		{
+			//Console.Clear();
+			//Write("Remove part of text function");
+			//Write("Write text and then push enter");
+			//string text = Console.ReadLine();
+			//Write("Write two int for position and for length");
+			//string pos1 = Console.ReadLine();
+			//int posx = int.Parse(pos1);
+			//string pos2 = Console.ReadLine();
+			//int posy = int.Parse(pos2);
+			//string newText = text.Remove(posx, posy);
+			//Write("Before: " + text);
+			//Write("After: " + newText);
+			//WriteFunctions();
+			//SelectFunction();
+		}
+
+		public static void ColorMatrix(int[,] array,int bound0,int bound1,int column,out int[] maxNumber)
 		{
 			WriteLine("Write how much the number will divided or write enter for end");
 			string checkStr = Console.ReadLine();
 			if(checkStr == string.Empty)
 			{
 				Environment.Exit(0);
+			}
+			else if (checkStr.Length > 9)
+			{
+				int pos = 9;
+				int lenght = checkStr.Length - 9;
+				checkStr = checkStr.Remove(pos, lenght);
 			}
 			int check = int.Parse(checkStr);
 			if(check > 10)
@@ -54,8 +108,8 @@ namespace Training_04
 				check = 1;
 			}
 			DivideToGroupForColor(check, out maxNumber);
-			Write2DArrayDifferentColor(array, bound0, bound1, maxNumber, collumn);
-			ColorMatrix(array, bound0, bound1, collumn, out maxNumber);
+			Write2DArrayDifferentColor(array, bound0, bound1, maxNumber, column);
+			ColorMatrix(array, bound0, bound1, column, out maxNumber);
 		}
 
 		public static void WriteLine(string text, ConsoleColor color = ConsoleColor.White, bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
