@@ -111,58 +111,6 @@ namespace Training_05
 			}
 		}
 
-		public static void TreeProperties()
-		{
-			WriteLine("Write size trunk");
-			int trunk = int.Parse(Console.ReadLine());
-			WriteLine("Write size branch");
-			int branch = int.Parse(Console.ReadLine());
-			DrawTree(trunk, branch);
-		}
-
-		public static void DrawTree(int trunk,int branch)
-		{
-			Console.Clear();
-			WriteLine("**",ConsoleColor.Green,true);
-			WriteLine("****", ConsoleColor.Green, true);
-			if(trunk % 2 == 0)
-			{
-				for (int i = 0; i < (trunk / 2); i++)
-				{
-					DrawPartTree((i + 1));
-				}
-			}
-			else
-			{
-
-			}
-			Console.ReadKey();
-		}
-
-		public static void DrawPartTree(int multiply)
-		{
-			int lastPosText = 0;
-			for (int i = 0; i < (5 * multiply); i++)
-			{
-				WriteTextWithUseMouse("*", multiply + 1, 0, lastPosText, 10);
-				lastPosText++;
-				for (int a = 0; a < (i+1); a++)
-				{
-					lastPosText++;
-				}
-				for (int b = 0; b < (multiply); b++)
-				{
-					WriteTextWithUseMouse("I", multiply + 1, 2,lastPosText,10);
-					lastPosText++;
-				}
-				for (int c = 0; c < (i+1); c++)
-				{
-					lastPosText++;
-				}
-				WriteTextWithUseMouse("*", multiply + 1, 0, lastPosText, 10);
-				lastPosText = 0;
-			}
-		}
 		public static void CreateTextForPartOfTree(int index,int level,bool start = false)
 		{
 			string text = string.Empty;
