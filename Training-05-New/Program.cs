@@ -95,10 +95,13 @@ namespace Training_05_New
 
 		public static void CheckString(string check, out int doneCheck)
 		{
-			doneCheck = int.Parse(check);
 			if(check == string.Empty)
 			{
 				doneCheck = 2;
+			}
+			else
+			{
+				doneCheck = int.Parse(check);
 			}
 		}
 
