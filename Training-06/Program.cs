@@ -8,12 +8,10 @@ namespace Training_06
 {
 	class Program
 	{
-		public static void WriteTextWithUseMouse(string text, int row, int color, int lastPos, int textLength)
+		public static void WriteAsWriteLine(string text, int color)
 		{
 			char[] charx = text.ToCharArray();
-			int screenWidth = Console.WindowWidth;
 			ConsoleColor colorC = ConsoleColor.White;
-			System.Console.SetCursorPosition(((screenWidth / 2) - (textLength / 2)) + lastPos, row);
 			Color(color, out colorC);
 			for (int i = 0; i < charx.Length; i++)
 			{
@@ -36,69 +34,178 @@ namespace Training_06
 			}
 		}
 
+		public static void CheckString(ref string text)
+		{
+			if(text == string.Empty)
+			{
+				text = "0";
+			}
+		}
+
 		static void Main(string[] args)
 		{
 			int width = 100;
 			int height = 30;
 			Console.SetWindowSize(width, height);
 			Console.SetBufferSize(width, height);
-			Console.Read();
-			List<int>[,] list;
-			CreateArrayMap(width, height,out list);
-			Debug(list, width, height);
+			width -= 10;
+			height -= 5;
+			CollisionCount(0, width);
+			string selectLevelStr = Console.ReadLine();
+			CheckString(ref selectLevelStr);
+			int alcoholic = 0;
+			int profesionalAlcoholic = 0;
+			int berserker = 0;
+			SetDifficultLevel(int.Parse(selectLevelStr), out alcoholic, out profesionalAlcoholic, out berserker);
+			int[,] array;
+			Create2DArray(out array, width, height);
+			AddArrayID(ref array, width, height, alcoholic, profesionalAlcoholic, berserker);
+			CleanPeople(ref array,width,height);
+			Console.Clear();
+			DrawMap(array, width, height);
+			System.Console.SetCursorPosition(1,1);
 			Console.ReadKey();
-			//DrawGPU(list, width, height);
 		}
 
-		public static void CreateArrayMap(int x,int y, out List<int>[,] list_)
+		public static void CleanPeople(ref int[,] array,int width, int height)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width; x++)
+				{
+					if(x != 0 || y != 0 || x != (width - 1) || y != (height - 1))
+					{
+						if(x == 1 && y == 1)
+						{
+							if(array[1,2] != 3 || array[1, 2] != 4 || array[1, 2] != 5)
+							{
+								array[1, 1] = 0;
+							}
+
+							if(array[2, 1] != 3 || array[2, 1] != 4 || array[2, 1] != 5)
+							{
+								array[1, 1] = 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public static void DrawMap(int[,] array,int width, int height)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width; x++)
+				{
+					if(array[x,y] == 1)
+					{
+						Console.Write("-");
+					}
+					else if(array[x,y] == 2)
+					{
+						Console.Write("|");
+					}
+					else if (array[x, y] == 3)
+					{
+						Console.Write("ß");
+					}
+					else if (array[x, y] == 4)
+					{
+						Console.Write("ß");
+					}
+					else if (array[x, y] == 5)
+					{
+						Console.Write("ß");
+					}
+					else
+					{
+						Console.Write(" ");
+					}
+				}
+				Console.WriteLine("");
+			}
+		}
+
+		public static void AddArrayID(ref int[,] array,int width,int height,int alcoholic, int profesionalAlcoholic,
+			int berserker)
 		{
 			Random r = new Random();
-			List<int>[,] list = new List<int>[x, y];
-			for (int i = 0; i < x; i++)
+			for (int y = 0; y < height; y++)
 			{
-				for (int a = 0; a < y; a++)
+				for (int x = 0; x < width; x++)
 				{
-					//int random = r.Next(0, 100);
-					//if(random >= )
-					//list[i, a].Add(5);
-					if(i == 0 || i >= (x - 1))
+					int random = r.Next(0, 100);
+					if(y == 0 || y == (height - 1))
 					{
-						list[i, a].Add(1);		// the write this -
+						array[x, y] = 1;
 					}
-
-					if(a == 0 || a >= (y - 1))
+					else if(x == 0 || x == (width - 1))
 					{
-						list[i, a].Add(2);    // the write this |
+						array[x, y] = 2;
+					}
+					else
+					{
+						if(random > alcoholic)
+						{
+							array[x, y] = 3;
+						}
+						else if(random > profesionalAlcoholic)
+						{
+							array[x, y] = 4;
+						}
+						else if(random > berserker)
+						{
+							array[x, y] = 5;
+						}
 					}
 				}
 			}
-			list_ = list;
 		}
 
-		public static void Debug(List<int>[,] list, int width, int height)
+		public static void Create2DArray(out int[,] array,int width, int height)
 		{
-			for (int x = 0; x < width; x++)
+			array = new int[width, height];
+		}
+
+		public static void SetDifficultLevel(int selectLevel,out int alcoholic, out int profesionalAlcoholic,
+			out int berserker)
+		{
+			alcoholic = 0;
+			profesionalAlcoholic = 0;
+			berserker = 0;
+			switch (selectLevel)
 			{
-				for (int y = 0; y < height; y++)
-				{
-					Console.WriteLine(list[x,y]);
-				}
+				case 1:
+					alcoholic = 25;
+					profesionalAlcoholic = 36;
+					berserker = 55;
+					break;
+				case 2:
+					alcoholic = 30;
+					profesionalAlcoholic = 42;
+					berserker = 50;
+					break;
+				case 3:
+					alcoholic = 35;
+					profesionalAlcoholic = 50;
+					berserker = 65;
+					break;
+				default:
+
+					break;
 			}
 		}
 
-		public static void DrawGPU(List<int>[,] list,int width,int height)
+		public static void CollisionCount(int count,int widthScreen)
 		{
-			for (int x = 0; x < width; x++)
+			string text = string.Empty;
+			int length = (widthScreen - 20) * 2;
+			for (int i = 0; i < length; i++)
 			{
-				for (int y = 0; y < height; y++)
-				{
-					//int check = list[x, y];
-					//if ( != 0)
-					//{
-
-					//}
-				}
+				text += " ";
 			}
+			Console.Title = text + "Current collision - " + count;
 		}
 	}
 }

@@ -83,12 +83,12 @@ namespace Training_05_New
 			CheckString(branchStr, out branch);
 			Console.Clear();
 			MakeTop();
-			int row = 2;
+			int row = 3;
 			int index = 0;
 			for (int i = 0; i < (trunk / 2); i++)
 			{
 				index = i;
-				MakePartOfTree(2 + (i*2), branch, ref row, 0);
+				MakePartOfTree(2 + (i*2), branch, ref row, 0,branch);
 			}
 			MakeTrunk(trunk, 2 + (index * 2), ref row);
 		}
@@ -113,100 +113,129 @@ namespace Training_05_New
 			{
 				for (int y = 0; y < 2 + (i*2); y++)
 				{
-					text += "*";
+					text += System.Configuration.ConfigurationSettings.AppSettings["brunchStart"];
 					WriteTextWithUseMouse(text,i,0,lastPos,(2 + (i * 2)));
 					lastPos++;
 					text = string.Empty;
 				}
 				lastPos = 0;
 			}
+			for (int i = 0; i < 2; i++)
+			{
+				text += System.Configuration.ConfigurationSettings.AppSettings["trunk"];
+				WriteTextWithUseMouse(text, 2, 2, lastPos, 2);
+				lastPos++;
+				text = string.Empty;
+			}
 		}
 
-		public static void MakePartOfTree(int currentMaxSizeTrunk,int currentMaxSizeBranch,ref int addRow,int addSpace)
+		public static void MakeBranch(bool isLeft,int branchSize,int index,int row,int textLength,ref int lastPos)
+		{
+			string text = string.Empty;
+			for (int a = 0; a < ((1 + index) * branchSize); a++)
+			{
+				if (isLeft)
+				{
+					if (a == 0)
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchStart"];
+						WriteTextWithUseMouse(text, index + row, 0, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+					else if (a == 1)
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchRight"];
+						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+					else if (a % 2 == 0)
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchRight"];
+						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+					else
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchLeft"];
+						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+				}
+				else
+				{
+					if (a == (((1 + index) * branchSize) - 1))
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchStart"];
+						WriteTextWithUseMouse(text, index + row, 0, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+					else if (a == (((1 + index) * branchSize) - 2))
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchLeft"];
+						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+					else if (a % 2 != 0)
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchLeft"];
+						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+					else
+					{
+						text += System.Configuration.ConfigurationSettings.AppSettings["brunchRight"];
+						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
+						text = string.Empty;
+						lastPos++;
+					}
+				}
+			}
+		}
+
+		public static void MakeTrunk(int currentMaxSizeTrunk, int index, int row, int textLength, ref int lastPos)
+		{
+			string text = string.Empty;
+			for (int b = 0; b < currentMaxSizeTrunk; b++)
+			{
+				text += System.Configuration.ConfigurationSettings.AppSettings["trunk"];
+				WriteTextWithUseMouse(text, index + row, 2, lastPos, textLength);
+				text = string.Empty;
+				lastPos++;
+			}
+			text = string.Empty;
+		}
+
+		public static void MakeSpace(int addSpace, int index, int row, int textLength, ref int lastPos)
+		{
+			string text = string.Empty;
+			for (int x = 0; x < addSpace; x++)
+			{
+				text += " ";
+				WriteTextWithUseMouse(text, index + row, 0, lastPos, textLength);
+				text = string.Empty;
+				lastPos++;
+			}
+			text = string.Empty;
+		}
+
+		public static void MakePartOfTree(int currentMaxSizeTrunk,int currentMaxSizeBranch,ref int addRow,int addSpace, int branchSize)
 		{
 			string text = string.Empty;
 			int lastPos = 0;
 			for (int i = 0; i < ((currentMaxSizeTrunk / 2) * 5); i++)
 			{
-				int textLenght = (1 + i) + (1 + i) + currentMaxSizeTrunk;
-				for (int x = 0; x < addSpace; x++)
-				{
-					text += " ";
-					WriteTextWithUseMouse(text, i + addRow, 0, lastPos, textLenght);
-					text = string.Empty;
-					lastPos++;
-				}
-				for (int a = 0; a < (1 + i); a++)
-				{
-					if(a == 0)
-					{
-						text += "*";
-						WriteTextWithUseMouse(text, i + addRow, 0, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-					else if(a == 1)
-					{
-						text += "/";
-						WriteTextWithUseMouse(text, i + addRow, 1, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-					else if(a % 2 == 0)
-					{
-						text += "/";
-						WriteTextWithUseMouse(text, i + addRow, 1, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-					else
-					{
-						text += @"\";
-						WriteTextWithUseMouse(text, i + addRow, 1, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-				}
-
-				for (int b = 0; b < currentMaxSizeTrunk; b++)
-				{
-					text += "I";
-					WriteTextWithUseMouse(text, i + addRow, 2, lastPos, textLenght);
-					text = string.Empty;
-					lastPos++;
-				}
-
-				for (int c = 0; c < (1 + i); c++)
-				{
-					if(c == ((1 + i) - 1))
-					{
-						text += "*";
-						WriteTextWithUseMouse(text, i + addRow, 0, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-					else if(c == ((1 + i) - 2))
-					{
-						text += @"\";
-						WriteTextWithUseMouse(text, i + addRow, 1, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-					else if (c % 2 != 0)
-					{
-						text += @"\";
-						WriteTextWithUseMouse(text, i + addRow, 1, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-					else
-					{
-						text += "/";
-						WriteTextWithUseMouse(text, i + addRow, 1, lastPos, textLenght);
-						text = string.Empty;
-						lastPos++;
-					}
-				}
+				int textLenght = ((1 + i) * branchSize) + ((1 + i) * branchSize) + currentMaxSizeTrunk;
+				MakeSpace(addSpace,i,addRow,textLenght,ref lastPos);
+				MakeBranch(true, branchSize, i,addRow,textLenght,ref lastPos);
+				MakeTrunk(currentMaxSizeTrunk, i, addRow, textLenght, ref lastPos);
+				MakeBranch(false, branchSize, i, addRow, textLenght,ref lastPos);
 				lastPos = 0;
 			}
 			addRow += ((currentMaxSizeTrunk / 2) * 5);
@@ -220,7 +249,7 @@ namespace Training_05_New
 				for (int b = 0; b < currentMaxSizeTrunk; b++)
 				{
 					string text = string.Empty;
-					text += "I";
+					text += System.Configuration.ConfigurationSettings.AppSettings["trunk"];
 					WriteTextWithUseMouse(text, i + addRow, 2, lastPos, currentMaxSizeTrunk);
 					text = string.Empty;
 					lastPos++;
