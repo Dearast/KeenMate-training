@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Training_05_New
 {
 	class Program
 	{
+		public static string BranchStarChar = ConfigurationManager.AppSettings["branchStar"];
+		public static string BranchLeftChar = ConfigurationManager.AppSettings["branchLeft"];
+		public static string BranchRightChar = ConfigurationManager.AppSettings["branchRight"];
+		public static string TrunkChar = ConfigurationManager.AppSettings["trunk"];
+
 		public static void WriteLine(string text, ConsoleColor color = ConsoleColor.White, bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
 			Console.ForegroundColor = color;
@@ -113,7 +119,7 @@ namespace Training_05_New
 			{
 				for (int y = 0; y < 2 + (i*2); y++)
 				{
-					text += System.Configuration.ConfigurationSettings.AppSettings["brunchStart"];
+					text += BranchStarChar;
 					WriteTextWithUseMouse(text,i,0,lastPos,(2 + (i * 2)));
 					lastPos++;
 					text = string.Empty;
@@ -122,7 +128,7 @@ namespace Training_05_New
 			}
 			for (int i = 0; i < 2; i++)
 			{
-				text += System.Configuration.ConfigurationSettings.AppSettings["trunk"];
+				text += TrunkChar;
 				WriteTextWithUseMouse(text, 2, 2, lastPos, 2);
 				lastPos++;
 				text = string.Empty;
@@ -138,28 +144,21 @@ namespace Training_05_New
 				{
 					if (a == 0)
 					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchStart"];
+						text += BranchStarChar;
 						WriteTextWithUseMouse(text, index + row, 0, lastPos, textLength);
 						text = string.Empty;
 						lastPos++;
 					}
-					else if (a == 1)
+					else if (a == 1 || a % 2 == 0)
 					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchRight"];
-						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
-						text = string.Empty;
-						lastPos++;
-					}
-					else if (a % 2 == 0)
-					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchRight"];
+						text += BranchRightChar;
 						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
 						text = string.Empty;
 						lastPos++;
 					}
 					else
 					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchLeft"];
+						text += BranchLeftChar;
 						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
 						text = string.Empty;
 						lastPos++;
@@ -169,28 +168,21 @@ namespace Training_05_New
 				{
 					if (a == (((1 + index) * branchSize) - 1))
 					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchStart"];
+						text += BranchStarChar;
 						WriteTextWithUseMouse(text, index + row, 0, lastPos, textLength);
 						text = string.Empty;
 						lastPos++;
 					}
-					else if (a == (((1 + index) * branchSize) - 2))
+					else if (a == (((1 + index) * branchSize) - 2) || a % 2 != 0)
 					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchLeft"];
-						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
-						text = string.Empty;
-						lastPos++;
-					}
-					else if (a % 2 != 0)
-					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchLeft"];
+						text += BranchLeftChar;
 						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
 						text = string.Empty;
 						lastPos++;
 					}
 					else
 					{
-						text += System.Configuration.ConfigurationSettings.AppSettings["brunchRight"];
+						text += BranchRightChar;
 						WriteTextWithUseMouse(text, index + row, 1, lastPos, textLength);
 						text = string.Empty;
 						lastPos++;
