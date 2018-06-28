@@ -75,7 +75,7 @@ namespace Training_06
 			Console.ReadKey();
 		}
 
-		public static void Start()
+		public static void Start(int selectLevelB = 0)
 		{
 			int width = 100;
 			int height = 30;
@@ -84,12 +84,17 @@ namespace Training_06
 			width -= 10;
 			height -= 5;
 			CollisionCount(0, width);
-			string selectLevelStr = Console.ReadLine();
-			CheckString(ref selectLevelStr);
+			string selectLevelStr = string.Empty;
+			if (selectLevelB == 0)
+			{
+				selectLevelStr = Console.ReadLine();
+				CheckString(ref selectLevelStr);
+			}
 			int alcoholic = 0;
 			int profesionalAlcoholic = 0;
 			int berserker = 0;
-			SetDifficultLevel(int.Parse(selectLevelStr), out alcoholic, out profesionalAlcoholic, out berserker);
+			int selectLevel = int.Parse(selectLevelStr);
+			SetDifficultLevel(selectLevel, out alcoholic, out profesionalAlcoholic, out berserker);
 			int[,] array;
 			Create2DArray(out array, width, height);
 			AddArrayID(ref array, width, height, alcoholic, profesionalAlcoholic, berserker);
@@ -97,9 +102,13 @@ namespace Training_06
 			DrawMap(array, width, height);
 			Console.ReadKey();
 			CleanPeople(ref array, width, height);
-			//Console.Clear();
-			//DrawMap(array, width, height);
-			//System.Console.SetCursorPosition(1, 1);
+#if !DEBUG
+			Console.Clear();
+			DrawMap(array, width, height);
+			System.Console.SetCursorPosition(1, 1);
+			Console.ReadKey();
+			Start(selectLevel);
+#endif
 		}
 
 		public static void CleanPeople(ref int[,] array,int width, int height)
@@ -113,23 +122,14 @@ namespace Training_06
 				{
 					if(x == 1 && y == 1)
 					{
-#if DEBUG
-						WriteLine("Checking - " + x + "|" + y);
-#endif
-						if (array[x + 1,y] < 3 || array[x,y+1] < 3)
-						{
-							array[x, y] = 0;
-#if DEBUG
-							WriteLine("Removed - " + x + "|" + y);
-#endif
-						}
+						array[x, y] = 0;
 					}
 					else if(x == ((width - 1) - 1) && y == 1)
 					{
 #if DEBUG
 						WriteLine("Checking - " + x + "|" + y);
 #endif
-						if (array[x - 1, y] < 3 || array[x, y + 1] < 3)
+						if (array[x - 1, y] <= 2 || array[x, y + 1] <= 2)
 						{
 							array[x, y] = 0;
 #if DEBUG
@@ -142,7 +142,7 @@ namespace Training_06
 #if DEBUG
 						WriteLine("Checking - " + x + "|" + y);
 #endif
-						if (array[x+1,y] > 3 || array[x, y - 1] < 3)
+						if (array[x+1,y] <= 2 || array[x, y - 1] <= 2)
 						{
 							array[x, y] = 0;
 #if DEBUG
@@ -155,7 +155,7 @@ namespace Training_06
 #if DEBUG
 						WriteLine("Checking - " + x + "|" + y);
 #endif
-						if (array[x-1,y] > 3 || array[x, y - 1] > 3)
+						if (array[x-1,y] <= 2 || array[x, y - 1] <= 2)
 						{
 							array[x, y] = 0;
 #if DEBUG
@@ -169,17 +169,17 @@ namespace Training_06
 						WriteLine("Checking - " + x + "|" + y);
 #endif
 						int missing = 0;
-						if(array[x-1,y] > 3)
+						if(array[x-1,y] <= 2)
 						{
 							missing++;
 						}
 
-						if(array[x+1,y] > 3)
+						if(array[x+1,y] <= 2)
 						{
 							missing++;
 						}
 
-						if(array[x,y+1] > 3)
+						if(array[x,y+1] <= 2)
 						{
 							missing++;
 						}
@@ -199,17 +199,17 @@ namespace Training_06
 						WriteLine("Checking - " + x + "|" + y);
 #endif
 						int missing = 0;
-						if (array[x - 1, y] > 3)
+						if (array[x - 1, y] <= 2)
 						{
 							missing++;
 						}
 
-						if (array[x + 1, y] > 3)
+						if (array[x + 1, y] <= 2)
 						{
 							missing++;
 						}
 
-						if (array[x, y - 1] > 3)
+						if (array[x, y - 1] <= 2)
 						{
 							missing++;
 						}
@@ -229,17 +229,17 @@ namespace Training_06
 						WriteLine("Checking - " + x + "|" + y);
 #endif
 						int missing = 0;
-						if (array[x , y + 1] > 3)
+						if (array[x , y + 1] <= 2)
 						{
 							missing++;
 						}
 
-						if (array[x + 1, y] > 3)
+						if (array[x + 1, y] <= 2)
 						{
 							missing++;
 						}
 
-						if (array[x, y - 1] > 3)
+						if (array[x, y - 1] <= 2)
 						{
 							missing++;
 						}
@@ -259,22 +259,62 @@ namespace Training_06
 						WriteLine("Checking - " + x + "|" + y);
 #endif
 						int missing = 0;
-						if (array[x, y + 1] > 3)
+						if (array[x, y + 1] <= 2)
 						{
 							missing++;
 						}
 
-						if (array[x - 1, y] > 3)
+						if (array[x - 1, y] <= 2)
 						{
 							missing++;
 						}
 
-						if (array[x, y - 1] > 3)
+						if (array[x, y - 1] <= 2)
 						{
 							missing++;
 						}
 
 						if (missing > 1)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+						missing = 0;
+					}
+					else
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						int missing = 0;
+						if (array[x, y + 1] <= 2)
+						{
+							missing++;
+						}
+
+						if (array[x - 1, y] <= 2)
+						{
+							missing++;
+						}
+
+						if (array[x, y - 1] <= 2)
+						{
+							missing++;
+						}
+
+						if(array[x+1,y] <= 2)
+						{
+							missing++;
+						}
+
+						if(array[x,y+1] <= 2)
+						{
+							missing++;
+						}
+
+						if (missing > 2)
 						{
 							array[x, y] = 0;
 #if DEBUG
