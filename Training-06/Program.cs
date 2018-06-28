@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Training_06
 {
 	class Program
 	{
+		public static string TitleName = ConfigurationManager.AppSettings["titleName"];
+
 		public static void WriteAsWriteLine(string text, int color)
 		{
 			char[] charx = text.ToCharArray();
@@ -42,7 +45,37 @@ namespace Training_06
 			}
 		}
 
+		public static void WriteLine(string text, ConsoleColor color = ConsoleColor.White, bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
+		{
+			Console.ForegroundColor = color;
+			Console.BackgroundColor = backColor;
+			if (center)
+			{
+				int screenWidth = Console.WindowWidth;
+				int stringWidth = text.Length;
+				int spaces = (screenWidth / 2) + (stringWidth / 2);
+				Console.WriteLine(text.PadLeft(spaces));
+			}
+			else
+			{
+				Console.WriteLine(text);
+			}
+
+			if (backToDefault)
+			{
+				Console.ForegroundColor = ConsoleColor.White;
+			}
+		}
+
 		static void Main(string[] args)
+		{
+			Console.Title = TitleName;
+			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
+			Start();
+			Console.ReadKey();
+		}
+
+		public static void Start()
 		{
 			int width = 100;
 			int height = 30;
@@ -60,33 +93,195 @@ namespace Training_06
 			int[,] array;
 			Create2DArray(out array, width, height);
 			AddArrayID(ref array, width, height, alcoholic, profesionalAlcoholic, berserker);
-			CleanPeople(ref array,width,height);
 			Console.Clear();
 			DrawMap(array, width, height);
-			System.Console.SetCursorPosition(1,1);
 			Console.ReadKey();
+			CleanPeople(ref array, width, height);
+			//Console.Clear();
+			//DrawMap(array, width, height);
+			//System.Console.SetCursorPosition(1, 1);
 		}
 
 		public static void CleanPeople(ref int[,] array,int width, int height)
 		{
-			for (int y = 0; y < height; y++)
+			for (int y = 1; y < (height - 1); y++)
 			{
-				for (int x = 0; x < width; x++)
+#if DEBUG
+				WriteLine("Check next row");
+#endif
+				for (int x = 1; x < (width - 1); x++)
 				{
-					if(x != 0 || y != 0 || x != (width - 1) || y != (height - 1))
+					if(x == 1 && y == 1)
 					{
-						if(x == 1 && y == 1)
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						if (array[x + 1,y] < 3 || array[x,y+1] < 3)
 						{
-							if(array[1,2] != 3 || array[1, 2] != 4 || array[1, 2] != 5)
-							{
-								array[1, 1] = 0;
-							}
-
-							if(array[2, 1] != 3 || array[2, 1] != 4 || array[2, 1] != 5)
-							{
-								array[1, 1] = 0;
-							}
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
 						}
+					}
+					else if(x == ((width - 1) - 1) && y == 1)
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						if (array[x - 1, y] < 3 || array[x, y + 1] < 3)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+					}
+					else if(x == 1 && y == ((width - 1) - 1))
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						if (array[x+1,y] > 3 || array[x, y - 1] < 3)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+					}
+					else if(x == ((width-1)-1) && y == ((width - 1) - 1))
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						if (array[x-1,y] > 3 || array[x, y - 1] > 3)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+					}
+					else if(y == 1)
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						int missing = 0;
+						if(array[x-1,y] > 3)
+						{
+							missing++;
+						}
+
+						if(array[x+1,y] > 3)
+						{
+							missing++;
+						}
+
+						if(array[x,y+1] > 3)
+						{
+							missing++;
+						}
+
+						if(missing > 1)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+						missing = 0;
+					}
+					else if(y == ((height - 1)-1))
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						int missing = 0;
+						if (array[x - 1, y] > 3)
+						{
+							missing++;
+						}
+
+						if (array[x + 1, y] > 3)
+						{
+							missing++;
+						}
+
+						if (array[x, y - 1] > 3)
+						{
+							missing++;
+						}
+
+						if (missing > 1)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+						missing = 0;
+					}
+					else if(x == 1)
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						int missing = 0;
+						if (array[x , y + 1] > 3)
+						{
+							missing++;
+						}
+
+						if (array[x + 1, y] > 3)
+						{
+							missing++;
+						}
+
+						if (array[x, y - 1] > 3)
+						{
+							missing++;
+						}
+
+						if (missing > 1)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+						missing = 0;
+					}
+					else if(x == ((width - 1) - 1))
+					{
+#if DEBUG
+						WriteLine("Checking - " + x + "|" + y);
+#endif
+						int missing = 0;
+						if (array[x, y + 1] > 3)
+						{
+							missing++;
+						}
+
+						if (array[x - 1, y] > 3)
+						{
+							missing++;
+						}
+
+						if (array[x, y - 1] > 3)
+						{
+							missing++;
+						}
+
+						if (missing > 1)
+						{
+							array[x, y] = 0;
+#if DEBUG
+							WriteLine("Removed - " + x + "|" + y);
+#endif
+						}
+						missing = 0;
 					}
 				}
 			}
@@ -200,12 +395,12 @@ namespace Training_06
 		public static void CollisionCount(int count,int widthScreen)
 		{
 			string text = string.Empty;
-			int length = (widthScreen - 20) * 2;
+			int length = ((widthScreen - 20) * 2) - TitleName.Length;
 			for (int i = 0; i < length; i++)
 			{
 				text += " ";
 			}
-			Console.Title = text + "Current collision - " + count;
+			Console.Title = TitleName + text + "Current collision - " + count;
 		}
 	}
 }

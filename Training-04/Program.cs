@@ -13,30 +13,36 @@ namespace Training_04
 			Console.SetWindowSize(100, 35);
 			Console.Title = "Training by KeenMate";
 			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
+			Start();
+			Console.ReadKey();
+		}
+
+		public static void Start()
+		{
 			WriteLine("Write count rows");
 			string rowsStr = Console.ReadLine();
-			if(rowsStr == string.Empty)
+			if (rowsStr == string.Empty)
 			{
 				rowsStr = "10";
 			}
-			else if(rowsStr.Length > 9)
+			else if (rowsStr.Length > 9)
 			{
 				int pos = 9;
 				int lenght = rowsStr.Length - 9;
 				rowsStr = rowsStr.Remove(pos, lenght);
 			}
 			int rows = int.Parse(rowsStr);
-			if(rows >= (100 / 3))
+			if (rows >= (100 / 3))
 			{
-				rows = (100 / 3)-1;
+				rows = (100 / 3) - 1;
 			}
-			else if(rows < 2)
+			else if (rows < 2)
 			{
 				rows = 2;
 			}
 			WriteLine("Write count collumn");
 			string columnStr = Console.ReadLine();
-			if(columnStr == string.Empty)
+			if (columnStr == string.Empty)
 			{
 				columnStr = "10";
 			}
@@ -47,23 +53,22 @@ namespace Training_04
 				columnStr = columnStr.Remove(pos, lenght);
 			}
 			int column = int.Parse(columnStr);
-			if(column >= 30)
+			if (column >= 30)
 			{
 				column = 30;
 			}
-			else if(column < 2)
+			else if (column < 2)
 			{
 				column = 2;
 			}
 			int[,] array = new int[rows, column];
-			int bound0 = array.GetUpperBound(0);		//get end number from array[x,]
-			int bound1 = array.GetUpperBound(1);		//get end number from array[,y]
-			Create2DArray(bound0,bound1,array);
+			int bound0 = array.GetUpperBound(0);    //get end number from array[x,]
+			int bound1 = array.GetUpperBound(1);    //get end number from array[,y]
+			Create2DArray(bound0, bound1, array);
 			Write2DArray(array, bound0, bound1);
 			int[] maxNumber;
 			ColorMatrix(array, bound0, bound1, column, out maxNumber);
 			WriteLine("Press enter to end");
-			Console.ReadKey();
 		}
 
 		public static void ColorMatrix(int[,] array,int bound0,int bound1,int column,out int[] maxNumber)

@@ -72,6 +72,8 @@ namespace Training_05_New
 
 		static void Main(string[] args)
 		{
+			Console.Title = "Training by KeenMate";
+			WriteLine("Training by KeenMate | Done by Damien Clément", ConsoleColor.Green, true, true);
 			Console.SetWindowSize(100, 35);
 			Start();
 			Console.ReadKey();
@@ -96,7 +98,7 @@ namespace Training_05_New
 				index = i;
 				MakePartOfTree(2 + (i*2), branch, ref row, 0,branch);
 			}
-			MakeTrunk(trunk, 2 + (index * 2), ref row);
+			MakeDownTrunk(trunk, 2 + (index * 2), ref row);
 		}
 
 		public static void CheckString(string check, out int doneCheck)
@@ -196,7 +198,7 @@ namespace Training_05_New
 			string text = string.Empty;
 			for (int b = 0; b < currentMaxSizeTrunk; b++)
 			{
-				text += System.Configuration.ConfigurationSettings.AppSettings["trunk"];
+				text += TrunkChar;
 				WriteTextWithUseMouse(text, index + row, 2, lastPos, textLength);
 				text = string.Empty;
 				lastPos++;
@@ -233,15 +235,15 @@ namespace Training_05_New
 			addRow += ((currentMaxSizeTrunk / 2) * 5);
 		}
 
-		public static void MakeTrunk(int maxSizeTrunk, int currentMaxSizeTrunk, ref int addRow)
+		public static void MakeDownTrunk(int maxSizeTrunk, int currentMaxSizeTrunk, ref int addRow)
 		{
-			for (int i = 0; i < (((maxSizeTrunk / 2) * 5)/3); i++)
+			for (int i = 0; i < (((maxSizeTrunk / 2) * 5) / 3); i++)
 			{
 				int lastPos = 0;
 				for (int b = 0; b < currentMaxSizeTrunk; b++)
 				{
 					string text = string.Empty;
-					text += System.Configuration.ConfigurationSettings.AppSettings["trunk"];
+					text += TrunkChar;
 					WriteTextWithUseMouse(text, i + addRow, 2, lastPos, currentMaxSizeTrunk);
 					text = string.Empty;
 					lastPos++;
