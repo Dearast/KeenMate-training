@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeBomb", "NewTimeBomb\Tim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressText", "CompressText\CompressText.csproj", "{882D241C-ED40-497B-A21E-7539435B6CF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List", "List\List.csproj", "{D799D6A4-D126-4643-8F94-622E476F655D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{882D241C-ED40-497B-A21E-7539435B6CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{882D241C-ED40-497B-A21E-7539435B6CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{882D241C-ED40-497B-A21E-7539435B6CF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D799D6A4-D126-4643-8F94-622E476F655D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D799D6A4-D126-4643-8F94-622E476F655D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D799D6A4-D126-4643-8F94-622E476F655D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D799D6A4-D126-4643-8F94-622E476F655D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
