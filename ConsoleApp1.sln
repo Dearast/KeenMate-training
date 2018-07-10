@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressText", "CompressTex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List", "List\List.csproj", "{D799D6A4-D126-4643-8F94-622E476F655D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressTextLZ77", "CompressTextLZ77\CompressTextLZ77.csproj", "{03B498B0-B94A-4E81-AFDE-9FB333DFD535}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{D799D6A4-D126-4643-8F94-622E476F655D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D799D6A4-D126-4643-8F94-622E476F655D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D799D6A4-D126-4643-8F94-622E476F655D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03B498B0-B94A-4E81-AFDE-9FB333DFD535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03B498B0-B94A-4E81-AFDE-9FB333DFD535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03B498B0-B94A-4E81-AFDE-9FB333DFD535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03B498B0-B94A-4E81-AFDE-9FB333DFD535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
