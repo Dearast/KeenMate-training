@@ -56,8 +56,7 @@ namespace CompressText
 		public static void Start()
 		{
 			Console.Clear();
-			string path = @"C:\Git\CompressText\bin\Debug\Default.txt";
-			CompressingText(path);
+			CompressingText();
 		}
 
 		public static void DeCompress()
@@ -70,10 +69,27 @@ namespace CompressText
 
 		}
 
-		public static void CompressingText(string path)
+		public static void PasteText(string path)
 		{
-			File.Create(@"C:\Git\CompressText\bin\Debug\Compress.txt");
-			string text = File.ReadAllText(path,Encoding.UTF8);
+			WriteLine("Paste text to " + path);
+			WriteLine("After paste the text press any key to continue");
+			Console.ReadKey();
+			CompressingText();
+		}
+
+		public static void CompressingText()
+		{
+			string path = Path.Combine(Directory.GetCurrentDirectory(), "Default.txt");
+			string text = string.Empty;
+			if (!File.Exists(path))
+			{
+				File.Create(path);
+			}
+			text = File.ReadAllText(path, Encoding.UTF8);
+			if (string.IsNullOrEmpty(text))
+			{
+				PasteText(path);
+			}
 			char[] charText = text.ToCharArray();
 			int lastPosText = 0;
 			List<string> words = new List<string>();
@@ -96,41 +112,62 @@ namespace CompressText
 				}
 			}
 
-			for
-
+			words = WordsList(words, words.Count);
+			Console.Clear();
 			for (int i = 0; i < words.Count; i++)
 			{
 				WriteLine(words[i], ConsoleColor.Green);
 			}
-		}
 
-		public static List<string> WordsList(ref List<string> word,int index,int maxWord)
-		{
-			if(index != maxWord)
+			for (int i = 0; i < words.Count; i++)
 			{
-				List<string> newList = word;
-				for (int i = 0; i < length; i++)
+				if(i > 0)
 				{
+					for (int a = 0; a < i; a++)
+					{
+						if(words[i] == words[a])
+						{
 
-					if (string.IsNullOrEmpty(word[i]) || string.IsNullOrWhiteSpace(word[i]))
-					{
-						word.RemoveAt(i);
+						}
 					}
-					else if (charTextX[a] == (char)13)
-					{
-						word.RemoveAt(i);
-					}
-					else if (word[i].Length < 5)
-					{
-						word.RemoveAt(i);
-					}
+				}
+				else
+				{
 
 				}
 			}
-			else
-			{
+		}
 
+		public static List<string> WordsList(List<string> word,int maxWord)
+		{
+			List<string> removeWord = new List<string>();
+			for (int i = 0; i < word.Count; i++)
+			{
+				char[] wordChar = word[i].ToCharArray();
+				if(string.IsNullOrEmpty(word[i]) || string.IsNullOrWhiteSpace(word[i]) || word[i].Length <= 3)
+				{
+					removeWord.Add(word[i]);
+				}
+
+				for (int a = 0; a < wordChar.Length; a++)
+				{
+					if (char.IsDigit(wordChar[a]) || char.IsSymbol(wordChar[a]))
+					{
+						removeWord.Add(word[i]);
+					}
+				}
 			}
+			for (int i = 0; i < removeWord.Count; i++)
+			{
+				DeletingWord(ref word, i, removeWord);
+			}
+			return word;
+		}
+
+		public static void DeletingWord(ref List<string> word,int index,List<string> removeWord)
+		{
+			WriteLine("remove this - " + removeWord[index]);
+			word.Remove(removeWord[index]);
 		}
 	}
 }
