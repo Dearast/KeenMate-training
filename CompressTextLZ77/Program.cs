@@ -9,7 +9,6 @@ namespace CompressTextLZ77
 {
 	class Program
 	{
-		public static int lastPosCompare = 0;
 		public static void WriteLine(string text, ConsoleColor color = ConsoleColor.White, bool center = false, bool backToDefault = false, ConsoleColor backColor = ConsoleColor.Black)
 		{
 			Console.ForegroundColor = color;
@@ -53,7 +52,7 @@ namespace CompressTextLZ77
 			}
 			List<string> wordList = GetAllWords(text);
 			List<string> specifyWordList = GetAllSpecificWords(wordList);
-			CompressingText(wordList, specifyWordList, Path.Combine(Directory.GetCurrentDirectory(), "Compress.txt"),text);
+			CompressingText(wordList, specifyWordList, Path.Combine(Directory.GetCurrentDirectory(), "Compress.txt"), text);
 		}
 
 		public static void PasteText(string path)
@@ -114,32 +113,88 @@ namespace CompressTextLZ77
 			return newList;
 		}
 
-		public static void CompareWords(List<string> allWords, List<string> allSpecifyWords, ref string text,int index)
+		public static void CompareWords(List<string> allWords, List<string> allSpecifyWords, ref string text)
 		{
-			string word = string.Empty;
-			for (int i = 0; i < allWords.Count; i++)
+			int correct = 0;
+			int correctWord = 0;
+			int lastPos = 0;
+			int secondLastPos = 0;
+			foreach (var item in allSpecifyWords)
 			{
-				char[] charX = allWords[i].ToCharArray();
-				char[] charY = allSpecifyWords[index].ToCharArray();
-				for (int a = 0; a < allWords[i].Length; a++)
+				char[] charX = item.ToCharArray();
+				for (int i = 0; i < text.Length; i++)
 				{
-					if(charY.Length >= allWords[i].Length)
+					for (int x = 0; x < charX.Length; x++)
 					{
-						if (charX[a] == charY[a])
+						if (text[i] == charX[x])
 						{
-							word += charY;
+							lastPos = i - charX.Length;
+							if(lastPos < 0)
+							{
+								lastPos = 0;
+							}
+							correct++;
 						}
 					}
-					lastPosCompare++;
-				}
-				if (word.Length > 3)
-				{
-					string remove = text.Remove(lastPosCompare - allWords[i].Length + 2, allWords[i].Length - 2);
-					string textLeft = text.Remove(lastPosCompare - allWords[i].Length + 2, text.Length - (lastPosCompare - allWords[i].Length + 2));
-					string textRight = text.Remove(0, lastPosCompare);
+
+					if (char.IsWhiteSpace(text[i]))
+					{
+						if (correct > 3)
+						{
+							bool isFirst = true;
+							int secondCorrect = 0;
+							for (int z = secondLastPos; z < lastPos; z++)
+							{
+								for (int q = 0; q < charX.Length; q++)
+								{
+									if (text[z] == charX[q])
+									{
+										secondCorrect++;
+									}
+									if (secondCorrect > 3)
+									{
+										isFirst = false;
+										secondCorrect = 0;
+										break;
+									}
+								}
+								if(isFirst == false)
+								{
+									break;
+								}
+							}
+
+							if (isFirst == false)
+							{
+								string newstring = "<" + (i - correct) + ";" + correct + ">";
+								string removeWorld = text.Remove(0, i - correct);
+								removeWorld = removeWorld.Remove(correct,text.Length - (i + correct));
+								text = text.Remove(i - correct, correct);
+								Console.WriteLine("Removing - " + removeWorld);
+								text = text.Insert(i, newstring);
+								correctWord++;
+								correct = 0;
+								isFirst = true;
+								secondLastPos = i;
+								break;
+							}
+						}
+						correct = 0;
+					}
 				}
 			}
+			Console.WriteLine("correct word " + correctWord + "| all word " + allWords.Count);
+			WriteCompress(text);
+		}
 
+		public static void WriteCompress(string text)
+		{
+			if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Compress.txt")))
+			{
+				File.Create(Path.Combine(Directory.GetCurrentDirectory(), "Compress.txt"));
+			}
+
+			File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "Compress.txt"), text);
 		}
 
 		public static void CompressingText(List<string> allWords,List<string> allSpecifyWords,string pathCompress,string text)
@@ -150,10 +205,8 @@ namespace CompressTextLZ77
 			{
 				File.Create(pathCompress);
 			}
-			for (int i = 0; i < allSpecifyWords.Count; i++)
-			{
-				CompareWords(allWords, allSpecifyWords, ref newText,i);
-			}
+			CompareWords(allWords, allSpecifyWords, ref newText);
+			WriteCompress(newText);
 		}
 	}
 }
