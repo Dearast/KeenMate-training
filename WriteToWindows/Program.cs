@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace WriteToWindows
 {
 	class Program
 	{
-		public static void WriteTextWithUseMouse(string text, int row, int lastPos, int textLength)
+		public static Timer TimerStatic;
+		public static int[,] PosInformation = new int[100, 30];
+		public static int Time = 0;
+		public static List<int> sizeWin = new List<int>();
+		public static string text;
+
+		public static void WriteTextWithUseMouse(string text, int row, int lastPos)
 		{
 			int screenWidth = Console.WindowWidth;
-			System.Console.SetCursorPosition(((screenWidth / 2) - (textLength / 2)) + lastPos, row);
+			System.Console.SetCursorPosition(lastPos, row);
 		  Console.WriteLine(text);
 		}
 
@@ -19,83 +26,125 @@ namespace WriteToWindows
 		{
 			Console.SetWindowSize(100, 30);
 			Console.SetBufferSize(100, 30);
-			Start();
+			Start(3);
 			Console.ReadKey();
 		}
 
-		static void Start()
+		static void Start(int maxWindows)
 		{
-
-		}
-
-		static void GenerateWindow()
-		{
-			int[] posWindowsXX;
-			int[] posWindowsYZ;
 			int window = 0;
-			do
+			int countDo = 0;
+			List<int> sizeWin = new List<int>();
+			while (window < maxWindows && countDo < 5000)
 			{
-				GenerateOneWindow(ref window,ref posWindowsXX, ref posWindowsYZ);
-			} while (window == 2);
+				GenerateWindow(ref window,ref PosInformation, ref sizeWin);
+				countDo++;
+			}
+			Console.WriteLine("Windows try do " + countDo + " / Window created - " + window);
+			Console.Clear();
+			Timer timer = new Timer(1000);
+			timer.Elapsed += new ElapsedEventHandler(DoEverySecond);
+			timer.Start();
+			TimerStatic = timer;
+			ReadKeyPress();
 		}
 
-		static void GenerateOneWindow(ref int window, ref int[] posWindowsX, ref int[] posWindowsY)
+		static void GenerateWindow(ref int window,ref int[,] PosInformation,ref List<int> sizeWin)
 		{
-
 			Random r = new Random();
-			int randomSquare = r.Next(0, 100);
-			bool notSquare = false;
-			int sizeX = 0;
-			int sizeY = 0;
-			if (randomSquare > 50)
+			int randomSizeX = r.Next(5, 25);
+			int randomSizeY = r.Next(5, 15);
+			int randomPosX = r.Next(randomSizeX / 2, 100 - (randomSizeX / 2));
+			int randomPosY = r.Next(randomSizeY / 2, 30 - (randomSizeY / 2));
+			int size = 0;
+			bool isInCorrect = false;
+			for (int x = (randomPosX - (randomSizeX / 2)); x < (randomPosX + (randomSizeX / 2)); x++)
 			{
-				notSquare = true;
+				for (int y = (randomPosY - (randomSizeY / 2)); y < (randomPosY + (randomSizeY / 2)); y++)
+				{
+					if(PosInformation[x,y] > 0)
+					{
+						isInCorrect = true;
+						break;
+					}
+				}
+				if (isInCorrect)
+				{
+					break;
+				}
 			}
 
-			if (!notSquare)
+			for (int x = (randomPosX - (randomSizeX / 2)); x < (randomPosX + (randomSizeX / 2)); x++)
 			{
-				sizeX = r.Next(5,15);
-			}
-			else
-			{
-				sizeX = r.Next(5, 15);
-				sizeY = r.Next(5, 15);
+				for (int y = (randomPosY - (randomSizeY / 2)); y < (randomPosY + (randomSizeY / 2)); y++)
+				{
+					if(x == (randomPosX - (randomSizeX / 2)) || x == (randomPosX - 1 + (randomSizeX / 2)) || y == (randomPosY - (randomSizeY / 2)) || y == (randomPosY - 1 + (randomSizeY / 2)))
+					{
+						PosInformation[x, y] = 99;
+					}
+					else
+					{
+						PosInformation[x, y] = window + 1;
+						size++;
+					}
+				}
 			}
 
-			if(window == 0)
+			if(isInCorrect == false)
 			{
-				int randomPosX = r.Next(sizeX / 2, 100 - (sizeX / 2));
-				int randomPosY = r.Next(sizeY / 2, 30 - (sizeY / 2));
-				posWindowsX[window] = randomPosX;
-				posWindowsY[window] = randomPosY;
 				window++;
+				sizeWin.Add(size);
 			}
-			else if(window == 1)
+		}
+
+		static void DrawDebug(int[,] PosInformation, List<int> sizeWin)
+		{
+			int LastPosCur = Console.CursorLeft;
+			int countWin = sizeWin.Count;
+			int select = 0;
+			int lastTextChar = 0;
+			for (int i = 0; i < countWin; i++)
 			{
-				int randomPosX = r.Next(sizeX / 2, 100 - (sizeX / 2));
-				int randomPosY = r.Next(sizeY / 2, 30 - (sizeY / 2));
-				if(randomPosX >= posWindowsX[window - 1] && randomPosX <= posWindowsX[window - 1]
-				&& randomPosY >= posWindowsY[window - 1] && randomPosY <= posWindowsY[window - 1])
+				if (text.Length >= sizeWin[i])
 				{
-					posWindowsX[window] = randomPosX;
-					posWindowsY[window] = randomPosY;
-					window++;
+					select = i;
+					break;
 				}
 			}
-			else if (window == 2)
+
+			for (int x = 0; x < 100; x++)
 			{
-				int randomPosX = r.Next(sizeX / 2, 100 - (sizeX / 2));
-				int randomPosY = r.Next(sizeY / 2, 30 - (sizeY / 2));
-				if (randomPosX >= posWindowsX[window - 1] && randomPosX <= posWindowsX[window - 1]
-				&& randomPosY >= posWindowsY[window - 1] && randomPosY <= posWindowsY[window - 1]
-				&& randomPosX >= posWindowsX[window - 2] && randomPosX <= posWindowsX[window - 2]
-				&& randomPosY >= posWindowsY[window - 2] && randomPosY <= posWindowsY[window - 2])
+				for (int y = 0; y < 30; y++)
 				{
-					posWindowsX[window] = randomPosX;
-					posWindowsY[window] = randomPosY;
-					window++;
+					if(PosInformation[x,y] == 99)
+					{
+						WriteTextWithUseMouse("#", y + 1, x);
+					}
+					else if (PosInformation[x, y] > 0 && PosInformation[x, y] < 99 && !string.IsNullOrEmpty(text))
+					{
+						char[] charText = text.ToCharArray();
+						WriteTextWithUseMouse(charText[lastTextChar].ToString(), y + 1, x);
+						lastTextChar++;
+					}
 				}
 			}
+			Console.SetCursorPosition(LastPosCur, 0);
+		}
+
+		public static void ReadKeyPress()
+		{
+			text = Console.ReadLine();
+		}
+
+		public static void DoEverySecond(object sender, ElapsedEventArgs e)
+		{
+			Timer(ref Time);
+			DrawDebug(PosInformation, sizeWin);
+		}
+
+		public static void Timer(ref int time)
+		{
+			time--;
 		}
 	}
 }
