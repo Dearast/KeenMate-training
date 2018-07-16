@@ -13,6 +13,9 @@ namespace WriteToWindows
 		public static int[,] PosInformation = new int[100, 30];
 		public static int Time = 0;
 		public static List<int> sizeWin = new List<int>();
+		public static int[,] windowList1;
+		public static int[,] windowList2;
+		public static int[,] windowList3;
 		public static string text;
 
 		public static void WriteTextWithUseMouse(string text, int row, int lastPos)
@@ -42,6 +45,7 @@ namespace WriteToWindows
 			}
 			Console.WriteLine("Windows try do " + countDo + " / Window created - " + window);
 			Console.Clear();
+			DrawWindow();
 			Timer timer = new Timer(1000);
 			timer.Elapsed += new ElapsedEventHandler(DoEverySecond);
 			timer.Start();
@@ -93,41 +97,49 @@ namespace WriteToWindows
 			if(isInCorrect == false)
 			{
 				window++;
+				if(window == 0)
+				{
+					for (int x = 0; x < randomSizeX; x++)
+					{
+						for (int y = 0; y < randomSizeX; y++)
+						{
+
+						}
+					}
+				}
+				else if (window == 1)
+				{
+					windowList1
+				}
+				else if (window == 2)
+				{
+					windowList1
+				}
 				sizeWin.Add(size);
 			}
 		}
 
-		static void DrawDebug(int[,] PosInformation, List<int> sizeWin)
+		static void DrawWindow()
 		{
 			int LastPosCur = Console.CursorLeft;
-			int countWin = sizeWin.Count;
-			int select = 0;
-			int lastTextChar = 0;
-			for (int i = 0; i < countWin; i++)
-			{
-				if (text.Length >= sizeWin[i])
-				{
-					select = i;
-					break;
-				}
-			}
-
 			for (int x = 0; x < 100; x++)
 			{
 				for (int y = 0; y < 30; y++)
 				{
-					if(PosInformation[x,y] == 99)
+					if (PosInformation[x, y] == 99)
 					{
 						WriteTextWithUseMouse("#", y + 1, x);
 					}
-					else if (PosInformation[x, y] > 0 && PosInformation[x, y] < 99 && !string.IsNullOrEmpty(text))
-					{
-						char[] charText = text.ToCharArray();
-						WriteTextWithUseMouse(charText[lastTextChar].ToString(), y + 1, x);
-						lastTextChar++;
-					}
 				}
 			}
+			Console.SetCursorPosition(LastPosCur, 0);
+		}
+
+		static void DrawDebug(List<int> sizeWin)
+		{
+			//draw only text to window
+			int LastPosCur = Console.CursorLeft;
+
 			Console.SetCursorPosition(LastPosCur, 0);
 		}
 
@@ -139,7 +151,7 @@ namespace WriteToWindows
 		public static void DoEverySecond(object sender, ElapsedEventArgs e)
 		{
 			Timer(ref Time);
-			DrawDebug(PosInformation, sizeWin);
+			DrawDebug(sizeWin);
 		}
 
 		public static void Timer(ref int time)

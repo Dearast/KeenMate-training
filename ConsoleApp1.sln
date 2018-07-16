@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressTextLZ77", "Compres
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WriteToWindows", "WriteToWindows\WriteToWindows.csproj", "{AC9C448D-ECB9-4F9F-964D-AAE684B1A63B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewWriteToWindow", "NewWriteToWindow\NewWriteToWindow.csproj", "{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{AC9C448D-ECB9-4F9F-964D-AAE684B1A63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC9C448D-ECB9-4F9F-964D-AAE684B1A63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC9C448D-ECB9-4F9F-964D-AAE684B1A63B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
