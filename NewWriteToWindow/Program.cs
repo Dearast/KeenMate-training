@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace NewWriteToWindow
 {
 	class Program
 	{
 		public static string text;
+		public static string textB;
+		public static string TextA;
 		public static List<int[]> StartText = new List<int[]>();
 		public static List<int> EndRowText = new List<int>();
 		public static List<int> countRow = new List<int>();
@@ -49,18 +52,67 @@ namespace NewWriteToWindow
 				if(!string.IsNullOrEmpty(text) && text.Length > maxTextLength)
 				{
 					char[] textChar = text.ToCharArray();
-					text = string.Empty;
-					for (int i = 1; i < textChar.Length; i++)
-					{
-						text += textChar[i];
-					}
 					ConsoleKeyInfo ans = Console.ReadKey(true);
-					text += ans.KeyChar.ToString();
+					if(ans.Key != ConsoleKey.LeftArrow && ans.Key != ConsoleKey.RightArrow)
+					{
+						text = string.Empty;
+						textB += textChar[0];
+						for (int i = 1; i < textChar.Length; i++)
+						{
+							text += textChar[i];
+						}
+						text += ans.KeyChar.ToString();
+					}
+					else if (ans.Key == ConsoleKey.LeftArrow && textB.Length > 1)
+					{
+						char[] newTextChar = new char[textChar.Length];
+						text = string.Empty;
+						for (int i = 0; i < textChar.Length - 1; i++)
+						{
+							newTextChar[i + 1] += textChar[i];
+						}
+						TextA += textChar[textChar.Length - 1];
+						newTextChar[0] = textB[textB.Length - 1];
+						for (int i = 0; i < textChar.Length; i++)
+						{
+							text += newTextChar[i];
+						}
+						char[] newTextB = textB.ToCharArray();
+						textB = string.Empty;
+						for (int i = 0; i < newTextB.Length - 1; i++)
+						{
+							textB += newTextB[i];
+						}
+					}
+					else if (ans.Key == ConsoleKey.RightArrow && TextA.Length > 1)
+					{
+						char[] newTextChar = new char[textChar.Length];
+						text = string.Empty;
+						for (int i = 1; i < textChar.Length; i++)
+						{
+							newTextChar[i - 1] += textChar[i];
+						}
+						textB += textChar[0];
+						newTextChar[newTextChar.Length - 1] = TextA[TextA.Length - 1];
+						for (int i = 0; i < textChar.Length; i++)
+						{
+							text += newTextChar[i];
+						}
+						char[] newTextA = TextA.ToCharArray();
+						TextA = string.Empty;
+						for (int i = 0; i < newTextA.Length - 1; i++)
+						{
+							TextA += newTextA[i];
+						}
+					}
 				}
 				else
 				{
 					ConsoleKeyInfo ans = Console.ReadKey(true);
-					text += ans.KeyChar.ToString();
+					if (ans.Key != ConsoleKey.LeftArrow && ans.Key != ConsoleKey.RightArrow)
+					{
+						text += ans.KeyChar.ToString();
+					}
 				}
 				DrawTextInWindow();
 			} while (true);
@@ -78,8 +130,8 @@ namespace NewWriteToWindow
 		static void GenerateOneWindow(ref int[,] ConsoleArry,ref int currentWindow)
 		{
 			Random r = new Random();
-			int randomSizeX = r.Next(15, 25);
-			int randomSizeY = r.Next(5, 15);
+			int randomSizeX = r.Next(5, 15);
+			int randomSizeY = r.Next(4, 5);
 			int randomPosX = r.Next(randomSizeX / 2, 100 - (randomSizeX / 2));
 			int randomPosY = r.Next(randomSizeY / 2, 30 - (randomSizeY / 2));
 			bool isInCollision = false;
@@ -190,7 +242,6 @@ namespace NewWriteToWindow
 		{
 			if (!string.IsNullOrEmpty(text))
 			{
-				int LastPosCur = Console.CursorLeft;
 				int writeTo = 0;
 				for (int i = 2; i > 0; i--)
 				{
@@ -219,11 +270,11 @@ namespace NewWriteToWindow
 							WriteTextWithUseMouse(charText[currentChar].ToString(), y + startPosY, startPosX + lastPos);
 							currentChar++;
 							lastPos++;
+							Console.SetCursorPosition(startPosX + lastPos, y + startPosY);
 						}
 						lastPos = 0;
 					}
 				}
-				Console.SetCursorPosition(LastPosCur, 0);
 			}
 		}
 	}

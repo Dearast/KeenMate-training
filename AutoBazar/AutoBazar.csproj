@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}</ProjectGuid>
+    <ProjectGuid>{F575FAAC-9C4D-41B6-B4E3-D8284859E2C6}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>NewWriteToWindow</RootNamespace>
-    <AssemblyName>NewWriteToWindow</AssemblyName>
+    <RootNamespace>AutoBazar</RootNamespace>
+    <AssemblyName>AutoBazar</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,7 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

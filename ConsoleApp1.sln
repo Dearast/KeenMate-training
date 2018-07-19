@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WriteToWindows", "WriteToWi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewWriteToWindow", "NewWriteToWindow\NewWriteToWindow.csproj", "{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoBazar", "AutoBazar\AutoBazar.csproj", "{F575FAAC-9C4D-41B6-B4E3-D8284859E2C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B4AC41-E643-48F8-B899-0C0D384F5EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F575FAAC-9C4D-41B6-B4E3-D8284859E2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F575FAAC-9C4D-41B6-B4E3-D8284859E2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F575FAAC-9C4D-41B6-B4E3-D8284859E2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F575FAAC-9C4D-41B6-B4E3-D8284859E2C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
