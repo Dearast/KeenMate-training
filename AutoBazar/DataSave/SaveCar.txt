@@ -1,0 +1,1 @@
+[{"Id":0,"Type":"combi","MotorValueInCm":54,"MotorPowerInKW":235,"GearBoxType":"stara","FuelType":null,"Color":"hneda","Text":null,"NameText":"renault"}]
