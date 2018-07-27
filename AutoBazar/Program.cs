@@ -225,10 +225,6 @@ namespace AutoBazar
 
 		static void EndApp()
 		{
-			//List<DataCar> car = new List<DataCar>
-			//{
-			//	new DataCar { Id = 0,Type = 0,Color = 0,Text = "test"}
-			//};
 			Environment.Exit(0);
 		}
 
@@ -247,20 +243,6 @@ namespace AutoBazar
 					FuelType = "",
 					GearBoxType = "",
 					NameText = "Auto_" + i
-				});
-			}
-			for (int i = 0; i < 5; i++)
-			{
-				cargoCar.Add(new DataCargoCar
-				{
-					Id = i,
-					Type = 0,
-					Color = 0,
-					Text = "test",
-					MotorPowerInKW = 0,
-					MotorValueInCm = 0,
-					FuelType = 0,
-					GearBoxType = 0
 				});
 			}
 			string jsonCar = JsonConvert.SerializeObject(car);
@@ -291,10 +273,10 @@ namespace AutoBazar
 				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
 				WriteButton("Jméno - " + car[selectCar].NameText, 0, 0, selectItemID);
 				WriteButton("typ karoserie - " + car[selectCar].Type, 1, 1, selectItemID);
-				WriteButton("Síla motoru" + car[selectCar].MotorPowerInKW, 2, 2, selectItemID);
-				WriteButton("Objem motoru v cm" + car[selectCar].MotorValueInCm, 3, 3, selectItemID);
-				WriteButton("Převodovka" + car[selectCar].GearBoxType, 4, 4, selectItemID);
-				WriteButton("Barva" + car[selectCar].Color, 5, 5, selectItemID);
+				WriteButton("Síla motoru - " + car[selectCar].MotorPowerInKW + " KW|Koně - " + car[selectCar].MotorPowerInKW * 1.34102209f, 2, 2, selectItemID);
+				WriteButton("Objem motoru v cm - " + car[selectCar].MotorValueInCm, 3, 3, selectItemID);
+				WriteButton("Převodovka - " + car[selectCar].GearBoxType, 4, 4, selectItemID);
+				WriteButton("Barva - " + car[selectCar].Color, 5, 5, selectItemID);
 				WriteButton("Odejít", 6, 6, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
 				ConsoleTextSelect(0, 6, ans, ref selectItemID);
@@ -339,6 +321,7 @@ namespace AutoBazar
 					if(selectCar == car.Count)
 					{
 						CreateNewCar(selectCar);
+						Console.Clear();
 					}
 					else
 					{
@@ -348,6 +331,15 @@ namespace AutoBazar
 							Console.Clear();
 							CreateNewCar(selectCar);
 						}
+						Console.Clear();
+					}
+				}
+				else if (ans.Key == ConsoleKey.LeftArrow)
+				{
+					if (selectCar != 0)
+					{
+						selectCar--;
+						Console.Clear();
 					}
 				}
 			} while (true);
@@ -374,8 +366,9 @@ namespace AutoBazar
 				WriteButton("Převodovka - " + gearBox, 4, 4, selectItemID);
 				WriteButton("Barva - " + color, 5, 5, selectItemID);
 				WriteButton("Uložit", 6, 6, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("Odejít bez uložení", 7, 7, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 6, ans, ref selectItemID);
+				ConsoleTextSelect(0, 7, ans, ref selectItemID);
 				if (ans.Key == ConsoleKey.Enter)
 				{
 					switch (selectItemID)
@@ -420,6 +413,10 @@ namespace AutoBazar
 							File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCar);
 							DrawDataCar();
 							break;
+						case 7:
+							Console.Clear();
+							DrawDataCar();
+							break;
 						default:
 							break;
 					}
@@ -429,52 +426,39 @@ namespace AutoBazar
 	}
 }
 
-public class DataCar
+public class BaseCar
 {
 	public int Id { get; set; }
 	public string Type { get; set; }
 	public int MotorValueInCm { get; set; }
 	public int MotorPowerInKW { get; set; }
-	public string GearBoxType { get; set; }
 	public string FuelType { get; set; }
 	public string Color { get; set; }
 	public string Text { get; set; }
 	public string NameText { get; set; }
 }
 
-public class DataCargoCar
+public class DataCar : BaseCar
 {
-	public int Id { get; set; }
-	public int Type { get; set; }
-	public int MotorValueInCm { get; set; }
-	public int MotorPowerInKW { get; set; }
-	public int GearBoxType { get; set; }
-	public int FuelType { get; set; }
-	public int Color { get; set; }
-	public string Text { get; set; }
+	public string GearBoxType { get; set; }
 }
 
-public class DataBus
+public class DataCargoCar : BaseCar
 {
-	public int Id { get; set; }
-	public int Type { get; set; }
-	public int MotorValueInCm { get; set; }
-	public int MotorPowerInKW { get; set; }
 	public int GearBoxType { get; set; }
-	public int FuelType { get; set; }
-	public int Color { get; set; }
-	public string Text { get; set; }
+	public int LoadCapacity { get; set; }
 }
 
-public class DataMotocykle
+public class DataBus : BaseCar
 {
-	public int Id { get; set; }
-	public int Type { get; set; }
-	public int MotorValueInCm { get; set; }
-	public int MotorPowerInKW { get; set; }
-	public int FuelType { get; set; }
-	public int Color { get; set; }
-	public string Text { get; set; }
+	public int GearBoxType { get; set; }
+	public int LoadCapacity { get; set; }
+	public int Capacity { get; set; }
+}
+
+public class DataMotocykle : BaseCar
+{
+
 }
 
 public class DataCykle
@@ -485,14 +469,7 @@ public class DataCykle
 	public string Text { get; set; }
 }
 
-public class DataCykleWithMotor
+public class DataCykleWithMotor : BaseCar
 {
-	public int Id { get; set; }
-	public int Type { get; set; }
-	public int MotorValueInCm { get; set; }
-	public int MotorPowerInKW { get; set; }
-	public int FuelType { get; set; }
-	public int Color { get; set; }
-	public string Text { get; set; }
-}
 
+}
