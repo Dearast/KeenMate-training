@@ -8,65 +8,9 @@ using Newtonsoft.Json;
 
 namespace AutoBazar
 {
-	class Program
+	class Program : MenuProperties
 	{
-		public static List<DataCar> car = new List<DataCar>();
 		public static List<DataCargoCar> cargoCar = new List<DataCargoCar>();
-
-		public static void WriteTextWithCursorPosition(string text, int row, ConsoleColor color = ConsoleColor.White,ConsoleColor background = ConsoleColor.Black)
-		{
-			int screenWidth = Console.WindowWidth;
-			System.Console.SetCursorPosition(((screenWidth / 2) - (text.Length / 2)), row);
-			Console.ForegroundColor = color;
-			Console.BackgroundColor = background;
-			Console.WriteLine(text);
-			Console.BackgroundColor = ConsoleColor.Black;
-		}
-
-		public static void WriteButton(string text, int ID, int row, int selectButton, ConsoleColor FColor = ConsoleColor.White,
-		ConsoleColor BColor = ConsoleColor.Gray)
-		{
-			int height = Console.WindowHeight;
-			if (ID == selectButton)
-			{
-				WriteTextWithCursorPosition(text, (height / 2) - 3 + row, ConsoleColor.Black, BColor);
-			}
-			else
-			{
-				WriteTextWithCursorPosition(text, (height / 2) - 3 + row, FColor, ConsoleColor.Black);
-			}
-		}
-
-		public static void ConsoleTextSelect(int min,int max,ConsoleKeyInfo ans,ref int selectItemID)
-		{
-			//Console.Clear();
-			if (ans.Key == ConsoleKey.UpArrow)
-			{
-				selectItemID--;
-				if (selectItemID < min)
-				{
-					selectItemID = min;
-				}
-			}
-			else if (ans.Key == ConsoleKey.DownArrow)
-			{
-				selectItemID++;
-				if (selectItemID > max)
-				{
-					selectItemID = max;
-				}
-			}
-		}
-
-		public static void WriteToButton(int addRow,string text)
-		{
-			int screenWidth = Console.WindowWidth;
-			int height = Console.WindowHeight;
-			int row = (height / 2) - 3 + addRow;
-			WriteTextWithCursorPosition("                                                                     ", row);
-			System.Console.SetCursorPosition(((screenWidth / 2) - (text.Length / 2)), row);
-			Console.ForegroundColor = ConsoleColor.White;
-		}
 
 		static void Main(string[] args)
 		{
@@ -83,9 +27,8 @@ namespace AutoBazar
 				WriteButton("Administrace", 0, 0, selectItemID);
 				WriteButton("Další možnosti", 1, 1, selectItemID);
 				WriteButton("Odejít", 2, 2, selectItemID);
-				WriteButton("Debug save", 3, 5, selectItemID,ConsoleColor.Green,ConsoleColor.DarkGreen);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 3, ans, ref selectItemID);
+				ConsoleTextSelect(0, 2, ans, ref selectItemID);
 				if(ans.Key == ConsoleKey.Enter)
 				{
 					switch (selectItemID)
@@ -96,14 +39,11 @@ namespace AutoBazar
 							break;
 						case 1:
 							Console.Clear();
-							AnotherOptions();
+							AnotherOptions objExample = new AnotherOptions();
 							break;
 						case 2:
 							Console.Clear();
 							EndApp();
-							break;
-						case 3:
-							DebugSave();
 							break;
 						default:
 							break;
@@ -132,7 +72,7 @@ namespace AutoBazar
 					{
 						case 0:
 							Console.Clear();
-							DrawDataCar();
+							CarDB objExample = new CarDB();
 							break;
 						case 1:
 							Console.Clear();
@@ -151,68 +91,6 @@ namespace AutoBazar
 
 							break;
 						case 5:
-							Console.Clear();
-							Start();
-							break;
-						default:
-							break;
-					}
-				}
-			} while (true);
-		}
-
-		static void AnotherOptions()
-		{
-			int selectItemID = 0;
-			int height = Console.WindowHeight;
-			do
-			{
-				WriteTextWithCursorPosition("Další možnosti", 1, ConsoleColor.White, ConsoleColor.Black);
-				if (selectItemID == 0)
-				{
-					WriteTextWithCursorPosition("Další možnosti", (height / 2) - 2, ConsoleColor.Black, ConsoleColor.White);
-				}
-				else
-				{
-					WriteTextWithCursorPosition("Další možnosti", (height / 2) - 2, ConsoleColor.White, ConsoleColor.Black);
-				}
-
-				if (selectItemID == 1)
-				{
-					WriteTextWithCursorPosition("Odejít", (height / 2) - 1, ConsoleColor.Black, ConsoleColor.White);
-				}
-				else
-				{
-					WriteTextWithCursorPosition("Odejít", (height / 2) - 1, ConsoleColor.White, ConsoleColor.Black);
-				}
-
-				ConsoleKeyInfo ans = Console.ReadKey(true);
-				Console.Clear();
-				if (ans.Key == ConsoleKey.UpArrow)
-				{
-					selectItemID--;
-					if (selectItemID < 0)
-					{
-						selectItemID = 0;
-					}
-				}
-				else if (ans.Key == ConsoleKey.DownArrow)
-				{
-					selectItemID++;
-					if (selectItemID > 2)
-					{
-						selectItemID = 2;
-					}
-				}
-				else if (ans.Key == ConsoleKey.Enter)
-				{
-					switch (selectItemID)
-					{
-						case 0:
-							Console.Clear();
-							AnotherOptions();
-							break;
-						case 1:
 							Console.Clear();
 							Start();
 							break;
@@ -227,47 +105,245 @@ namespace AutoBazar
 		{
 			Environment.Exit(0);
 		}
+	}
+}
 
-		static void DebugSave()
+public class MenuProperties
+{
+	public static void WriteToButton(int addRow, string text)
+	{
+		int screenWidth = Console.WindowWidth;
+		int height = Console.WindowHeight;
+		int row = (height / 2) - 3 + addRow;
+		WriteTextWithCursorPosition("                                                                     ", row);
+		System.Console.SetCursorPosition(((screenWidth / 2) - (text.Length / 2)), row);
+		Console.ForegroundColor = ConsoleColor.White;
+	}
+
+	public static void WriteTextWithCursorPosition(string text, int row, ConsoleColor color = ConsoleColor.White, ConsoleColor background = ConsoleColor.Black)
+	{
+		int screenWidth = Console.WindowWidth;
+		System.Console.SetCursorPosition(((screenWidth / 2) - (text.Length / 2)), row);
+		Console.ForegroundColor = color;
+		Console.BackgroundColor = background;
+		Console.WriteLine(text);
+		Console.BackgroundColor = ConsoleColor.Black;
+	}
+
+	public static void WriteButton(string text, int ID, int row, int selectButton, ConsoleColor FColor = ConsoleColor.White,
+	ConsoleColor BColor = ConsoleColor.Gray)
+	{
+		int height = Console.WindowHeight;
+		if (ID == selectButton)
 		{
-			for (int i = 0; i < 5; i++)
-			{
-				car.Add(new DataCar
-				{
-					Id = i,
-					Type = "Combi",
-					Color = "",
-					Text = "test",
-					MotorPowerInKW = 0,
-					MotorValueInCm = 0,
-					FuelType = "",
-					GearBoxType = "",
-					NameText = "Auto_" + i
-				});
-			}
-			string jsonCar = JsonConvert.SerializeObject(car);
-			string jsonCargoCar = JsonConvert.SerializeObject(cargoCar);
-			File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCar);
-			File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCargoCar.txt", jsonCargoCar);
+			WriteTextWithCursorPosition(text, (height / 2) - 3 + row, ConsoleColor.Black, BColor);
 		}
-
-		static void DrawDataCar()
+		else
 		{
-			if (!File.Exists(@"C:\Git\AutoBazar\DataSave\SaveCar.txt"))
+			WriteTextWithCursorPosition(text, (height / 2) - 3 + row, FColor, ConsoleColor.Black);
+		}
+	}
+
+	public static void ConsoleTextSelect(int min, int max, ConsoleKeyInfo ans, ref int selectItemID)
+	{
+		if (ans.Key == ConsoleKey.UpArrow)
+		{
+			selectItemID--;
+			if (selectItemID < min)
 			{
-				DataCar newCar = new DataCar();
-				string jsonCarNew = JsonConvert.SerializeObject(newCar);
-				File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCarNew);
-				CreateNewCar(0);
+				selectItemID = min;
 			}
-			else
+		}
+		else if (ans.Key == ConsoleKey.DownArrow)
+		{
+			selectItemID++;
+			if (selectItemID > max)
 			{
-				string jsonCar = File.ReadAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt");
-				List<DataCar> deserializedCar = JsonConvert.DeserializeObject<List<DataCar>>(jsonCar);
-				car = deserializedCar;
+				selectItemID = max;
 			}
-			int selectItemID = 0;
-			int selectCar = 0;
+		}
+	}
+
+	public static void ConsoleTypeSelect(int min, int max, ConsoleKeyInfo ans, ref int selectItemID, int IDItem, int selectItem)
+	{
+		if (selectItem == IDItem)
+		{
+			if (ans.Key == ConsoleKey.LeftArrow)
+			{
+				selectItemID--;
+				if (selectItemID < min)
+				{
+					selectItemID = min;
+				}
+			}
+			else if (ans.Key == ConsoleKey.RightArrow)
+			{
+				selectItemID++;
+				if (selectItemID > max)
+				{
+					selectItemID = max;
+				}
+			}
+		}
+	}
+
+	public static void SaveDataCar(List<DataCar> car)
+	{
+		string jsonCar = JsonConvert.SerializeObject(car);
+		File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCar);
+	}
+}
+
+public class AnotherOptions : MenuProperties
+{
+	public AnotherOptions()
+	{
+		int selectItemID = 0;
+		int height = Console.WindowHeight;
+		do
+		{
+			WriteTextWithCursorPosition("Další možnosti", 1, ConsoleColor.White, ConsoleColor.Black);
+			WriteButton("Najít", 0, 0, selectItemID);
+			WriteButton("Odejít", 1, 1, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+			ConsoleKeyInfo ans = Console.ReadKey(true);
+			ConsoleTextSelect(0, 8, ans, ref selectItemID);
+			if (ans.Key == ConsoleKey.Enter)
+			{
+				switch (selectItemID)
+				{
+					case 0:
+						
+						break;
+					case 1:
+						return;
+					default:
+						break;
+				}
+			}
+		} while (true);
+	}
+}
+
+public class CarDB : MenuProperties
+{
+	public static List<DataCar> car = new List<DataCar>();
+	public static int selectMotorType = 0;
+	public static int maxMotorType = 2;
+
+	public CarDB()
+	{
+		DrawDataCar();
+	}
+
+	static void CreateNewCar(int lastCar)
+	{
+		if (selectMotorType > maxMotorType)
+		{
+			selectMotorType = maxMotorType;
+		}
+		int selectItemID = 0;
+		string name = string.Empty;
+		string type = string.Empty;
+		string color = string.Empty;
+		string textPref = string.Empty;
+		string fuel = string.Empty;
+		string gearBox = string.Empty;
+		int power = 0;
+		int valueInCm = 0;
+		do
+		{
+			string motorType = Enum.GetName(typeof(DataCar.MotorType), selectMotorType);
+			Console.Clear();
+			WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+			WriteButton("Jméno - " + name, 0, 0, selectItemID);
+			WriteButton("typ karoserie - " + type, 1, 1, selectItemID);
+			WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
+			WriteButton("Objem motoru v cm - " + valueInCm, 3, 3, selectItemID);
+			WriteButton("Převodovka - " + gearBox, 4, 4, selectItemID);
+			WriteButton("Barva - " + color, 5, 5, selectItemID);
+			WriteButton("typ motoru - " + motorType, 6, 6, selectItemID);
+			WriteButton("Uložit", 7, 7, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+			WriteButton("Odejít bez uložení", 8, 8, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+			ConsoleKeyInfo ans = Console.ReadKey(true);
+			ConsoleTextSelect(0, 8, ans, ref selectItemID);
+			ConsoleTypeSelect(0, maxMotorType, ans, ref selectMotorType, 6, selectItemID);
+			if (ans.Key == ConsoleKey.Enter)
+			{
+				switch (selectItemID)
+				{
+					case 0:
+						WriteToButton(0, "Jméno - ");
+						name = Console.ReadLine();
+						break;
+					case 1:
+						WriteToButton(1, "typ karoserie - ");
+						type = Console.ReadLine();
+						break;
+					case 2:
+						WriteToButton(2, "Síla motoru - ");
+						power = int.Parse(Console.ReadLine());
+						break;
+					case 3:
+						WriteToButton(3, "Objem motoru v cm - ");
+						valueInCm = int.Parse(Console.ReadLine());
+						break;
+					case 4:
+						WriteToButton(4, "Převodovka - ");
+						gearBox = Console.ReadLine();
+						break;
+					case 5:
+						WriteToButton(5, "Barva - ");
+						color = Console.ReadLine();
+						break;
+					case 7:
+						car.Add(new DataCar
+						{
+							Id = lastCar,
+							NameText = name,
+							Type = type,
+							MotorPowerInKW = power,
+							MotorValueInCm = valueInCm,
+							GearBoxType = gearBox,
+							Color = color,
+							MotorTypeString = motorType
+						});
+						Console.Clear();
+						string jsonCar = JsonConvert.SerializeObject(car);
+						File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCar);
+						return;
+					case 8:
+						Console.Clear();
+						return;
+					default:
+						break;
+				}
+			}
+		} while (true);
+	}
+
+	static void DrawDataCar()
+	{
+		if (!File.Exists(@"C:\Git\AutoBazar\DataSave\SaveCar.txt"))
+		{
+			DataCar newCar = new DataCar();
+			string jsonCarNew = JsonConvert.SerializeObject(newCar);
+			File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCarNew);
+			CreateNewCar(0);
+		}
+		else
+		{
+			string jsonCar = File.ReadAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt");
+			List<DataCar> deserializedCar = JsonConvert.DeserializeObject<List<DataCar>>(jsonCar);
+			car = deserializedCar;
+		}
+		int selectItemID = 0;
+		int selectCar = 0;
+		if(car.Count == 0)
+		{
+			CreateNewCar(0);
+		}
+		else
+		{
 			do
 			{
 				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
@@ -277,48 +353,69 @@ namespace AutoBazar
 				WriteButton("Objem motoru v cm - " + car[selectCar].MotorValueInCm, 3, 3, selectItemID);
 				WriteButton("Převodovka - " + car[selectCar].GearBoxType, 4, 4, selectItemID);
 				WriteButton("Barva - " + car[selectCar].Color, 5, 5, selectItemID);
-				WriteButton("Odejít", 6, 6, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("typ motoru - " + car[selectCar].MotorTypeString, 6, 6, selectItemID);
+				WriteButton("Odejít", 7, 7, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("Vymazat", 8, 8, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 6, ans, ref selectItemID);
+				ConsoleTextSelect(0, 8, ans, ref selectItemID);
 				if (ans.Key == ConsoleKey.Enter)
 				{
 					switch (selectItemID)
 					{
 						case 0:
-							Console.Clear();
-
+							WriteToButton(0, "Jméno - ");
+							car[selectCar].NameText = Console.ReadLine();
+							SaveDataCar(car);
 							break;
 						case 1:
-							Console.Clear();
-
+							WriteToButton(1, "typ karoserie - ");
+							car[selectCar].Type = Console.ReadLine();
+							SaveDataCar(car);
 							break;
 						case 2:
-							Console.Clear();
-
+							WriteToButton(2, "Síla motoru - ");
+							car[selectCar].MotorPowerInKW = int.Parse(Console.ReadLine());
+							SaveDataCar(car);
 							break;
 						case 3:
-							Console.Clear();
-
+							WriteToButton(3, "Objem motoru v cm - ");
+							car[selectCar].MotorValueInCm = int.Parse(Console.ReadLine());
+							SaveDataCar(car);
 							break;
 						case 4:
-							Console.Clear();
-
+							WriteToButton(4, "Převodovka - ");
+							car[selectCar].GearBoxType = Console.ReadLine();
+							SaveDataCar(car);
 							break;
 						case 5:
-							Console.Clear();
-
+							WriteToButton(5, "Barva - ");
+							car[selectCar].Color = Console.ReadLine();
+							SaveDataCar(car);
 							break;
-						case 6:
+						case 7:
 							Console.Clear();
-							Administrations();
-							break;
+							return;
+						case 8:
+							if (car.Count == 1)
+							{
+								car.RemoveAt(selectCar);
+								SaveDataCar(car);
+								return;
+							}
+							else
+							{
+								car.RemoveAt(selectCar);
+								SaveDataCar(car);
+								Console.Clear();
+								break;
+							}
 						default:
 							break;
 					}
 				}
-				else if(ans.Key == ConsoleKey.RightArrow)
+				else if (ans.Key == ConsoleKey.RightArrow)
 				{
-					if(selectCar == car.Count)
+					if (selectCar == car.Count)
 					{
 						CreateNewCar(selectCar);
 						Console.Clear();
@@ -344,124 +441,49 @@ namespace AutoBazar
 				}
 			} while (true);
 		}
-
-		static void CreateNewCar(int lastCar)
-		{
-			int selectItemID = 0;
-			string name = string.Empty;
-			string type = string.Empty;
-			string color = string.Empty;
-			string textPref = string.Empty;
-			string fuel = string.Empty;
-			string gearBox = string.Empty;
-			int power = 0;
-			int valueInCm = 0;
-			do
-			{
-				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
-				WriteButton("Jméno - " + name, 0, 0, selectItemID);
-				WriteButton("typ karoserie - " + type, 1, 1, selectItemID);
-				WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
-				WriteButton("Objem motoru v cm - " + valueInCm, 3, 3, selectItemID);
-				WriteButton("Převodovka - " + gearBox, 4, 4, selectItemID);
-				WriteButton("Barva - " + color, 5, 5, selectItemID);
-				WriteButton("Uložit", 6, 6, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
-				WriteButton("Odejít bez uložení", 7, 7, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
-				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 7, ans, ref selectItemID);
-				if (ans.Key == ConsoleKey.Enter)
-				{
-					switch (selectItemID)
-					{
-						case 0:
-							WriteToButton(0, "Jméno - ");
-							name = Console.ReadLine();
-							break;
-						case 1:
-							WriteToButton(1, "typ karoserie - ");
-							type = Console.ReadLine();
-							break;
-						case 2:
-							WriteToButton(2, "Síla motoru - ");
-							power = int.Parse(Console.ReadLine());
-							break;
-						case 3:
-							WriteToButton(3, "Objem motoru v cm - ");
-							valueInCm = int.Parse(Console.ReadLine());
-							break;
-						case 4:
-							WriteToButton(4, "Převodovka - ");
-							gearBox = Console.ReadLine();
-							break;
-						case 5:
-							WriteToButton(5, "Barva - ");
-							color = Console.ReadLine();
-							break;
-						case 6:
-							car.Add(new DataCar
-							{
-								Id = lastCar,
-								NameText = name,
-								Type = type,
-								MotorPowerInKW = power,
-								MotorValueInCm = valueInCm,
-								GearBoxType = gearBox,
-								Color = color
-							});
-							Console.Clear();
-							string jsonCar = JsonConvert.SerializeObject(car);
-							File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCar);
-							DrawDataCar();
-							break;
-						case 7:
-							Console.Clear();
-							DrawDataCar();
-							break;
-						default:
-							break;
-					}
-				}
-			} while (true);
-		}
 	}
 }
 
-public class BaseCar
+public class Base : Motor
 {
 	public int Id { get; set; }
 	public string Type { get; set; }
-	public int MotorValueInCm { get; set; }
-	public int MotorPowerInKW { get; set; }
-	public string FuelType { get; set; }
 	public string Color { get; set; }
 	public string Text { get; set; }
 	public string NameText { get; set; }
 }
 
-public class DataCar : BaseCar
+public class Motor
+{
+	public int MotorValueInCm { get; set; }
+	public int MotorPowerInKW { get; set; }
+	public enum FuelType { electricity, benzine, oil, biofuel, gas }
+	public string FuelTypeString { get; set; }
+	public enum MotorType { electric,burner}
+	public string MotorTypeString { get; set; }
+}
+
+public class DataCar : Base
 {
 	public string GearBoxType { get; set; }
 }
 
-public class DataCargoCar : BaseCar
+public class DataCargoCar : DataCar
 {
-	public int GearBoxType { get; set; }
 	public int LoadCapacity { get; set; }
 }
 
-public class DataBus : BaseCar
+public class DataBus : DataCargoCar
 {
-	public int GearBoxType { get; set; }
-	public int LoadCapacity { get; set; }
 	public int Capacity { get; set; }
 }
 
-public class DataMotocykle : BaseCar
+public class DataMotorcykle : Base
 {
 
 }
 
-public class DataCykle
+public class DataBike
 {
 	public int Id { get; set; }
 	public int Type { get; set; }
@@ -469,7 +491,7 @@ public class DataCykle
 	public string Text { get; set; }
 }
 
-public class DataCykleWithMotor : BaseCar
+public class DataBikecykleWithMotor : Base
 {
 
 }

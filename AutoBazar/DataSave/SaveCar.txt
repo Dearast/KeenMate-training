@@ -1,1 +1,1 @@
-[{"GearBoxType":"stara","Id":0,"Type":"combi","MotorValueInCm":54,"MotorPowerInKW":235,"FuelType":null,"Color":"hneda","Text":null,"NameText":"renault"},{"GearBoxType":"nevim","Id":1,"Type":"fuk","MotorValueInCm":4567,"MotorPowerInKW":345,"FuelType":null,"Color":"yluta","Text":null,"NameText":"ele"},{"GearBoxType":"kde mam","Id":2,"Type":"vole","MotorValueInCm":456,"MotorPowerInKW":23,"FuelType":null,"Color":"karu","Text":null,"NameText":"hele"}]
+[]
