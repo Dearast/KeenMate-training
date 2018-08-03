@@ -192,7 +192,7 @@ public class MenuProperties
 	public static void SaveDataCar(List<DataCar> car)
 	{
 		string jsonCar = JsonConvert.SerializeObject(car);
-		File.WriteAllText(@"C:\Git\AutoBazar\DataSave\SaveCar.txt", jsonCar);
+		File.WriteAllText("%AppData%\\MyProjects\\SaveCar.txt", jsonCar);
 	}
 }
 
@@ -243,10 +243,16 @@ public class CarDB : MenuProperties
 	public CarDB()
 	{
 		DrawDataCar();
+		//string ID = "kappa";
+		//var namecar = car.Where(item => item.NameText == ID);
 	}
 
 	public static void CreateNewCar()
 	{
+		if (car == null)
+		{
+			car = new List<DataCar>();
+		}
 		int selectItemID = 0;
 		string name = string.Empty;
 		string textPref = string.Empty;
@@ -317,7 +323,7 @@ public class CarDB : MenuProperties
 						valueInCm = int.Parse(Console.ReadLine());
 						break;
 					case 8:
-						car.Add(new DataCar
+						DataCar addCar = new DataCar
 						{
 							FuelTypeString = fuelType,
 							NameText = name,
@@ -327,7 +333,8 @@ public class CarDB : MenuProperties
 							GearBoxString = gearBoxType,
 							ColorString = colorType,
 							MotorTypeString = motorType
-						});
+						};
+						car.Add(addCar);
 						Console.Clear();
 						string jsonCar = JsonConvert.SerializeObject(car);
 						File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCar.txt"), jsonCar);
@@ -467,20 +474,16 @@ public class CarDB : MenuProperties
 	}
 }
 
-public class Base : Motor
+public class Base
 {
 	public enum ColorType { modrá, červená, zelená, žlutá, hnědá, oranžová, šedá, bíla, černá}
 	public string ColorString { get; set; }
 	public string NameText { get; set; }
-}
-
-public class Motor
-{
 	public int MotorValueInCm { get; set; }
 	public int MotorPowerInKW { get; set; }
 	public enum FuelType { electricity, benzine, oil, biofuel, gas }
 	public string FuelTypeString { get; set; }
-	public enum MotorType { electric,burner}
+	public enum MotorType { electric, burner }
 	public string MotorTypeString { get; set; }
 }
 
@@ -492,7 +495,7 @@ public class DataCar : Base
 	public string TypeCarString { get; set; }
 }
 
-public class DataCargoCar : Base
+public class DataCargoCar : DataCar
 {
 	public int LoadCapacity { get; set; }
 }
@@ -509,7 +512,6 @@ public class DataMotorcykle : Base
 
 public class DataBike
 {
-	public int Id { get; set; }
 	public int Type { get; set; }
 	public int Color { get; set; }
 	public string Text { get; set; }
