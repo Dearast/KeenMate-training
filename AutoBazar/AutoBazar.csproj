@@ -45,8 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarDB.cs" />
+    <Compile Include="CargoCarDB.cs" />
     <Compile Include="DB.cs" />
+    <Compile Include="FindInDBCar.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
