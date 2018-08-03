@@ -226,6 +226,100 @@ public class AnotherOptions : MenuProperties
 	}
 }
 
+public class FindInDB : MenuProperties
+{
+	public static List<DataCar> car = new List<DataCar>();
+	public static int selectMotorType = 0;
+	public static int maxMotorType = 2;
+	public static int selectColorType = 0;
+	public static int maxColorType = 9;
+	public static int selectGearBoxType = 0;
+	public static int maxGearBoxType = 9;
+	public static int selectTypeCar = 0;
+	public static int maxTypeCar = 13;
+	public static int selectFuelType = 0;
+	public static int maxFuelType = 5;
+
+	public FindInDB()
+	{
+		//select find
+		//in car,cargo,bus,...
+	}
+
+	public static void FindInCarDB()
+	{
+		if (car == null)
+		{
+			car = new List<DataCar>();
+		}
+		int selectItemID = 0;
+		string name = string.Empty;
+		string textPref = string.Empty;
+		string fuel = string.Empty;
+		int power = 0;
+		int valueInCm = 0;
+		int height = Console.WindowHeight;
+		do
+		{
+			if (selectMotorType > maxMotorType)
+			{
+				selectMotorType = maxMotorType;
+			}
+			if (selectColorType > maxColorType)
+			{
+				selectColorType = maxColorType;
+			}
+			if (selectGearBoxType > maxGearBoxType)
+			{
+				selectGearBoxType = maxGearBoxType;
+			}
+			if (selectTypeCar > maxTypeCar)
+			{
+				selectTypeCar = maxTypeCar;
+			}
+			if (selectFuelType > maxFuelType)
+			{
+				selectFuelType = maxFuelType;
+			}
+
+			string motorType = Enum.GetName(typeof(DataCar.MotorType), selectMotorType);
+			string colorType = Enum.GetName(typeof(DataCar.ColorType), selectColorType);
+			string gearBoxType = Enum.GetName(typeof(DataCar.GearBoxType), selectGearBoxType);
+			string typeCar = Enum.GetName(typeof(DataCar.TypeCar), selectTypeCar);
+			string fuelType = Enum.GetName(typeof(DataCar.FuelType), selectFuelType);
+			Console.Clear();
+			WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+			WriteButton("Jméno - " + name, 0, 0, selectItemID);
+			WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
+			WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
+			WriteButton("Objem motoru v cm - " + valueInCm, 3, 3, selectItemID);
+			WriteButton("Převodovka - " + gearBoxType, 4, 4, selectItemID);
+			WriteButton("Barva - " + colorType, 5, 5, selectItemID);
+			WriteButton("typ motoru - " + motorType, 6, 6, selectItemID);
+			WriteButton("typ motoru - " + fuelType, 7, 7, selectItemID);
+			WriteButton("Uložit", 8, 8, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+			WriteButton("Odejít bez uložení", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+			ConsoleKeyInfo ans = Console.ReadKey(true);
+			ConsoleTextSelect(0, 8, ans, ref selectItemID);
+			ConsoleTypeSelect(0, maxMotorType, ans, ref selectMotorType, 6, selectItemID);
+			ConsoleTypeSelect(0, maxColorType, ans, ref selectColorType, 5, selectItemID);
+			ConsoleTypeSelect(0, maxGearBoxType, ans, ref selectGearBoxType, 4, selectItemID);
+			ConsoleTypeSelect(0, maxTypeCar, ans, ref selectTypeCar, 1, selectItemID);
+			ConsoleTypeSelect(0, maxFuelType, ans, ref selectTypeCar, 7, selectItemID);
+			if (ans.Key == ConsoleKey.Enter)
+			{
+				switch (selectItemID)
+				{
+					case 1:
+						return;
+					default:
+						break;
+				}
+			}
+		} while (true);
+	}
+}
+
 public class CarDB : MenuProperties
 {
 	public static List<DataCar> car = new List<DataCar>();
