@@ -42,6 +42,7 @@ namespace AutoBazar
 			int power = 0;
 			int valueInCm = 0;
 			int loadCapacity = 0;
+			int capacity = 0;
 			do
 			{
 				if (selectMotorType > maxMotorType)
@@ -64,12 +65,12 @@ namespace AutoBazar
 				{
 					selectFuelType = maxFuelType;
 				}
-				CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-			out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectTypeCar,
-			selectFuelType);
+				CheckStringSelectBusEnum(out string motorType, out string colorType, out string gearBoxType,
+			out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType,
+			selectFuelType,selectTypeCar);
 				Console.Clear();
-				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
-				WriteTextWithCursorPosition("Vytvoření nového vozidla", 2, ConsoleColor.White, ConsoleColor.Black);
+				WriteTextWithCursorPosition("Autobusy", 1, ConsoleColor.White, ConsoleColor.Black);
+				WriteTextWithCursorPosition("Vytvoření vozidla", 2, ConsoleColor.White, ConsoleColor.Black);
 				WriteButton("Jméno - " + name, 0, 0, selectItemID);
 				WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
 				WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
@@ -78,11 +79,12 @@ namespace AutoBazar
 				WriteButton("Barva - " + colorType, 5, 5, selectItemID);
 				WriteButton("typ motoru - " + motorType, 6, 6, selectItemID);
 				WriteButton("typ paliva - " + fuelType, 7, 7, selectItemID);
-				WriteButton("Kapacita - " + loadCapacity, 8, 8, selectItemID);
-				WriteButton("Odejít", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
-				WriteButton("Vymazat", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("Kapacita v tunech - " + loadCapacity, 8, 8, selectItemID);
+				WriteButton("Kapacita cestujících - " + capacity, 9, 9, selectItemID);
+				WriteButton("Odejít", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("Vymazat", 11, 11, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 10, ans, ref selectItemID);
+				ConsoleTextSelect(0, 11, ans, ref selectItemID);
 				ConsoleTypeSelect(0, maxMotorType, ans, ref selectMotorType, 6, selectItemID);
 				ConsoleTypeSelect(0, maxColorType, ans, ref selectColorType, 5, selectItemID);
 				ConsoleTypeSelect(0, maxGearBoxType, ans, ref selectGearBoxType, 4, selectItemID);
@@ -104,25 +106,26 @@ namespace AutoBazar
 							WriteToButton(3, "Objem motoru v cm - ");
 							valueInCm = int.Parse(Console.ReadLine());
 							break;
-						case 8:
+						case 9:
 							DataBus addCar = new DataBus
 							{
 								FuelType = (DataBus.FuelTypeEnum)selectFuelType,
 								NameText = name,
-								CarType = (DataBus.TypeCarEnum)selectTypeCar,
+								BusType = (DataBus.TypeBusEnum)selectTypeCar,
 								MotorPowerInKW = power,
 								MotorValueInCm = valueInCm,
 								GearType = (DataCar.GearBoxTypeEnum)selectGearBoxType,
 								Color = (DataCar.ColorTypeEnum)selectColorType,
 								MotorType = (DataCar.MotorTypeEnum)selectMotorType,
-								LoadCapacity = loadCapacity
+								LoadCapacity = loadCapacity,
+								Capacity = capacity
 							};
 							car.Add(addCar);
 							Console.Clear();
 							string jsonCar = JsonConvert.SerializeObject(car);
 							File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"), jsonCar);
 							return;
-						case 9:
+						case 10:
 							Console.Clear();
 							return;
 						default:
@@ -139,7 +142,9 @@ namespace AutoBazar
 			if (!File.Exists(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt")))
 			{
 				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects"));
-				File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"));
+				FileStream DB = new FileStream(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"), FileMode.Create);
+				DB.Close();
+				//File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"));
 				DataBus newCar = new DataBus();
 				string jsonCarNew = JsonConvert.SerializeObject(newCar);
 				File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"), jsonCarNew);
@@ -181,29 +186,27 @@ namespace AutoBazar
 					{
 						selectFuelType = maxFuelType;
 					}
-
-					CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-			out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectColorType, selectFuelType);
-					WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+					WriteTextWithCursorPosition("Autobusy", 1, ConsoleColor.White, ConsoleColor.Black);
 					WriteTextWithCursorPosition("Vykreslení seznamu", 2, ConsoleColor.White, ConsoleColor.Black);
 					WriteButton("Jméno - " + car[selectCar].NameText, 0, 0, selectItemID);
-					WriteButton("typ karoserie - " + car[selectCar].CarType, 1, 1, selectItemID);
+					WriteButton("typ karoserie - " + car[selectCar].BusType, 1, 1, selectItemID);
 					WriteButton("Síla motoru - " + car[selectCar].MotorPowerInKW + " KW|Koně - " + car[selectCar].MotorPowerInKW * 1.34102209f, 2, 2, selectItemID);
 					WriteButton("Objem motoru v cm - " + car[selectCar].MotorValueInCm, 3, 3, selectItemID);
 					WriteButton("Převodovka - " + car[selectCar].GearType, 4, 4, selectItemID);
 					WriteButton("Barva - " + car[selectCar].Color, 5, 5, selectItemID);
 					WriteButton("typ motoru - " + car[selectCar].MotorType, 6, 6, selectItemID);
 					WriteButton("typ paliva - " + car[selectCar].FuelType, 7, 7, selectItemID);
-					WriteButton("Kapacita - " + car[selectCar].LoadCapacity, 8, 8, selectItemID);
-					WriteButton("Odejít", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
-					WriteButton("Vymazat", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+					WriteButton("Kapacita v tunech - " + car[selectCar].LoadCapacity, 8, 8, selectItemID);
+					WriteButton("Kapacita cestujících - " + car[selectCar].Capacity, 9, 9, selectItemID);
+					WriteButton("Odejít", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+					WriteButton("Vymazat", 11, 11, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 					ConsoleKeyInfo ans = Console.ReadKey(true);
-					ConsoleTextSelect(0, 10, ans, ref selectItemID);
+					ConsoleTextSelect(0, 11, ans, ref selectItemID);
 					switch (selectItemID)
 					{
 						case 1:
 							ConsoleTypeSelect(0, maxTypeCar, ans, ref selectTypeCar, 1, selectItemID);
-							car[selectCar].CarType = (DataCar.TypeCarEnum)selectTypeCar;
+							car[selectCar].BusType = (DataBus.TypeBusEnum)selectTypeCar;
 							SaveDataBus(car);
 							enableArrow = false;
 							break;
@@ -236,10 +239,10 @@ namespace AutoBazar
 								car[selectCar].NameText = Console.ReadLine();
 								SaveDataBus(car);
 								break;
-							case 9:
+							case 10:
 								Console.Clear();
 								return;
-							case 10:
+							case 11:
 								if (car.Count == 1)
 								{
 									car.RemoveAt(selectCar);

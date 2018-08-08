@@ -27,13 +27,64 @@ namespace AutoBazar
 
 		public static void CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
 	out string typeCar, out string fuelType,int selectMotorType,int selectColorType,int selectGearBoxType,
-	int selectTypeCar,int selectFuelType)
+	int selectFuelType, int selectTypeCar)
 		{
+			typeCar = string.Empty;
 			motorType = Enum.GetName(typeof(DataCar.MotorTypeEnum), selectMotorType);
 			colorType = Enum.GetName(typeof(DataCar.ColorTypeEnum), selectColorType);
 			gearBoxType = Enum.GetName(typeof(DataCar.GearBoxTypeEnum), selectGearBoxType);
-			typeCar = Enum.GetName(typeof(DataCar.TypeCarEnum), selectTypeCar);
 			fuelType = Enum.GetName(typeof(DataCar.FuelTypeEnum), selectFuelType);
+			typeCar = Enum.GetName(typeof(DataCar.TypeCarEnum), selectTypeCar);
+		}
+
+		public static void CheckStringSelectCargoCarEnum(out string motorType, out string colorType, out string gearBoxType,
+out string typeCar, out string fuelType, int selectMotorType, int selectColorType, int selectGearBoxType,
+int selectFuelType, int selectTypeCar)
+		{
+			typeCar = string.Empty;
+			motorType = Enum.GetName(typeof(DataCar.MotorTypeEnum), selectMotorType);
+			colorType = Enum.GetName(typeof(DataCar.ColorTypeEnum), selectColorType);
+			gearBoxType = Enum.GetName(typeof(DataCar.GearBoxTypeEnum), selectGearBoxType);
+			fuelType = Enum.GetName(typeof(DataCar.FuelTypeEnum), selectFuelType);
+			typeCar = Enum.GetName(typeof(DataCar.TypeCargoCarEnum), selectTypeCar);
+		}
+
+		public static void CheckStringSelectBusEnum(out string motorType, out string colorType, out string gearBoxType,
+out string typeCar, out string fuelType, int selectMotorType, int selectColorType, int selectGearBoxType,
+int selectFuelType, int selectTypeCar)
+		{
+			typeCar = string.Empty;
+			motorType = Enum.GetName(typeof(DataCar.MotorTypeEnum), selectMotorType);
+			colorType = Enum.GetName(typeof(DataCar.ColorTypeEnum), selectColorType);
+			gearBoxType = Enum.GetName(typeof(DataCar.GearBoxTypeEnum), selectGearBoxType);
+			fuelType = Enum.GetName(typeof(DataCar.FuelTypeEnum), selectFuelType);
+			typeCar = Enum.GetName(typeof(DataCar.TypeBusEnum), selectTypeCar);
+		}
+
+		public static void CheckMaxSizeCarDB(int maxMotorType, int maxColorType, int maxGearBoxType, int maxTypeCar,
+		int maxFuelType,ref int selectMotorType, ref int selectColorType, ref int selectGearBoxType, ref int selectTypeCar,
+		ref int selectFuelType)
+		{
+			if (selectMotorType > maxMotorType)
+			{
+				selectMotorType = maxMotorType;
+			}
+			if (selectColorType > maxColorType)
+			{
+				selectColorType = maxColorType;
+			}
+			if (selectGearBoxType > maxGearBoxType)
+			{
+				selectGearBoxType = maxGearBoxType;
+			}
+			if (selectTypeCar > maxTypeCar)
+			{
+				selectTypeCar = maxTypeCar;
+			}
+			if (selectFuelType > maxFuelType)
+			{
+				selectFuelType = maxFuelType;
+			}
 		}
 
 		public static void WriteTextWithCursorPosition(string text, int row, ConsoleColor color = ConsoleColor.White, ConsoleColor background = ConsoleColor.Black)
@@ -101,6 +152,7 @@ namespace AutoBazar
 					}
 				}
 			}
+			//Console.Clear();
 		}
 
 		public static void SaveDataCar(List<DataCar> car)

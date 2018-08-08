@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace AutoBazar
 {
@@ -21,6 +22,8 @@ namespace AutoBazar
 		public static int maxTypeCar = Enum.GetNames(typeof(DataCar.TypeCarEnum)).Length;
 		public static int selectFuelType = 0;
 		public static int maxFuelType = Enum.GetNames(typeof(DataCar.FuelTypeEnum)).Length;
+		public static string CarDBPath = Environment.ExpandEnvironmentVariables(ConfigurationSettings.AppSettings["CarDBPath"]);
+		public static string DefaultPath = Environment.ExpandEnvironmentVariables(ConfigurationSettings.AppSettings["Path"]);
 
 		public CarDB()
 		{
@@ -43,29 +46,11 @@ namespace AutoBazar
 			int valueInCm = 0;
 			do
 			{
-				if (selectMotorType > maxMotorType)
-				{
-					selectMotorType = maxMotorType;
-				}
-				if (selectColorType > maxColorType)
-				{
-					selectColorType = maxColorType;
-				}
-				if (selectGearBoxType > maxGearBoxType)
-				{
-					selectGearBoxType = maxGearBoxType;
-				}
-				if (selectTypeCar > maxTypeCar)
-				{
-					selectTypeCar = maxTypeCar;
-				}
-				if (selectFuelType > maxFuelType)
-				{
-					selectFuelType = maxFuelType;
-				}
+				CheckMaxSizeCarDB(maxMotorType,maxColorType,maxGearBoxType,maxTypeCar,maxFuelType, ref selectMotorType,
+				ref selectColorType, ref selectGearBoxType, ref selectTypeCar, ref selectFuelType);
 				CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-			out string typeCar, out string fuelType,selectMotorType,selectColorType,selectGearBoxType,selectTypeCar,
-			selectFuelType);
+				out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, 
+				selectFuelType, selectTypeCar);
 				Console.Clear();
 				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
 				WriteTextWithCursorPosition("Vytvoření nového vozidla", 2, ConsoleColor.White, ConsoleColor.Black);
@@ -80,7 +65,7 @@ namespace AutoBazar
 				WriteButton("Uložit", 8, 8, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				WriteButton("Odejít bez uložení", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 10, ans, ref selectItemID);
+				ConsoleTextSelect(0, 9, ans, ref selectItemID);
 				ConsoleTypeSelect(0, maxMotorType, ans, ref selectMotorType, 6, selectItemID);
 				ConsoleTypeSelect(0, maxColorType, ans, ref selectColorType, 5, selectItemID);
 				ConsoleTypeSelect(0, maxGearBoxType, ans, ref selectGearBoxType, 4, selectItemID);
@@ -96,11 +81,11 @@ namespace AutoBazar
 							break;
 						case 2:
 							WriteToButton(2, "Síla motoru - ");
-							power = int.Parse(Console.ReadLine());
+							int.TryParse(Console.ReadLine(), out power);
 							break;
 						case 3:
 							WriteToButton(3, "Objem motoru v cm - ");
-							valueInCm = int.Parse(Console.ReadLine());
+							int.TryParse(Console.ReadLine(), out valueInCm);
 							break;
 						case 8:
 							DataCar addCar = new DataCar
@@ -117,7 +102,7 @@ namespace AutoBazar
 							car.Add(addCar);
 							Console.Clear();
 							string jsonCar = JsonConvert.SerializeObject(car);
-							File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCar.txt"), jsonCar);
+							File.WriteAllText(CarDBPath, jsonCar);
 							return;
 						case 9:
 							Console.Clear();
@@ -133,20 +118,40 @@ namespace AutoBazar
 		{
 			bool enableArrow = true;
 			Console.Clear();
-			if (!File.Exists(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCar.txt")))
+			if (!Directory.Exists(DefaultPath))
 			{
-				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects"));
-				File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCar.txt"));
+				Directory.CreateDirectory(DefaultPath);
+			}
+			if (!File.Exists(CarDBPath))
+			{
+				FileStream DB = new FileStream(CarDBPath, FileMode.Create);
+				DB.Close();
 				DataCar newCar = new DataCar();
 				string jsonCarNew = JsonConvert.SerializeObject(newCar);
-				File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCar.txt"), jsonCarNew);
+				File.WriteAllText(CarDBPath, jsonCarNew);
 				CreateNewCar();
 			}
 			else
 			{
-				string jsonCar = File.ReadAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCar.txt"));
-				List<DataCar> deserializedCar = JsonConvert.DeserializeObject<List<DataCar>>(jsonCar);
-				car = deserializedCar;
+				if (File.ReadAllText(CarDBPath) != string.Empty)
+				{
+					try
+					{
+						string jsonCar = File.ReadAllText(CarDBPath);
+						List<DataCar> deserializedCar = JsonConvert.DeserializeObject<List<DataCar>>(jsonCar);
+						car = deserializedCar;
+					}
+					catch (Exception ex)
+					{
+						Console.Clear();
+						WriteTextWithCursorPosition("Database is not compatible with this version \n Database will be removed \n Press any key to continue", 1);
+						Console.WriteLine(ex.Message);
+						Console.ReadKey();
+						File.Delete(CarDBPath);
+						Console.Clear();
+						return;
+					}
+				}
 			}
 			int selectItemID = 0;
 			int selectCar = 0;
@@ -158,29 +163,8 @@ namespace AutoBazar
 			{
 				do
 				{
-					if (selectMotorType > maxMotorType)
-					{
-						selectMotorType = maxMotorType;
-					}
-					if (selectColorType > maxColorType)
-					{
-						selectColorType = maxColorType;
-					}
-					if (selectGearBoxType > maxGearBoxType)
-					{
-						selectGearBoxType = maxGearBoxType;
-					}
-					if (selectTypeCar > maxTypeCar)
-					{
-						selectTypeCar = maxTypeCar;
-					}
-					if (selectFuelType > maxFuelType)
-					{
-						selectFuelType = maxFuelType;
-					}
-
-					CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-			out string typeCar, out string fuelType,selectMotorType,selectColorType,selectGearBoxType,selectColorType,selectFuelType);
+					CheckMaxSizeCarDB(maxMotorType, maxColorType, maxGearBoxType, maxTypeCar, maxFuelType, ref selectMotorType,
+					ref selectColorType, ref selectGearBoxType, ref selectTypeCar, ref selectFuelType);
 					WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
 					WriteTextWithCursorPosition("Vykreslení seznamu", 2, ConsoleColor.White, ConsoleColor.Black);
 					WriteButton("Jméno - " + car[selectCar].NameText, 0, 0, selectItemID);

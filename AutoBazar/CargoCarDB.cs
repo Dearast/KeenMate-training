@@ -18,7 +18,7 @@ namespace AutoBazar
 		public static int selectGearBoxType = 0;
 		public static int maxGearBoxType = Enum.GetNames(typeof(DataCargoCar.GearBoxTypeEnum)).Length;
 		public static int selectTypeCar = 0;
-		public static int maxTypeCar = Enum.GetNames(typeof(DataCargoCar.TypeCarEnum)).Length;
+		public static int maxTypeCar = Enum.GetNames(typeof(DataCargoCar.TypeCargoCarEnum)).Length;
 		public static int selectFuelType = 0;
 		public static int maxFuelType = Enum.GetNames(typeof(DataCargoCar.FuelTypeEnum)).Length;
 
@@ -64,11 +64,12 @@ namespace AutoBazar
 				{
 					selectFuelType = maxFuelType;
 				}
-				CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectTypeCar,
-selectFuelType);
+				CheckStringSelectCargoCarEnum(out string motorType, out string colorType, out string gearBoxType,
+out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectFuelType,
+selectTypeCar);
 				Console.Clear();
-				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+				WriteTextWithCursorPosition("Nákladní vozidla", 1, ConsoleColor.White, ConsoleColor.Black);
+				WriteTextWithCursorPosition("Vytvoření vozidla", 2, ConsoleColor.White, ConsoleColor.Black);
 				WriteButton("Jméno - " + name, 0, 0, selectItemID);
 				WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
 				WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
@@ -113,7 +114,7 @@ selectFuelType);
 							{
 								FuelType = (DataCargoCar.FuelTypeEnum)selectFuelType,
 								NameText = name,
-								CarType = (DataCargoCar.TypeCarEnum)selectTypeCar,
+								CargoCarType = (DataCargoCar.TypeCargoCarEnum)selectTypeCar,
 								MotorPowerInKW = power,
 								MotorValueInCm = valueInCm,
 								GearType = (DataCargoCar.GearBoxTypeEnum)selectGearBoxType,
@@ -143,7 +144,9 @@ selectFuelType);
 			if (!File.Exists(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt")))
 			{
 				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects"));
-				File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"));
+				FileStream DB = new FileStream(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"),FileMode.Create);
+				DB.Close();
+				//File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"));
 				DataCargoCar newCar = new DataCargoCar();
 				string jsonCarNew = JsonConvert.SerializeObject(newCar);
 				File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"), jsonCarNew);
@@ -185,12 +188,10 @@ selectFuelType);
 					{
 						selectFuelType = maxFuelType;
 					}
-					CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-			out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectColorType, selectFuelType);
-					WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+					WriteTextWithCursorPosition("Nákladní vozidla", 1, ConsoleColor.White, ConsoleColor.Black);
 					WriteTextWithCursorPosition("Vykreslení seznamu", 2, ConsoleColor.White, ConsoleColor.Black);
 					WriteButton("Jméno - " + car[selectCar].NameText, 0, 0, selectItemID);
-					WriteButton("typ karoserie - " + car[selectCar].CarType, 1, 1, selectItemID);
+					WriteButton("typ karoserie - " + car[selectCar].CargoCarType, 1, 1, selectItemID);
 					WriteButton("Síla motoru - " + car[selectCar].MotorPowerInKW + " KW|Koně - " + car[selectCar].MotorPowerInKW * 1.34102209f, 2, 2, selectItemID);
 					WriteButton("Objem motoru v cm - " + car[selectCar].MotorValueInCm, 3, 3, selectItemID);
 					WriteButton("Převodovka - " + car[selectCar].GearType, 4, 4, selectItemID);
@@ -206,7 +207,7 @@ selectFuelType);
 					{
 						case 1:
 							ConsoleTypeSelect(0, maxTypeCar, ans, ref selectTypeCar, 1, selectItemID);
-							car[selectCar].CarType = (DataCargoCar.TypeCarEnum)selectTypeCar;
+							car[selectCar].CargoCarType = (DataCargoCar.TypeCargoCarEnum)selectTypeCar;
 							SaveDataCargoCar(car);
 							enableArrow = false;
 							break;

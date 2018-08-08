@@ -8,11 +8,13 @@ namespace AutoBazar
 {
 	public abstract class EnumList
 	{
-		public enum ColorTypeEnum { modrá, červená, zelená, žlutá, hnědá, oranžová, šedá, bíla, černá }
-		public enum FuelTypeEnum { electricity, benzine, oil, biofuel, gas }
-		public enum MotorTypeEnum { electric, burner }
+		public enum ColorTypeEnum { Modrá, Červená, Zelená, Žlutá, Hnědá, Oranžová, Šedá, Bíla, Černá }
+		public enum FuelTypeEnum { Elektřina, Benzín, Nafta, BioPlyn }
+		public enum MotorTypeEnum { Elektrický, Spalovací }
 		public enum GearBoxTypeEnum { Automatická, Poloautomatická, Manuální, Variátor }
-		public enum TypeCarEnum { sedan, liftback, hatchback, limuzína, kombi, MPV, SUV, crossover, terénní, pick_up, kabriolet, roadster, kupé }
+		public enum TypeCarEnum { Sedan, Liftback, Hatchback, Limuzína, Kombi, MPV, SUV, Crossover, Rerénní, PickUp, Kabriolet, Roadster, Kupé }
+		public enum TypeBusEnum { Mikrobus, Minibus,Midibus, Standardní, Patrové, Třinápravové, Kloubové}
+		public enum TypeCargoCarEnum { Valník, ProPřepravuKontejneru,Dodávka,Skříň,PickUp}
 	}
 
 	public abstract class Base : EnumList
@@ -34,11 +36,13 @@ namespace AutoBazar
 	public class DataCargoCar : DataCar
 	{
 		public int LoadCapacity { get; set; }
+		public TypeCargoCarEnum CargoCarType { get; set; }
 	}
 
 	public class DataBus : DataCargoCar
 	{
 		public int Capacity { get; set; }
+		public TypeBusEnum BusType { get; set; }
 	}
 
 	public class DataMotorcykle : Base
