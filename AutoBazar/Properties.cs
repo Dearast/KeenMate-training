@@ -114,5 +114,11 @@ namespace AutoBazar
 			string jsonCar = JsonConvert.SerializeObject(car);
 			File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"), jsonCar);
 		}
+
+		public static void SaveDataBus(List<DataBus> car)
+		{
+			string jsonCar = JsonConvert.SerializeObject(car);
+			File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"), jsonCar);
+		}
 	}
 }

@@ -8,21 +8,21 @@ using Newtonsoft.Json;
 
 namespace AutoBazar
 {
-	public class CargoCarDB : MenuProperties
+	public class BusDB : MenuProperties
 	{
-		public static List<DataCargoCar> car = new List<DataCargoCar>();
+		public static List<DataBus> car = new List<DataBus>();
 		public static int selectMotorType = 0;
-		public static int maxMotorType = Enum.GetNames(typeof(DataCargoCar.MotorTypeEnum)).Length;
+		public static int maxMotorType = Enum.GetNames(typeof(DataBus.MotorTypeEnum)).Length;
 		public static int selectColorType = 0;
-		public static int maxColorType = Enum.GetNames(typeof(DataCargoCar.ColorTypeEnum)).Length;
+		public static int maxColorType = Enum.GetNames(typeof(DataBus.ColorTypeEnum)).Length;
 		public static int selectGearBoxType = 0;
-		public static int maxGearBoxType = Enum.GetNames(typeof(DataCargoCar.GearBoxTypeEnum)).Length;
+		public static int maxGearBoxType = Enum.GetNames(typeof(DataBus.GearBoxTypeEnum)).Length;
 		public static int selectTypeCar = 0;
-		public static int maxTypeCar = Enum.GetNames(typeof(DataCargoCar.TypeCarEnum)).Length;
+		public static int maxTypeCar = Enum.GetNames(typeof(DataBus.TypeCarEnum)).Length;
 		public static int selectFuelType = 0;
-		public static int maxFuelType = Enum.GetNames(typeof(DataCargoCar.FuelTypeEnum)).Length;
+		public static int maxFuelType = Enum.GetNames(typeof(DataBus.FuelTypeEnum)).Length;
 
-		public CargoCarDB()
+		public BusDB()
 		{
 			Console.Clear();
 			DrawDataCar();
@@ -33,7 +33,7 @@ namespace AutoBazar
 			Console.Clear();
 			if (car == null)
 			{
-				car = new List<DataCargoCar>();
+				car = new List<DataBus>();
 			}
 			int selectItemID = 0;
 			string name = string.Empty;
@@ -65,10 +65,11 @@ namespace AutoBazar
 					selectFuelType = maxFuelType;
 				}
 				CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectTypeCar,
-selectFuelType);
+			out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectTypeCar,
+			selectFuelType);
 				Console.Clear();
 				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+				WriteTextWithCursorPosition("Vytvoření nového vozidla", 2, ConsoleColor.White, ConsoleColor.Black);
 				WriteButton("Jméno - " + name, 0, 0, selectItemID);
 				WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
 				WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
@@ -78,8 +79,8 @@ selectFuelType);
 				WriteButton("typ motoru - " + motorType, 6, 6, selectItemID);
 				WriteButton("typ paliva - " + fuelType, 7, 7, selectItemID);
 				WriteButton("Kapacita - " + loadCapacity, 8, 8, selectItemID);
-				WriteButton("Uložit", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
-				WriteButton("Odejít bez uložení", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("Odejít", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
+				WriteButton("Vymazat", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
 				ConsoleTextSelect(0, 10, ans, ref selectItemID);
 				ConsoleTypeSelect(0, maxMotorType, ans, ref selectMotorType, 6, selectItemID);
@@ -104,29 +105,24 @@ selectFuelType);
 							valueInCm = int.Parse(Console.ReadLine());
 							break;
 						case 8:
-							WriteToButton(8, "Kapacita - ");
-							loadCapacity = int.Parse(Console.ReadLine());
-							SaveDataCargoCar(car);
-							break;
-						case 9:
-							DataCargoCar addCar = new DataCargoCar
+							DataBus addCar = new DataBus
 							{
-								FuelType = (DataCargoCar.FuelTypeEnum)selectFuelType,
+								FuelType = (DataBus.FuelTypeEnum)selectFuelType,
 								NameText = name,
-								CarType = (DataCargoCar.TypeCarEnum)selectTypeCar,
+								CarType = (DataBus.TypeCarEnum)selectTypeCar,
 								MotorPowerInKW = power,
 								MotorValueInCm = valueInCm,
-								GearType = (DataCargoCar.GearBoxTypeEnum)selectGearBoxType,
-								Color = (DataCargoCar.ColorTypeEnum)selectColorType,
-								MotorType = (DataCargoCar.MotorTypeEnum)selectMotorType,
+								GearType = (DataCar.GearBoxTypeEnum)selectGearBoxType,
+								Color = (DataCar.ColorTypeEnum)selectColorType,
+								MotorType = (DataCar.MotorTypeEnum)selectMotorType,
 								LoadCapacity = loadCapacity
 							};
 							car.Add(addCar);
 							Console.Clear();
 							string jsonCar = JsonConvert.SerializeObject(car);
-							File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"), jsonCar);
+							File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"), jsonCar);
 							return;
-						case 10:
+						case 9:
 							Console.Clear();
 							return;
 						default:
@@ -140,19 +136,19 @@ selectFuelType);
 		{
 			bool enableArrow = true;
 			Console.Clear();
-			if (!File.Exists(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt")))
+			if (!File.Exists(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt")))
 			{
 				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects"));
-				File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"));
-				DataCargoCar newCar = new DataCargoCar();
+				File.Create(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"));
+				DataBus newCar = new DataBus();
 				string jsonCarNew = JsonConvert.SerializeObject(newCar);
-				File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"), jsonCarNew);
+				File.WriteAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"), jsonCarNew);
 				CreateNewCar();
 			}
 			else
 			{
-				string jsonCar = File.ReadAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveCargoCar.txt"));
-				List<DataCargoCar> deserializedCar = JsonConvert.DeserializeObject<List<DataCargoCar>>(jsonCar);
+				string jsonCar = File.ReadAllText(Environment.ExpandEnvironmentVariables("%AppData%\\MyProjects\\SaveBus.txt"));
+				List<DataBus> deserializedCar = JsonConvert.DeserializeObject<List<DataBus>>(jsonCar);
 				car = deserializedCar;
 			}
 			int selectItemID = 0;
@@ -185,6 +181,7 @@ selectFuelType);
 					{
 						selectFuelType = maxFuelType;
 					}
+
 					CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
 			out string typeCar, out string fuelType, selectMotorType, selectColorType, selectGearBoxType, selectColorType, selectFuelType);
 					WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
@@ -197,7 +194,7 @@ selectFuelType);
 					WriteButton("Barva - " + car[selectCar].Color, 5, 5, selectItemID);
 					WriteButton("typ motoru - " + car[selectCar].MotorType, 6, 6, selectItemID);
 					WriteButton("typ paliva - " + car[selectCar].FuelType, 7, 7, selectItemID);
-					WriteButton("kapacita - " + car[selectCar].LoadCapacity, 8, 8, selectItemID);
+					WriteButton("Kapacita - " + car[selectCar].LoadCapacity, 8, 8, selectItemID);
 					WriteButton("Odejít", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 					WriteButton("Vymazat", 10, 10, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 					ConsoleKeyInfo ans = Console.ReadKey(true);
@@ -206,8 +203,8 @@ selectFuelType);
 					{
 						case 1:
 							ConsoleTypeSelect(0, maxTypeCar, ans, ref selectTypeCar, 1, selectItemID);
-							car[selectCar].CarType = (DataCargoCar.TypeCarEnum)selectTypeCar;
-							SaveDataCargoCar(car);
+							car[selectCar].CarType = (DataCar.TypeCarEnum)selectTypeCar;
+							SaveDataBus(car);
 							enableArrow = false;
 							break;
 						case 4:
@@ -237,12 +234,7 @@ selectFuelType);
 							case 0:
 								WriteToButton(0, "Jméno - ");
 								car[selectCar].NameText = Console.ReadLine();
-								SaveDataCargoCar(car);
-								break;
-							case 8:
-								WriteToButton(8, "Kapacita - ");
-								car[selectCar].LoadCapacity = int.Parse(Console.ReadLine());
-								SaveDataCargoCar(car);
+								SaveDataBus(car);
 								break;
 							case 9:
 								Console.Clear();
@@ -251,13 +243,13 @@ selectFuelType);
 								if (car.Count == 1)
 								{
 									car.RemoveAt(selectCar);
-									SaveDataCargoCar(car);
+									SaveDataBus(car);
 									return;
 								}
 								else
 								{
 									car.RemoveAt(selectCar);
-									SaveDataCargoCar(car);
+									SaveDataBus(car);
 									Console.Clear();
 									break;
 								}

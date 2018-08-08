@@ -75,21 +75,16 @@ namespace AutoBazar
 					selectFuelType = maxFuelType;
 				}
 
-				string motorType = Enum.GetName(typeof(DataCar.MotorType), selectMotorType);
-				string colorType = Enum.GetName(typeof(DataCar.ColorType), selectColorType);
-				string gearBoxType = Enum.GetName(typeof(DataCar.GearBoxType), selectGearBoxType);
-				string typeCar = Enum.GetName(typeof(DataCar.TypeCar), selectTypeCar);
-				string fuelType = Enum.GetName(typeof(DataCar.FuelType), selectFuelType);
 				Console.Clear();
 				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
 				WriteButton("Jméno - " + name, 0, 0, selectItemID);
-				WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
-				WriteButton("Síla motoru - " + minPower + "-" + maxPower, 2, 2, selectItemID);
-				WriteButton("Objem motoru v cm - " + minValueInCm + "-" + maxValueInCm, 3, 3, selectItemID);
-				WriteButton("Převodovka - " + gearBoxType, 4, 4, selectItemID);
-				WriteButton("Barva - " + colorType, 5, 5, selectItemID);
-				WriteButton("typ motoru - " + motorType, 6, 6, selectItemID);
-				WriteButton("typ motoru - " + fuelType, 7, 7, selectItemID);
+				//WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
+				//WriteButton("Síla motoru - " + minPower + "-" + maxPower, 2, 2, selectItemID);
+				//WriteButton("Objem motoru v cm - " + minValueInCm + "-" + maxValueInCm, 3, 3, selectItemID);
+				//WriteButton("Převodovka - " + gearBoxType, 4, 4, selectItemID);
+				//WriteButton("Barva - " + colorType, 5, 5, selectItemID);
+				//WriteButton("typ motoru - " + motorType, 6, 6, selectItemID);
+				//WriteButton("typ motoru - " + fuelType, 7, 7, selectItemID);
 				WriteButton("Najít", 8, 8, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				WriteButton("Odejít", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
@@ -119,7 +114,7 @@ namespace AutoBazar
 							break;
 						case 8:
 							Console.Clear();
-							WriteFindedCar(typeCar, minPower, maxPower, minValueInCm, maxValueInCm, gearBoxType, colorType, motorType, fuelType);
+							//WriteFindedCar(typeCar, minPower, maxPower, minValueInCm, maxValueInCm, gearBoxType, colorType, motorType, fuelType);
 							break;
 						case 9:
 							Console.Clear();
@@ -131,33 +126,33 @@ namespace AutoBazar
 			} while (true);
 		}
 
-		public static void WriteFindedCar(string typeCar, int minPower, int maxPower, int minValueInCm,
-			int maxValueInCm, string gearBoxType, string colorType, string motorType, string fuelType)
-		{
-			Console.Clear();
-			List<DataCar> typeCarList = car.FindAll(item => item.TypeCarString == typeCar);
-			List<DataCar> powerCarList = car.FindAll(item => item.MotorPowerInKW >= minPower && item.MotorPowerInKW <= maxPower);
-			List<DataCar> valueInCmCarList = car.FindAll(item => item.MotorValueInCm >= minValueInCm && item.MotorValueInCm <= maxValueInCm);
-			List<DataCar> gearBoxTypeCarList = car.FindAll(item => item.GearBoxString == gearBoxType);
-			List<DataCar> colorCarList = car.FindAll(item => item.ColorString == colorType);
-			List<DataCar> motorCarList = car.FindAll(item => item.MotorTypeString == motorType);
-			List<DataCar> fuelCarList = car.FindAll(item => item.FuelTypeString == fuelType);
-			List<DataCar> CarList = new List<DataCar>();
+		//public static void WriteFindedCar(string typeCar, int minPower, int maxPower, int minValueInCm,
+		//	int maxValueInCm, string gearBoxType, string colorType, string motorType, string fuelType)
+		//{
+		//	Console.Clear();
+		//	List<DataCar> typeCarList = car.FindAll(item => item.TypeCarString == typeCar);
+		//	List<DataCar> powerCarList = car.FindAll(item => item.MotorPowerInKW >= minPower && item.MotorPowerInKW <= maxPower);
+		//	List<DataCar> valueInCmCarList = car.FindAll(item => item.MotorValueInCm >= minValueInCm && item.MotorValueInCm <= maxValueInCm);
+		//	List<DataCar> gearBoxTypeCarList = car.FindAll(item => item.GearBoxString == gearBoxType);
+		//	List<DataCar> colorCarList = car.FindAll(item => item.ColorString == colorType);
+		//	List<DataCar> motorCarList = car.FindAll(item => item.MotorTypeString == motorType);
+		//	List<DataCar> fuelCarList = car.FindAll(item => item.FuelTypeString == fuelType);
+		//	List<DataCar> CarList = new List<DataCar>();
 
-			if (typeCarList.Count > 0 || powerCarList.Count > 0 || valueInCmCarList.Count > 0 ||
-				gearBoxTypeCarList.Count > 0 || colorCarList.Count > 0 || motorCarList.Count > 0 ||
-				fuelCarList.Count > 0)
-			{
-				if (typeCarList.Count > 0)
-				{
+		//	if (typeCarList.Count > 0 || powerCarList.Count > 0 || valueInCmCarList.Count > 0 ||
+		//		gearBoxTypeCarList.Count > 0 || colorCarList.Count > 0 || motorCarList.Count > 0 ||
+		//		fuelCarList.Count > 0)
+		//	{
+		//		if (typeCarList.Count > 0)
+		//		{
 
-				}
-			}
-			else
-			{
-				WriteTextWithCursorPosition("is empty", 1);
-			}
-			Console.ReadKey();
-		}
+		//		}
+		//	}
+		//	else
+		//	{
+		//		WriteTextWithCursorPosition("is empty", 1);
+		//	}
+		//	Console.ReadKey();
+		//}
 	}
 }

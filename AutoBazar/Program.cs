@@ -10,14 +10,11 @@ namespace AutoBazar
 {
 	class Program : MenuProperties
 	{
-		public static List<DataCargoCar> cargoCar = new List<DataCargoCar>();
+		//public static List<DataCargoCar> cargoCar = new List<DataCargoCar>();
 
 		static void Main(string[] args)
 		{
-			//Test newTest = new Test(1);
 			Console.CursorVisible = false;
-			List<int> intList = new List<int>();
-			intList.Add(5);
 			Start();
 		}
 
@@ -81,11 +78,11 @@ namespace AutoBazar
 							break;
 						case 1:
 							Console.Clear();
-
+							CargoCarDB secondObj = new CargoCarDB();
 							break;
 						case 2:
 							Console.Clear();
-
+							BusDB thirdObj = new BusDB();
 							break;
 						case 3:
 							Console.Clear();
@@ -139,34 +136,4 @@ namespace AutoBazar
 			} while (true);
 		}
 	}
-
-	//public class Test : MenuProperties
-	//{
-	//	private Test()
-	//	{
-	//		DataCar newCar = new DataCar { GearType = DataCar.GearBoxType.Automatická };
-	//		WriteTextWithCursorPosition("automaticka prevodovka", 5);
-	//		Console.ReadKey();
-	//	}
-
-	//	public Test(int var)
-	//	{
-	//		DataCar newCar = new DataCar();
-	//		switch (var)
-	//		{
-	//			case 0:
-	//				newCar = new DataCar { GearType = DataCar.GearBoxType.Poloautomatická };
-	//				WriteTextWithCursorPosition("poloautomaticka prevodovka", 5);
-	//				Console.ReadKey();
-	//				break;
-	//			case 1:
-	//				newCar = new DataCar { GearType = DataCar.GearBoxType.Variátor };
-	//				WriteTextWithCursorPosition("variatorova prevodovka", 5);
-	//				Console.ReadKey();
-	//				break;
-	//			default:
-	//				break;
-	//		}
-	//	}
-	//}
 }

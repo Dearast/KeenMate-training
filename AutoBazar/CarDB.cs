@@ -63,12 +63,12 @@ namespace AutoBazar
 				{
 					selectFuelType = maxFuelType;
 				}
-
 				CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
 			out string typeCar, out string fuelType,selectMotorType,selectColorType,selectGearBoxType,selectTypeCar,
 			selectFuelType);
 				Console.Clear();
 				WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+				WriteTextWithCursorPosition("Vytvoření nového vozidla", 2, ConsoleColor.White, ConsoleColor.Black);
 				WriteButton("Jméno - " + name, 0, 0, selectItemID);
 				WriteButton("typ karoserie - " + typeCar, 1, 1, selectItemID);
 				WriteButton("Síla motoru - " + power, 2, 2, selectItemID);
@@ -80,7 +80,7 @@ namespace AutoBazar
 				WriteButton("Uložit", 8, 8, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				WriteButton("Odejít bez uložení", 9, 9, selectItemID, ConsoleColor.Red, ConsoleColor.DarkRed);
 				ConsoleKeyInfo ans = Console.ReadKey(true);
-				ConsoleTextSelect(0, 9, ans, ref selectItemID);
+				ConsoleTextSelect(0, 10, ans, ref selectItemID);
 				ConsoleTypeSelect(0, maxMotorType, ans, ref selectMotorType, 6, selectItemID);
 				ConsoleTypeSelect(0, maxColorType, ans, ref selectColorType, 5, selectItemID);
 				ConsoleTypeSelect(0, maxGearBoxType, ans, ref selectGearBoxType, 4, selectItemID);
@@ -180,8 +180,9 @@ namespace AutoBazar
 					}
 
 					CheckStringSelectEnum(out string motorType, out string colorType, out string gearBoxType,
-			out string typeCar, out string fuelType);
+			out string typeCar, out string fuelType,selectMotorType,selectColorType,selectGearBoxType,selectColorType,selectFuelType);
 					WriteTextWithCursorPosition("Osobní auta", 1, ConsoleColor.White, ConsoleColor.Black);
+					WriteTextWithCursorPosition("Vykreslení seznamu", 2, ConsoleColor.White, ConsoleColor.Black);
 					WriteButton("Jméno - " + car[selectCar].NameText, 0, 0, selectItemID);
 					WriteButton("typ karoserie - " + car[selectCar].CarType, 1, 1, selectItemID);
 					WriteButton("Síla motoru - " + car[selectCar].MotorPowerInKW + " KW|Koně - " + car[selectCar].MotorPowerInKW * 1.34102209f, 2, 2, selectItemID);

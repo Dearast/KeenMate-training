@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusDB.cs" />
     <Compile Include="CarDB.cs" />
     <Compile Include="CargoCarDB.cs" />
     <Compile Include="DB.cs" />
